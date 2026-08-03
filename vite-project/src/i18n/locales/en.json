@@ -1,0 +1,101 @@
+{
+  "header": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact",
+    "menu": "Menu"
+  },
+  "hero": {
+    "badge": "Available for new opportunities",
+    "greeting": "Hi, I'm",
+    "name": "Isroil Islomov",
+    "title_1": "Frontend & AI",
+    "title_2": "Developer",
+    "subtitle": "Building intelligent products and modern web experiences.",
+    "btn_projects": "View Projects",
+    "btn_contact": "Contact Me"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "MY JOURNEY & VALUES",
+    "age_label": "AGE",
+    "age_val": "15 Years Old",
+    "exp_label": "EXPERIENCE",
+    "exp_val": "2+ Years Studying",
+    "focus_label": "MAIN FOCUS",
+    "focus_val": "Frontend & AI",
+    "bio_p1": "My name is Isroil Islomov. I am a frontend developer who loves building modern web applications and exploring JavaScript, React, Tailwind CSS, and AI technologies.",
+    "bio_p2": "In my work, I value practical implementation, clean code, and continuous learning in modern frontend development.",
+    "feat_1": "Continuous Learning",
+    "feat_2": "Modern Web Technologies",
+    "feat_3": "API & Data Integration",
+    "feat_4": "Effective Problem Solving"
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "subtitle": "TECHNOLOGIES & TOOLS I USE",
+    "cat_frontend": "Frontend Development",
+    "cat_tools": "Tools & Ecosystem"
+  },
+  "ai_skills": {
+    "title": "AI Specialization",
+    "subtitle": "Intelligent Systems & Engineering",
+    "llm_title": "LLM Applications",
+    "llm_desc": "Building interactive and intelligent AI-powered consumer and enterprise applications.",
+    "prompt_title": "Prompt Engineering",
+    "prompt_desc": "Crafting precise, robust, and optimized system prompts for high-accuracy outputs.",
+    "rag_title": "RAG Systems",
+    "rag_desc": "Implementing Retrieval-Augmented Generation to connect LLMs with custom enterprise data.",
+    "agents_title": "AI Agents",
+    "agents_desc": "Designing autonomous multi-agent workflows and task execution pipelines.",
+    "langchain_title": "LangChain",
+    "langchain_desc": "Orchestrating complex chains and memory management for advanced AI applications.",
+    "openai_title": "OpenAI API",
+    "openai_desc": "Seamless integration of GPT models, embeddings, and multimodal capabilities.",
+    "vectordb_title": "Vector Databases",
+    "vectordb_desc": "Working with Pinecone, Chroma, and Qdrant for semantic search and high-dimensional embeddings.",
+    "finetuning_title": "Fine Tuning",
+    "finetuning_desc": "Adapting open-source LLMs like Llama and Mistral for specialized domain tasks."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "My Recent Works",
+    "live_demo": "Live Demo",
+    "quiz_title": "Quiz App",
+    "quiz_desc": "Interactive web application for taking tests and quizzes with real-time score tracking, timer, and user-friendly interface.",
+    "coming_soon_title": "More Projects Coming Soon",
+    "coming_soon_desc": "Currently developing several new projects using React, Node.js, and AI APIs."
+  },
+  "contact": {
+    "badge": "GET IN TOUCH",
+    "title": "Contact Me",
+    "social_title": "My Social Networks",
+    "social": {
+      "telegram_desc": "Direct message via Telegram",
+      "instagram_desc": "My personal profile",
+      "github_desc": "Source code repositories",
+      "linkedin_desc": "Professional profile"
+    },
+    "form": {
+      "title": "Send a Message",
+      "subtitle": "Fill out the form and I will get back to you within 24 hours.",
+      "name_label": "YOUR NAME",
+      "name_placeholder": "Isroil Islomov",
+      "email_label": "EMAIL",
+      "email_placeholder": "you@example.com",
+      "subject_label": "SUBJECT",
+      "subject_placeholder": "Project, proposal, collaboration...",
+      "message_label": "MESSAGE",
+      "message_placeholder": "Tell me about your project — goals, timeline, budget...",
+      "send_btn": "Send Message",
+      "sending": "Sending...",
+      "success_msg": "Message sent successfully!",
+      "error_msg": "Failed to send message. Please try again."
+    }
+  },
+  "footer": {
+    "rights": "© 2026 Isroil Islomov. All rights reserved.",
+    "built_with": "Designed & Built with ♥"
+  }
+}

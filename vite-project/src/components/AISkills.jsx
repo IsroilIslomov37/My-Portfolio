@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
 import { 
   FiCpu, FiTerminal, FiDatabase, 
@@ -5,56 +6,57 @@ import {
 } from 'react-icons/fi';
 import { TbRobot } from 'react-icons/tb';
 
-const aiSkills = [
-  {
-    title: 'LLM Applications',
-    description: 'Building interactive and intelligent AI-powered consumer and enterprise applications.',
-    icon: <FiCpu className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'Prompt Engineering',
-    description: 'Crafting precise, robust, and optimized system prompts for high-accuracy outputs.',
-    icon: <FiTerminal className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'RAG Systems',
-    description: 'Implementing Retrieval-Augmented Generation to connect LLMs with custom enterprise data.',
-    icon: <FiDatabase className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'AI Agents',
-    description: 'Designing autonomous multi-agent workflows and task execution pipelines.',
-    icon: <TbRobot className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'LangChain',
-    description: 'Orchestrating complex chains and memory management for advanced AI applications.',
-    icon: <FiLayers className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'OpenAI API',
-    description: 'Seamless integration of GPT models, embeddings, and multimodal capabilities.',
-    icon: <FiZap className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'Vector Databases',
-    description: 'Working with Pinecone, Chroma, and Qdrant for semantic search and high-dimensional embeddings.',
-    icon: <FiGrid className="text-purple-400 text-3xl" />
-  },
-  {
-    title: 'Fine Tuning',
-    description: 'Adapting open-source LLMs like Llama and Mistral for specialized domain tasks.',
-    icon: <FiSliders className="text-purple-400 text-3xl" />
-  }
-];
-
 const AISkills = () => {
+  const { t } = useTranslation();
+
+  const aiSkills = [
+    {
+      title: t('ai_skills.llm_title'),
+      description: t('ai_skills.llm_desc'),
+      icon: <FiCpu className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.prompt_title'),
+      description: t('ai_skills.prompt_desc'),
+      icon: <FiTerminal className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.rag_title'),
+      description: t('ai_skills.rag_desc'),
+      icon: <FiDatabase className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.agents_title'),
+      description: t('ai_skills.agents_desc'),
+      icon: <TbRobot className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.langchain_title'),
+      description: t('ai_skills.langchain_desc'),
+      icon: <FiLayers className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.openai_title'),
+      description: t('ai_skills.openai_desc'),
+      icon: <FiZap className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.vectordb_title'),
+      description: t('ai_skills.vectordb_desc'),
+      icon: <FiGrid className="text-purple-400 text-3xl" />
+    },
+    {
+      title: t('ai_skills.finetuning_title'),
+      description: t('ai_skills.finetuning_desc'),
+      icon: <FiSliders className="text-purple-400 text-3xl" />
+    }
+  ];
+
   return (
     <section id="ai-skills" className="py-20 px-6 max-w-7xl mx-auto relative">
-      {/* Background Purple Glow Accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-900/20 rounded-full blur-[140px] pointer-events-none"></div>
 
-      <SectionTitle title="AI Specialization" subtitle="Intelligent Systems & Engineering" />
+      <SectionTitle title={t('ai_skills.title')} subtitle={t('ai_skills.subtitle')} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
         {aiSkills.map((skill, index) => (

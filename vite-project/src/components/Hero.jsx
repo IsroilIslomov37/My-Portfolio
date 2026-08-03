@@ -1,58 +1,51 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from 'antd';
-import { FaGithub, FaTelegram, FaInstagram, FaArrowRight } from 'react-icons/fa6';
+import { FiArrowRight, FiSend } from 'react-icons/fi';
 
 const Hero = () => {
+  const { t } = useTranslation();
+
   return (
-    <section className="min-h-[85vh] flex flex-col justify-center items-center text-center px-6 pt-10">
-      <div className="space-y-6 max-w-4xl mx-auto">
-        
-        {/* Статус-бейдж */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-sm font-medium backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Available for new projects
-        </div>
+    <section id="hero" className="min-h-[85vh] flex flex-col items-center justify-center text-center px-6 pt-12 relative">
+      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs sm:text-sm font-medium mb-8 animate-fade-in">
+        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        {t('hero.badge')}
+      </div>
 
-        {/* Имя и Профессия */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white">
-          Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">Islomov Isroil</span>
-        </h1>
+      <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight mb-6 max-w-4xl leading-tight">
+        <span className="text-gray-400 font-normal block text-2xl sm:text-3xl mb-2">
+          {t('hero.greeting')} <span className="text-white font-bold">{t('hero.name')}</span>
+        </span>
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-500">
+          {t('hero.title_1')} {t('hero.title_2')}
+        </span>
+      </h1>
 
-        <p className="text-xl md:text-2xl font-semibold text-gray-300">
-          Frontend & AI Developer
-        </p>
+      <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
+        {t('hero.subtitle')}
+      </p>
 
-        {/* Слоган */}
-        <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-          Transforming ideas into modern, interactive web experiences powered by React & AI.
-        </p>
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <a href="#projects">
+          <Button
+            type="primary"
+            size="large"
+            className="bg-blue-600 hover:bg-blue-500 h-12 px-8 rounded-xl font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/25 border-none"
+          >
+            {t('hero.btn_projects')}
+            <FiArrowRight className="text-lg" />
+          </Button>
+        </a>
 
-        {/* Кнопки действий */}
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-          <a href="#projects">
-            <Button type="primary" size="large" className="bg-gradient-to-r from-blue-600 to-purple-600 border-none h-12 px-8 rounded-xl font-semibold flex items-center gap-2 hover:scale-105 transition-transform">
-              View Projects <FaArrowRight />
-            </Button>
-          </a>
-          <a href="#contact">
-            <Button size="large" className="bg-white/5 border-white/20 text-white hover:text-cyan-400 h-12 px-8 rounded-xl font-semibold backdrop-blur-md hover:border-cyan-400 transition-all">
-              Contact Me
-            </Button>
-          </a>
-        </div>
-
-        {/* Соцсети */}
-        <div className="flex justify-center items-center gap-6 pt-6 text-2xl text-gray-400">
-          <a href="https://github.com/IsroilIslomov37" target="_blank" rel="noreferrer" className="hover:text-cyan-400 transition-colors">
-            <FaGithub />
-          </a>
-          <a href="https://t.me/islomv_047" target="_blank" rel="noreferrer" className="hover:text-cyan-400 transition-colors">
-            <FaTelegram />
-          </a>
-          <a href="https://instagram.com/islomoff47" target="_blank" rel="noreferrer" className="hover:text-cyan-400 transition-colors">
-            <FaInstagram />
-          </a>
-        </div>
-
+        <a href="#contact">
+          <Button
+            size="large"
+            className="bg-white/5 hover:bg-white/10 text-white border-white/15 h-12 px-8 rounded-xl font-semibold flex items-center gap-2 backdrop-blur-md"
+          >
+            {t('hero.btn_contact')}
+            <FiSend className="text-base text-gray-400" />
+          </Button>
+        </a>
       </div>
     </section>
   );

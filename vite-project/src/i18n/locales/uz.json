@@ -1,0 +1,101 @@
+{
+  "header": {
+    "home": "Asosiy",
+    "projects": "Loyihalar",
+    "about": "Men haqimda",
+    "contact": "Aloqa",
+    "menu": "Menyu"
+  },
+  "hero": {
+    "badge": "Yangi imkoniyatlar uchun ochiq",
+    "greeting": "Salom, men",
+    "name": "Isroil Islomov",
+    "title_1": "Frontend & AI",
+    "title_2": "Dasturchi",
+    "subtitle": "Aqlli mahsulotlar va zamonaviy web-ilovalar yarataman.",
+    "btn_projects": "Loyihalarni ko'rish",
+    "btn_contact": "Bog'lanish"
+  },
+  "about": {
+    "title": "Men haqimda",
+    "subtitle": "MENING YO'LIM VA QADRIYATLARIM",
+    "age_label": "YOSH",
+    "age_val": "15 yosh",
+    "exp_label": "TAJRIBA",
+    "exp_val": "2+ yil o'rganish",
+    "focus_label": "ASOSIY YO'NALISH",
+    "focus_val": "Frontend & AI",
+    "bio_p1": "Mening ismim Isroil Islomov. Men JavaScript, React, Tailwind CSS va AI vositalaridan foydalanib zamonaviy web-saytlar hamda ilovalar yaratuvchi frontend dasturchiman.",
+    "bio_p2": "O'z ishimda men amaliy tatbiq etishni, toza kod yozishni va zamonaviy web-texnologiyalar sohasida doimiy rivojlanishni qadrlayman.",
+    "feat_1": "Uzluksiz o'rganish",
+    "feat_2": "Zamonaviy web-texnologiyalar",
+    "feat_3": "API va ma'lumotlar integratsiyasi",
+    "feat_4": "Samarali yechimlar topish"
+  },
+  "skills": {
+    "title": "Texnik ko'nikmalar",
+    "subtitle": "TEXNOLOGIYALAR VA VOSITALAR",
+    "cat_frontend": "Frontend Dasturlash",
+    "cat_tools": "Vositalar va Ekotizim"
+  },
+  "ai_skills": {
+    "title": "AI Mutaxassisligi",
+    "subtitle": "Intellektual tizimlar va muhandislik",
+    "llm_title": "LLM Ilovalari",
+    "llm_desc": "Foydalanuvchilar va biznes uchun AI asosidagi aqlli ilovalar yaratish.",
+    "prompt_title": "Prompt Injiniring",
+    "prompt_desc": "Aniq va optimallashtirilgan tizim promptlarini yaratish.",
+    "rag_title": "RAG Tizimlari",
+    "rag_desc": "LLM-larni xususiy ma'lumotlar bazalari bilan bog'lash uchun RAG-ni joriy etish.",
+    "agents_title": "AI Agentlar",
+    "agents_desc": "Muxtor ko'p agentli jarayonlar va avto-vazifalarni loyihalash.",
+    "langchain_title": "LangChain",
+    "langchain_desc": "Murakkab zanjirlar va xotirani boshqarish tizimlarini yaratish.",
+    "openai_title": "OpenAI API",
+    "openai_desc": "GPT modellari va multimodal imkoniyatlarni uzluksiz ulash.",
+    "vectordb_title": "Vektorli MB",
+    "vectordb_desc": "Pinecone, Chroma va Qdrant bilan semantik qidiruv ustida ishlash.",
+    "finetuning_title": "Fine Tuning",
+    "finetuning_desc": "Llama va Mistral kabi ochiq modellarni maxsus vazifalarga moslashtirish."
+  },
+  "projects": {
+    "title": "Loyihalar",
+    "subtitle": "Mening oxirgi ishlarim",
+    "live_demo": "Demo",
+    "quiz_title": "Quiz App",
+    "quiz_desc": "Real vaqt rejimida natijalarni hisoblash, taymer va qulay foydalanuvchi interfeysiga ega test va viktorinalardan o'tish uchun interaktiv web-ilova.",
+    "coming_soon_title": "Ko'proq loyihalar tez kunda",
+    "coming_soon_desc": "Hozirda React, Node.js va AI API-larida bir nechta yangi loyihalar ishlab chiqilmoqda."
+  },
+  "contact": {
+    "badge": "BOG'LANISH",
+    "title": "Men bilan bog'lanish",
+    "social_title": "Ijtimoiy tarmoqlarim",
+    "social": {
+      "telegram_desc": "Telegram orqali to'g'ridan-to'g'ri xabar yuborish",
+      "instagram_desc": "Mening shaxsiy sahifam",
+      "github_desc": "Loyiha kodlari ombori",
+      "linkedin_desc": "Professional profil"
+    },
+    "form": {
+      "title": "Xabar yuborish",
+      "subtitle": "Formani to'ldiring va men 24 soat ichida javob beraman.",
+      "name_label": "ISMINGIZ",
+      "name_placeholder": "Isroil Islomov",
+      "email_label": "EMAIL",
+      "email_placeholder": "siz@example.com",
+      "subject_label": "MAVZU",
+      "subject_placeholder": "Loyiha, taklif, hamkorlik...",
+      "message_label": "XABAR",
+      "message_placeholder": "Loyihangiz haqida yozing — maqsad, muddat, byudjet...",
+      "send_btn": "Xabarni yuborish",
+      "sending": "Yuborilmoqda...",
+      "success_msg": "Xabar muvaffaqiyatli yuborildi!",
+      "error_msg": "Xatolik yuz berdi. Qaytadan urinib ko'ring."
+    }
+  },
+  "footer": {
+    "rights": "© 2026 Isroil Islomov. Barcha huquqlar himoyalangan.",
+    "built_with": "Loyiha va ijro ♥ bilan"
+  }
+}

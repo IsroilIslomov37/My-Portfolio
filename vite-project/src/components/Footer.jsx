@@ -1,15 +1,13 @@
+import { useTranslation } from 'react-i18next';
+
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const { t } = useTranslation();
 
   return (
-    <footer className="w-full py-6 mt-10 bg-[#020617]/50 backdrop-blur-md border-t border-white/10 relative z-50">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-gray-400 text-sm font-medium tracking-wide">
-          © {currentYear} Portfolio. All rights reserved.
-        </div>
-        <div className="text-gray-500 text-xs flex items-center gap-1">
-          Designed & Built with <span className="text-blue-500 animate-pulse">❤</span>
-        </div>
+    <footer className="w-full border-t border-white/10 py-6 px-6 bg-[#020617]/50 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs md:text-sm text-gray-400">
+        <div>{t('footer.rights')}</div>
+        <div>{t('footer.built_with')}</div>
       </div>
     </footer>
   );

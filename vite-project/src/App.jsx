@@ -12,7 +12,7 @@ function App() {
         <StarBackground />
         <div className="relative z-10 flex flex-col min-h-screen">
           <Header />
-          <main className="flex-grow pt-20"> {/* Добавлен отступ pt-20 для компенсации fixed Header */}
+          <main className="flex-grow">
             <AppRouter />
           </main>
           <Footer />
