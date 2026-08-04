@@ -1,20 +1,23 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import en from './locales/en.json';
-import ru from './locales/ru.json';
-import uz from './locales/uz.json';
+// Импортируйте ваши переводы или укажите их здесь
+import translationEN from './locales/en.json';
+import translationRU from './locales/ru.json';
+import translationUZ from './locales/uz.json';
+
+const resources = {
+  en: { translation: translationEN },
+  ru: { translation: translationRU },
+  uz: { translation: translationUZ },
+};
 
 i18n
-  .use(initReactI18next)
+  .use(initReactI18next) // <--- Обязательно подключаем плагин
   .init({
-    resources: {
-      ru: { translation: ru },
-      en: { translation: en },
-      uz: { translation: uz },
-    },
-    lng: 'ru',
-    fallbackLng: 'ru',
+    resources,
+    lng: 'ru', // Язык по умолчанию
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },

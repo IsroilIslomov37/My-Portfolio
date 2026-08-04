@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider, theme } from 'antd';
 import AppRouter from './router/AppRouter';
