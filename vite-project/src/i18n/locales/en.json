@@ -7,15 +7,15 @@
     "menu": "Menu"
   },
   "hero": {
-    "badge": "Available for new opportunities",
-    "greeting": "Hi, I'm",
-    "name": "Isroil Islomov",
-    "title_1": "Frontend & AI",
-    "title_2": "Developer",
-    "subtitle": "Building intelligent products and modern web experiences.",
-    "btn_projects": "View Projects",
-    "btn_contact": "Contact Me"
-  },
+  "badge": "Open to new opportunities",
+  "greeting": "Hi, I am",
+  "name": "Isroil Islomov",
+  "title_part1": "Frontend & AI",
+  "title_part2": "Developer",
+  "description": "Building intelligent products and modern web applications.",
+  "btn_projects": "View Projects",
+  "btn_contact": "Contact"
+},
   "about": {
     "title": "About Me",
     "subtitle": "MY JOURNEY & VALUES",

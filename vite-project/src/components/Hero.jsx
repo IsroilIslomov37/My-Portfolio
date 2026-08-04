@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PlanetOrbit from './PlanetOrbit';
 
 const Hero = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="relative pt-28 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
       
@@ -14,22 +17,22 @@ const Hero = () => {
           {/* Бейдж */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/60 border border-blue-500/30 text-blue-300 text-xs sm:text-sm font-medium shadow-inner">
             <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-            Открыт к новым предложениям
+            {t('hero.badge')}
           </div>
 
           {/* Заголовок */}
           <div className="space-y-2">
             <p className="text-gray-300 text-lg sm:text-xl font-medium">
-              Привет, я <span className="text-white font-semibold">Исроил Исломов</span>
+              {t('hero.greeting')} <span className="text-white font-semibold">{t('hero.name')}</span>
             </p>
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
-              Frontend & AI <br className="hidden sm:inline" /> Разработчик
+              {t('hero.title_part1')} <br className="hidden sm:inline" /> {t('hero.title_part2')}
             </h1>
           </div>
 
           {/* Описание */}
           <p className="text-gray-400 text-sm sm:text-base max-w-lg">
-            Создаю интеллектуальные продукты и современные веб-приложения.
+            {t('hero.description')}
           </p>
 
           {/* Кнопки */}
@@ -38,13 +41,13 @@ const Hero = () => {
               href="#projects"
               className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm sm:text-base shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all duration-300 flex items-center gap-2"
             >
-              Смотреть проекты <span>→</span>
+              {t('hero.btn_projects')} <span>→</span>
             </a>
             <a
               href="#contact"
               className="px-6 py-3 rounded-xl bg-[#111827]/80 hover:bg-[#1f2937] text-gray-200 border border-gray-700/80 font-medium text-sm sm:text-base transition-all duration-300 flex items-center gap-2"
             >
-              Связаться ✉
+              {t('hero.btn_contact')} ✉
             </a>
           </div>
 
