@@ -1,51 +1,60 @@
-import { useTranslation } from 'react-i18next';
-import { Button } from 'antd';
-import { FiArrowRight, FiSend } from 'react-icons/fi';
+import React from 'react';
+import PlanetOrbit from './PlanetOrbit';
 
 const Hero = () => {
-  const { t } = useTranslation();
-
   return (
-    <section id="hero" className="min-h-[85vh] flex flex-col items-center justify-center text-center px-6 pt-12 relative">
-      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs sm:text-sm font-medium mb-8 animate-fade-in">
-        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-        {t('hero.badge')}
-      </div>
+    <section className="relative pt-28 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      
+      {/* Главный контейнер на 2 колонки */}
+      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* ЛЕВАЯ КОЛОНКА: Текст, бейдж и кнопки */}
+        <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+          
+          {/* Бейдж */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/60 border border-blue-500/30 text-blue-300 text-xs sm:text-sm font-medium shadow-inner">
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+            Открыт к новым предложениям
+          </div>
 
-      <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight mb-6 max-w-4xl leading-tight">
-        <span className="text-gray-400 font-normal block text-2xl sm:text-3xl mb-2">
-          {t('hero.greeting')} <span className="text-white font-bold">{t('hero.name')}</span>
-        </span>
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-500">
-          {t('hero.title_1')} {t('hero.title_2')}
-        </span>
-      </h1>
+          {/* Заголовок */}
+          <div className="space-y-2">
+            <p className="text-gray-300 text-lg sm:text-xl font-medium">
+              Привет, я <span className="text-white font-semibold">Исроил Исломов</span>
+            </p>
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
+              Frontend & AI <br className="hidden sm:inline" /> Разработчик
+            </h1>
+          </div>
 
-      <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
-        {t('hero.subtitle')}
-      </p>
+          {/* Описание */}
+          <p className="text-gray-400 text-sm sm:text-base max-w-lg">
+            Создаю интеллектуальные продукты и современные веб-приложения.
+          </p>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4">
-        <a href="#projects">
-          <Button
-            type="primary"
-            size="large"
-            className="bg-blue-600 hover:bg-blue-500 h-12 px-8 rounded-xl font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/25 border-none"
-          >
-            {t('hero.btn_projects')}
-            <FiArrowRight className="text-lg" />
-          </Button>
-        </a>
+          {/* Кнопки */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <a
+              href="#projects"
+              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm sm:text-base shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all duration-300 flex items-center gap-2"
+            >
+              Смотреть проекты <span>→</span>
+            </a>
+            <a
+              href="#contact"
+              className="px-6 py-3 rounded-xl bg-[#111827]/80 hover:bg-[#1f2937] text-gray-200 border border-gray-700/80 font-medium text-sm sm:text-base transition-all duration-300 flex items-center gap-2"
+            >
+              Связаться ✉
+            </a>
+          </div>
 
-        <a href="#contact">
-          <Button
-            size="large"
-            className="bg-white/5 hover:bg-white/10 text-white border-white/15 h-12 px-8 rounded-xl font-semibold flex items-center gap-2 backdrop-blur-md"
-          >
-            {t('hero.btn_contact')}
-            <FiSend className="text-base text-gray-400" />
-          </Button>
-        </a>
+        </div>
+
+        {/* ПРАВАЯ КОЛОНКА: Анимированная планета с орбитами */}
+        <div className="lg:col-span-5 flex justify-center">
+          <PlanetOrbit />
+        </div>
+
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
 import { FiCode, FiBookOpen, FiMonitor, FiCheckCircle } from 'react-icons/fi';
@@ -6,13 +7,13 @@ const About = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="about" className="py-20 px-6 max-w-7xl mx-auto">
+    <section id="about" className="py-16 px-6 max-w-7xl mx-auto">
       <SectionTitle 
         title={t('about.title')} 
         subtitle={t('about.subtitle')} 
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Карточки слева */}
         <div className="lg:col-span-4 flex flex-col gap-4">
           <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
@@ -66,7 +67,7 @@ const About = () => {
           </div>
 
           {/* Список преимуществ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-6 border-t border-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
             <div className="flex items-center gap-3 text-sm text-gray-200">
               <FiCheckCircle className="text-cyan-400 text-lg flex-shrink-0" />
               <span>{t('about.feat_1')}</span>
