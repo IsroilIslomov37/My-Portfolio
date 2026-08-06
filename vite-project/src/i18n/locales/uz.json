@@ -64,6 +64,8 @@
     "live_demo": "Demo",
     "quiz_title": "Quiz App",
     "quiz_desc": "Real vaqt rejimida natijalarni hisoblash, taymer va qulay foydalanuvchi interfeysiga ega test va viktorinalardan o'tish uchun interaktiv web-ilova.",
+    "core_store_title": "Core Store",
+    "core_store_desc": "Mahsulotlar katalogi, interaktiv filtrlash va moslashuvchan interfeysga ega zamonaviy internet-do'kon.",
     "coming_soon_title": "Ko'proq loyihalar tez kunda",
     "coming_soon_desc": "Hozirda React, Node.js va AI API-larida bir nechta yangi loyihalar ishlab chiqilmoqda."
   },

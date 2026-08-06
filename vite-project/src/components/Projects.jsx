@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
-import { FiHelpCircle, FiArrowUpRight } from 'react-icons/fi';
+import { FiHelpCircle, FiArrowUpRight, FiShoppingBag } from 'react-icons/fi';
 import { FaRocket } from 'react-icons/fa6';
 
 const Projects = () => {
@@ -13,6 +13,13 @@ const Projects = () => {
       tags: ['React', 'Tailwind CSS', 'JavaScript', 'Vercel'],
       liveUrl: 'https://quiz-app-eight-nu-19.vercel.app/',
       icon: <FiHelpCircle className="text-blue-400 text-3xl" />,
+    },
+    {
+      title: t('projects.core_store_title'),
+      description: t('projects.core_store_desc'),
+      tags: ['React', 'Tailwind CSS', 'JavaScript', 'Vercel', 'react-router-dom', 'swiper'],
+      liveUrl: 'https://core-store-peach.vercel.app/',
+      icon: <FiShoppingBag className="text-blue-400 text-3xl" />,
     },
   ];
 
