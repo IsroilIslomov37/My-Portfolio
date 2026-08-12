@@ -1,66 +1,34 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
+import StatCard from './StatCard';
 import { FiCode, FiBookOpen, FiMonitor, FiCheckCircle } from 'react-icons/fi';
 
 const About = () => {
   const { t } = useTranslation();
 
+  const stats = [
+    { icon: <FiCode />, label: t('about.age_label'), value: t('about.age_val'), colorClass: 'bg-blue-500/10 border-blue-500/20 text-blue-400' },
+    { icon: <FiBookOpen />, label: t('about.exp_label'), value: t('about.exp_val'), colorClass: 'bg-purple-500/10 border-purple-500/20 text-purple-400' },
+    { icon: <FiMonitor />, label: t('about.focus_label'), value: t('about.focus_val'), colorClass: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' },
+  ];
+
   return (
     <section id="about" className="py-16 px-6 max-w-7xl mx-auto">
-      <SectionTitle 
-        title={t('about.title')} 
-        subtitle={t('about.subtitle')} 
+      <SectionTitle
+        title={t('about.title')}
+        subtitle={t('about.subtitle')}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Карточки слева */}
         <div className="lg:col-span-4 flex flex-col gap-4">
-          <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-2xl">
-              <FiCode />
-            </div>
-            <div>
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block">
-                {t('about.age_label')}
-              </span>
-              <span className="text-xl font-bold text-white">
-                {t('about.age_val')}
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-2xl">
-              <FiBookOpen />
-            </div>
-            <div>
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block">
-                {t('about.exp_label')}
-              </span>
-              <span className="text-xl font-bold text-white">
-                {t('about.exp_val')}
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl">
-              <FiMonitor />
-            </div>
-            <div>
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block">
-                {t('about.focus_label')}
-              </span>
-              <span className="text-xl font-bold text-white">
-                {t('about.focus_val')}
-              </span>
-            </div>
-          </div>
+          {stats.map((stat) => (
+            <StatCard key={stat.label} {...stat} />
+          ))}
         </div>
 
         {/* Правая карточка с описанием */}
-        <div className="lg:col-span-8 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 md:p-10 flex flex-col justify-between">
+        <div className="lg:col-span-8 glass-card p-8 md:p-10 flex flex-col justify-between">
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p>{t('about.bio_p1')}</p>
             <p>{t('about.bio_p2')}</p>

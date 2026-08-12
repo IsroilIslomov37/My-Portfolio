@@ -1,6 +1,5 @@
-import React from 'react';
-import { 
-  FaGithub, 
+import {
+  FaGithub,
   FaTelegramPlane, 
   FaLinkedin, 
   FaReact, 
@@ -38,8 +37,8 @@ const PlanetOrbit = () => {
       <div className="absolute w-[320px] h-[320px] sm:w-[390px] sm:h-[390px] rounded-full border border-purple-500/20 pointer-events-none"></div>
 
       {/* Центральная планета со знаком </> */}
-      <div className="relative z-10 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-1 shadow-[0_0_45px_rgba(59,130,246,0.6)] flex items-center justify-center animate-pulse">
-        <div className="w-full h-full rounded-full bg-[#0b0f17] flex items-center justify-center border border-blue-400/40">
+      <div className="relative z-10 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-1 shadow-glow-blue-lg flex items-center justify-center animate-pulse">
+        <div className="w-full h-full rounded-full bg-space-850 flex items-center justify-center border border-blue-400/40">
           <span className="text-blue-400 font-mono text-3xl font-black tracking-wider">&lt;/&gt;</span>
         </div>
       </div>
@@ -59,7 +58,7 @@ const PlanetOrbit = () => {
               className="absolute pointer-events-auto"
             >
               {/* Контр-вращение, чтобы иконка оставалась ровной */}
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#0b0f17]/95 border border-gray-700/80 flex items-center justify-center shadow-lg hover:border-blue-500 hover:scale-110 transition-all duration-300 group cursor-pointer animate-[spin_35s_linear_infinite_reverse]">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-space-850/95 border border-gray-700/80 flex items-center justify-center shadow-lg hover:border-blue-500 hover:scale-110 transition-all duration-300 group cursor-pointer animate-[spin_35s_linear_infinite_reverse]">
                 {item.icon}
                 <span className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-slate-900 text-white text-[10px] font-medium px-2 py-0.5 rounded-md border border-gray-700 whitespace-nowrap shadow-md pointer-events-none">
                   {item.label}
@@ -89,7 +88,7 @@ const PlanetOrbit = () => {
             >
               <Component
                 {...extraProps}
-                className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#0b0f17]/95 border border-gray-700/80 flex items-center justify-center shadow-lg hover:border-blue-500 hover:scale-110 transition-all duration-300 group cursor-pointer animate-[spin_45s_linear_infinite]"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-space-850/95 border border-gray-700/80 flex items-center justify-center shadow-lg hover:border-blue-500 hover:scale-110 transition-all duration-300 group cursor-pointer animate-[spin_45s_linear_infinite]"
               >
                 {item.icon}
                 <span className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-slate-900 text-white text-[10px] font-medium px-2 py-0.5 rounded-md border border-gray-700 whitespace-nowrap shadow-md pointer-events-none">

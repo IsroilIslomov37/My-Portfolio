@@ -31,7 +31,7 @@ const Projects = () => {
         {projectsData.map((project, index) => (
           <div
             key={index}
-            className="group relative bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 transition-all duration-300 hover:border-blue-500/40 hover:bg-white/10 hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col justify-between"
+            className="group relative glass-card p-8 hover:border-blue-500/40 hover:bg-white/10 hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col justify-between"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all duration-500 pointer-events-none"></div>
 
@@ -75,7 +75,7 @@ const Projects = () => {
           </div>
         ))}
 
-        <div className="relative bg-white/5 border border-dashed border-white/15 backdrop-blur-md rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-white/30">
+        <div className="relative glass-card border-dashed border-white/15 p-8 flex flex-col items-center justify-center text-center hover:border-white/30">
           <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-purple-400 animate-pulse">
             <FaRocket className="text-2xl" />
           </div>

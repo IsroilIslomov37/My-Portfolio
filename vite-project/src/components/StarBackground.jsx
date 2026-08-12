@@ -20,7 +20,7 @@ const StarBackground = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#000000] overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 z-0 bg-gradient-to-br from-space-900 via-space-800 to-space-950 overflow-hidden pointer-events-none">
       {/* Nebula Glow */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-900/30 rounded-full blur-[120px] animate-glow"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[150px] animate-glow" style={{ animationDelay: '2s' }}></div>

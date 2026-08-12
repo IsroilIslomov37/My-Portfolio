@@ -29,7 +29,7 @@ const Header = () => {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#020617]/70 backdrop-blur-md border-b border-white/10 shadow-lg py-4'
+          ? 'bg-space-900/70 backdrop-blur-md border-b border-white/10 shadow-lg py-4'
           : 'bg-transparent py-6'
       }`}
     >
@@ -71,6 +71,7 @@ const Header = () => {
           open={mobileMenuOpen}
           closeIcon={<HiX className="text-white text-xl" />}
           styles={{
+            // Значения совпадают с tailwind.config.js: space.800 / space.900
             body: { backgroundColor: '#0f172a', padding: 0 },
             header: { backgroundColor: '#020617', borderBottom: '1px solid rgba(255,255,255,0.1)' }
           }}

@@ -1,19 +1,16 @@
 import { Progress } from 'antd';
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
-// 1. Убери SiOpenai из 'react-icons/si'
-import { 
-  SiReact, 
-  SiJavascript, 
-  SiTypescript, 
-  SiTailwindcss, 
-  SiHtml5, 
-  SiGit, 
-  SiVercel, 
-  SiFigma 
+import {
+  SiReact,
+  SiJavascript,
+  SiTypescript,
+  SiTailwindcss,
+  SiHtml5,
+  SiGit,
+  SiVercel,
+  SiFigma
 } from 'react-icons/si';
-
-// 2. Импортируй OpenAI из 'react-icons/ri'
 import { RiOpenaiFill } from 'react-icons/ri';
 
 const Skills = () => {
@@ -49,7 +46,7 @@ const Skills = () => {
         {skillCategories.map((category, idx) => (
           <div
             key={idx}
-            className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 hover:border-white/20 transition-all duration-300"
+            className="glass-card p-8 hover:border-white/20"
           >
             <h3 className="text-2xl font-bold text-white mb-8 border-b border-white/10 pb-4">
               {t(category.titleKey)}
@@ -73,7 +70,7 @@ const Skills = () => {
                       '100%': '#8b5cf6',
                     }}
                     trailColor="rgba(255, 255, 255, 0.08)"
-                    strokeWidth={8}
+                    size={{ height: 8 }}
                   />
                 </div>
               ))}

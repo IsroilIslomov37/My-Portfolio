@@ -62,7 +62,7 @@ const AISkills = () => {
         {aiSkills.map((skill, index) => (
           <div
             key={index}
-            className="group relative bg-white/5 border border-purple-500/20 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:border-purple-500/50 hover:bg-white/10 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(168,85,247,0.25)] flex flex-col justify-between"
+            className="group relative glass-card border-purple-500/20 p-6 hover:border-purple-500/50 hover:bg-white/10 hover:-translate-y-2 hover:shadow-glow-purple flex flex-col justify-between"
           >
             <div>
               <div className="w-14 h-14 rounded-xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:border-purple-400 transition-all duration-300 shadow-md shadow-purple-950">

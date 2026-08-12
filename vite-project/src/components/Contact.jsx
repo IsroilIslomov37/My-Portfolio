@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane, FaInstagram, FaGithub, FaLinkedin } from 'react-icons/fa';
 import ContactForm from './ContactForm';
@@ -69,7 +68,7 @@ const Contact = () => {
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#0b0f17]/90 border border-gray-800/80 rounded-2xl p-4 flex items-center gap-4 hover:border-blue-500/50 hover:bg-[#101623] transition-all duration-300 group shadow-lg"
+              className="bg-space-850/90 border border-gray-800/80 rounded-2xl p-4 flex items-center gap-4 hover:border-blue-500/50 hover:bg-space-800 transition-all duration-300 group shadow-lg"
             >
               <div className="w-12 h-12 rounded-xl bg-slate-800/60 border border-gray-700/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                 {item.icon}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PlanetOrbit from './PlanetOrbit';
 
@@ -25,7 +24,7 @@ const Hero = () => {
             <p className="text-gray-300 text-lg sm:text-xl font-medium">
               {t('hero.greeting')} <span className="text-white font-semibold">{t('hero.name')}</span>
             </p>
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-gradient-space">
               {t('hero.title_part1')} <br className="hidden sm:inline" /> {t('hero.title_part2')}
             </h1>
           </div>
@@ -39,13 +38,13 @@ const Hero = () => {
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
             <a
               href="#projects"
-              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm sm:text-base shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all duration-300 flex items-center gap-2"
+              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm sm:text-base shadow-glow-blue transition-all duration-300 flex items-center gap-2"
             >
               {t('hero.btn_projects')} <span>→</span>
             </a>
             <a
               href="#contact"
-              className="px-6 py-3 rounded-xl bg-[#111827]/80 hover:bg-[#1f2937] text-gray-200 border border-gray-700/80 font-medium text-sm sm:text-base transition-all duration-300 flex items-center gap-2"
+              className="px-6 py-3 rounded-xl bg-space-700/80 hover:bg-space-600 text-gray-200 border border-gray-700/80 font-medium text-sm sm:text-base transition-all duration-300 flex items-center gap-2"
             >
               {t('hero.btn_contact')} ✉
             </a>
