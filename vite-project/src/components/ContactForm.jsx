@@ -33,8 +33,15 @@ const ContactForm = () => {
     setLoading(true);
     setStatus(null);
 
-    const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '8795106627:AAHAICgdXF5Ravh3VUYHWAnwMnxBH_7o8P8';
-    const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID || '5156240282';
+    const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+    if (!botToken || !chatId) {
+      console.error('Telegram bot token/chat id is not configured. Set VITE_TELEGRAM_BOT_TOKEN and VITE_TELEGRAM_CHAT_ID in .env');
+      setStatus('error');
+      setLoading(false);
+      return;
+    }
 
     // Текстовый формат сообщения без HTML-тегов
     const textMessage = 
@@ -77,7 +84,7 @@ ${formData.message}`;
   };
 
   return (
-    <div className="bg-[#0b0f17]/90 border border-gray-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-sm">
+    <div className="bg-space-850/90 border border-gray-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-sm">
       <div className="flex items-center gap-3 mb-2">
         <FiInbox className="text-2xl text-blue-500" />
         <h3 className="text-xl sm:text-2xl font-bold text-white">
@@ -103,7 +110,7 @@ ${formData.message}`;
               onChange={handleChange}
               placeholder={t('contact.form.name_placeholder', 'Исроил Исломов')}
               required
-              className="w-full bg-[#06090e] border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
+              className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
             />
           </div>
 
@@ -119,7 +126,7 @@ ${formData.message}`;
               onChange={handleChange}
               placeholder={t('contact.form.email_placeholder', 'you@example.com')}
               required
-              className="w-full bg-[#06090e] border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
+              className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
             />
           </div>
         </div>
@@ -137,7 +144,7 @@ ${formData.message}`;
             onChange={handleChange}
             placeholder={t('contact.form.subject_placeholder', 'Проект, предложение, сотрудничество...')}
             required
-            className="w-full bg-[#06090e] border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
+            className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
           />
         </div>
 
@@ -154,7 +161,7 @@ ${formData.message}`;
             onChange={handleChange}
             placeholder={t('contact.form.message_placeholder', 'Напишите о вашем проекте — цели, сроки, бюджет...')}
             required
-            className="w-full bg-[#06090e] border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm resize-none"
+            className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm resize-none"
           ></textarea>
         </div>
 
