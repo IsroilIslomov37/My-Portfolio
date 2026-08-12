@@ -1,8 +1,9 @@
 {
   "header": {
     "home": "Home",
-    "projects": "Projects",
     "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
     "contact": "Contact",
     "menu": "Menu"
   },
@@ -14,7 +15,8 @@
     "title_part2": "Developer",
     "description": "Building intelligent products and modern web applications.",
     "btn_projects": "View Projects",
-    "btn_contact": "Contact"
+    "btn_contact": "Contact",
+    "orbit_caption": "A small universe of tools, skills & links"
   },
   "about": {
     "title": "About Me",
@@ -35,8 +37,28 @@
   "skills": {
     "title": "Technical Skills",
     "subtitle": "TECHNOLOGIES & TOOLS I USE",
-    "cat_frontend": "Frontend Development",
-    "cat_tools": "Tools & Ecosystem"
+    "core_stack_title": "Core Stack",
+    "hub_label": "AI + Dev + Design",
+    "categories": {
+      "ai_coding": "AI Coding",
+      "development": "Development",
+      "design": "Design"
+    },
+    "tools": {
+      "cursor": { "name": "Cursor", "desc": "AI-first code editor for fast, in-context pair programming." },
+      "claude_code": { "name": "Claude Code", "desc": "Agentic CLI that plans, edits and ships code end-to-end." },
+      "codex": { "name": "Codex", "desc": "OpenAI's coding agent for automating everyday dev tasks." },
+      "antigravity": { "name": "Antigravity", "desc": "Agentic IDE for orchestrating multi-step coding workflows." },
+      "manus": { "name": "Manus", "desc": "General-purpose AI agent for research and task automation." },
+      "deepseek": { "name": "DeepSeek", "desc": "Open-weight reasoning models for experimentation." },
+      "vscode": { "name": "VS Code", "desc": "Primary editor for day-to-day development." },
+      "git": { "name": "Git", "desc": "Version control for every project, big or small." },
+      "github": { "name": "GitHub", "desc": "Hosting repositories and collaborating on code." },
+      "vercel": { "name": "Vercel", "desc": "Deployment and hosting for production builds." },
+      "freebuff": { "name": "Freebuff", "desc": "Part of the day-to-day toolkit." },
+      "figma": { "name": "Figma", "desc": "UX/UI design, prototyping and design systems." },
+      "claude_design": { "name": "Claude", "desc": "AI-assisted design ideation and visual concepts." }
+    }
   },
   "ai_skills": {
     "title": "AI Specialization",

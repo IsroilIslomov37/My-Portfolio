@@ -25,11 +25,20 @@ export default {
         'glow-blue': '0 0 20px rgba(37, 99, 235, 0.4)',
         'glow-blue-lg': '0 0 45px rgba(59, 130, 246, 0.6)',
         'glow-purple': '0 0 30px rgba(168, 85, 247, 0.25)',
+        // Мягкий rim-light по краю планеты/узлов — имитация света от Aurora
+        'rim-light': '0 0 0 1px rgba(147, 197, 253, 0.25), 0 0 40px rgba(96, 165, 250, 0.35)',
+        'node-glow': '0 0 18px rgba(99, 102, 241, 0.45)',
       },
       animation: {
         'twinkle': 'twinkle 3s ease-in-out infinite alternate',
         'twinkle-slow': 'twinkle 5s ease-in-out infinite alternate',
         'glow': 'glow 8s ease-in-out infinite alternate',
+        // Структурный motion-уровень: медленное органическое покачивание/дыхание
+        'float': 'float 7s ease-in-out infinite',
+        'float-slow': 'float 11s ease-in-out infinite',
+        'aurora-drift': 'auroraDrift 55s ease-in-out infinite alternate',
+        'aurora-drift-slow': 'auroraDrift 80s ease-in-out infinite alternate',
+        'planet-rotate': 'planetRotate 120s linear infinite',
       },
       keyframes: {
         twinkle: {
@@ -39,7 +48,20 @@ export default {
         glow: {
           '0%': { opacity: '0.3', transform: 'scale(1)' },
           '100%': { opacity: '1', transform: 'scale(1.05)' },
-        }
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        auroraDrift: {
+          '0%': { transform: 'translate(-4%, -2%) rotate(0deg) scale(1)', opacity: '0.22' },
+          '50%': { transform: 'translate(3%, 2%) rotate(6deg) scale(1.08)', opacity: '0.38' },
+          '100%': { transform: 'translate(-2%, 3%) rotate(-4deg) scale(1.02)', opacity: '0.28' },
+        },
+        planetRotate: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
       }
     },
   },

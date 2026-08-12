@@ -6,7 +6,7 @@ const Hero = () => {
 
   return (
     <section className="relative pt-28 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      
+
       {/* Главный контейнер на 2 колонки */}
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
@@ -24,7 +24,7 @@ const Hero = () => {
             <p className="text-gray-300 text-lg sm:text-xl font-medium">
               {t('hero.greeting')} <span className="text-white font-semibold">{t('hero.name')}</span>
             </p>
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-gradient-space">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.02] text-gradient-space">
               {t('hero.title_part1')} <br className="hidden sm:inline" /> {t('hero.title_part2')}
             </h1>
           </div>
@@ -52,9 +52,10 @@ const Hero = () => {
 
         </div>
 
-        {/* ПРАВАЯ КОЛОНКА: Анимированная планета с орбитами */}
-        <div className="lg:col-span-5 flex justify-center">
+        {/* ПРАВАЯ КОЛОНКА: планета с орбитальной системой */}
+        <div className="lg:col-span-5 flex flex-col items-center gap-3">
           <PlanetOrbit />
+          <p className="text-gray-500 text-xs tracking-wide hidden sm:block">{t('hero.orbit_caption')}</p>
         </div>
 
       </div>

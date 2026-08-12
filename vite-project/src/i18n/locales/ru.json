@@ -1,8 +1,9 @@
 {
   "header": {
     "home": "Главная",
-    "projects": "Проекты",
     "about": "Обо мне",
+    "skills": "Навыки",
+    "projects": "Проекты",
     "contact": "Контакты",
     "menu": "Меню"
   },
@@ -14,7 +15,8 @@
     "title_part2": "Разработчик",
     "description": "Создаю интеллектуальные продукты и современные веб-приложения.",
     "btn_projects": "Смотреть проекты",
-    "btn_contact": "Связаться"
+    "btn_contact": "Связаться",
+    "orbit_caption": "Маленькая вселенная инструментов, навыков и ссылок"
   },
   "about": {
     "title": "Обо мне",
@@ -35,8 +37,28 @@
   "skills": {
     "title": "Технические навыки",
     "subtitle": "ТЕХНОЛОГИИ И ИНСТРУМЕНТЫ",
-    "cat_frontend": "Frontend Разработка",
-    "cat_tools": "Инструменты и Экосистема"
+    "core_stack_title": "Основной стек",
+    "hub_label": "AI + Dev + Design",
+    "categories": {
+      "ai_coding": "AI Coding",
+      "development": "Development",
+      "design": "Design"
+    },
+    "tools": {
+      "cursor": { "name": "Cursor", "desc": "AI-редактор кода для быстрой парной разработки с контекстом проекта." },
+      "claude_code": { "name": "Claude Code", "desc": "Агентный CLI, который планирует, редактирует и доставляет код." },
+      "codex": { "name": "Codex", "desc": "Кодинг-агент OpenAI для автоматизации повседневных задач разработки." },
+      "antigravity": { "name": "Antigravity", "desc": "Агентная IDE для оркестрации многошаговых рабочих процессов." },
+      "manus": { "name": "Manus", "desc": "Универсальный AI-агент для исследований и автоматизации задач." },
+      "deepseek": { "name": "DeepSeek", "desc": "Открытые reasoning-модели для экспериментов." },
+      "vscode": { "name": "VS Code", "desc": "Основной редактор для повседневной разработки." },
+      "git": { "name": "Git", "desc": "Контроль версий для каждого проекта, большого и малого." },
+      "github": { "name": "GitHub", "desc": "Хостинг репозиториев и совместная работа над кодом." },
+      "vercel": { "name": "Vercel", "desc": "Деплой и хостинг для продакшн-сборок." },
+      "freebuff": { "name": "Freebuff", "desc": "Часть повседневного набора инструментов." },
+      "figma": { "name": "Figma", "desc": "UX/UI дизайн, прототипирование и дизайн-системы." },
+      "claude_design": { "name": "Claude", "desc": "AI-ассистированная генерация идей и визуальных концепций." }
+    }
   },
   "ai_skills": {
     "title": "Специализация в AI",

@@ -1,8 +1,9 @@
 {
   "header": {
     "home": "Asosiy",
-    "projects": "Loyihalar",
     "about": "Men haqimda",
+    "skills": "Ko'nikmalar",
+    "projects": "Loyihalar",
     "contact": "Aloqa",
     "menu": "Menyu"
   },
@@ -10,11 +11,12 @@
     "badge": "Yangi imkoniyatlar uchun ochiq",
     "greeting": "Salom, men",
     "name": "Isroil Islomov",
-    "title_1": "Frontend & AI",
-    "title_2": "Dasturchi",
-    "subtitle": "Aqlli mahsulotlar va zamonaviy web-ilovalar yarataman.",
+    "title_part1": "Frontend & AI",
+    "title_part2": "Dasturchi",
+    "description": "Aqlli mahsulotlar va zamonaviy web-ilovalar yarataman.",
     "btn_projects": "Loyihalarni ko'rish",
-    "btn_contact": "Bog'lanish"
+    "btn_contact": "Bog'lanish",
+    "orbit_caption": "Vositalar, ko'nikmalar va havolalardan iborat kichik olam"
   },
   "about": {
     "title": "Men haqimda",
@@ -35,8 +37,28 @@
   "skills": {
     "title": "Texnik ko'nikmalar",
     "subtitle": "TEXNOLOGIYALAR VA VOSITALAR",
-    "cat_frontend": "Frontend Dasturlash",
-    "cat_tools": "Vositalar va Ekotizim"
+    "core_stack_title": "Asosiy stek",
+    "hub_label": "AI + Dev + Design",
+    "categories": {
+      "ai_coding": "AI Coding",
+      "development": "Development",
+      "design": "Design"
+    },
+    "tools": {
+      "cursor": { "name": "Cursor", "desc": "Tez, kontekstga mos parali dasturlash uchun AI-kod muharriri." },
+      "claude_code": { "name": "Claude Code", "desc": "Kodni rejalashtiruvchi, tahrirlovchi va yetkazib beruvchi agentli CLI." },
+      "codex": { "name": "Codex", "desc": "Kundalik dasturlash vazifalarini avtomatlashtiruvchi OpenAI agenti." },
+      "antigravity": { "name": "Antigravity", "desc": "Ko'p bosqichli ish jarayonlarini boshqaruvchi agentli IDE." },
+      "manus": { "name": "Manus", "desc": "Tadqiqot va vazifalarni avtomatlashtirish uchun universal AI-agent." },
+      "deepseek": { "name": "DeepSeek", "desc": "Tajribalar uchun ochiq reasoning modellari." },
+      "vscode": { "name": "VS Code", "desc": "Kundalik dasturlash uchun asosiy muharrir." },
+      "git": { "name": "Git", "desc": "Har bir loyiha uchun versiyalarni boshqarish." },
+      "github": { "name": "GitHub", "desc": "Repozitoriylarni joylashtirish va kod ustida hamkorlik." },
+      "vercel": { "name": "Vercel", "desc": "Production build'lar uchun deploy va hosting." },
+      "freebuff": { "name": "Freebuff", "desc": "Kundalik vositalar to'plamining bir qismi." },
+      "figma": { "name": "Figma", "desc": "UX/UI dizayn, prototiplash va dizayn tizimlari." },
+      "claude_design": { "name": "Claude", "desc": "AI yordamida dizayn g'oyalari va vizual kontseptsiyalar." }
+    }
   },
   "ai_skills": {
     "title": "AI Mutaxassisligi",

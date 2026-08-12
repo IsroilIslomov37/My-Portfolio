@@ -84,7 +84,13 @@ ${formData.message}`;
   };
 
   return (
-    <div className="bg-space-850/90 border border-gray-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-sm">
+    <div className="glass-3 glass-spotlight p-6 sm:p-8 rounded-3xl"
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
+        e.currentTarget.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
+      }}
+    >
       <div className="flex items-center gap-3 mb-2">
         <FiInbox className="text-2xl text-blue-500" />
         <h3 className="text-xl sm:text-2xl font-bold text-white">

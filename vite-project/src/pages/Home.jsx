@@ -4,6 +4,7 @@ import Skills from '../components/Skills';
 import AISkills from '../components/AISkills';
 import Projects from '../components/Projects';
 import Contact from '../components/Contact';
+import Reveal from '../components/Reveal';
 
 const Home = () => {
   return (
@@ -11,11 +12,21 @@ const Home = () => {
       <div id="home">
         <Hero />
       </div>
-      <About />
-      <Skills />
-      <AISkills />
-      <Projects />
-      <Contact />
+      <Reveal>
+        <About />
+      </Reveal>
+      <Reveal>
+        <Skills />
+      </Reveal>
+      <Reveal>
+        <AISkills />
+      </Reveal>
+      <Reveal>
+        <Projects />
+      </Reveal>
+      <Reveal>
+        <Contact />
+      </Reveal>
     </div>
   );
 };

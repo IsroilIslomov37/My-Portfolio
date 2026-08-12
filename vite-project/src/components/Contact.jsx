@@ -68,7 +68,7 @@ const Contact = () => {
               href={item.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-space-850/90 border border-gray-800/80 rounded-2xl p-4 flex items-center gap-4 hover:border-blue-500/50 hover:bg-space-800 transition-all duration-300 group shadow-lg"
+              className="glass-1 p-4 flex items-center gap-4 hover:border-blue-400/50 hover:-translate-y-0.5 transition-all duration-300 group"
             >
               <div className="w-12 h-12 rounded-xl bg-slate-800/60 border border-gray-700/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                 {item.icon}

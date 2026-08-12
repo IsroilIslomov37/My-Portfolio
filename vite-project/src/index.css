@@ -13,14 +13,152 @@ body {
 }
 
 @layer components {
-  /* Стеклянная карточка — базовый строительный блок всех секций сайта */
+  /*
+   * Liquid Glass — трёхуровневая система поверхностей.
+   * Уровень растёт вместе с важностью элемента: 1 — второстепенные чипы/теги,
+   * 2 — обычные карточки контента, 3 — hero-панели и ключевые интерактивные узлы.
+   * Псевдоэлемент ::before даёт верхний "блик" (inner highlight), имитирующий
+   * преломление света на стекле, вместо плоского rgba+blur.
+   */
+  .glass-1 {
+    @apply relative border border-white/[0.07] rounded-xl transition-all duration-300;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015) 65%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .glass-2 {
+    @apply relative border border-white/10 rounded-2xl transition-all duration-300;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02) 60%);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 0 40px rgba(99, 102, 241, 0.03),
+      0 8px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .glass-3 {
+    @apply relative border border-white/[0.14] rounded-[1.5rem] transition-all duration-300;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03) 55%);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 0 60px rgba(99, 102, 241, 0.07),
+      0 20px 60px rgba(0, 0, 0, 0.45),
+      0 0 40px rgba(59, 130, 246, 0.06);
+  }
+
+  /* Тонкая световая полоса вдоль верхнего края — "стеклянный" блик */
+  .glass-1::before,
+  .glass-2::before,
+  .glass-3::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 35%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Совместимость с уже написанной разметкой — обычные карточки = уровень 2 */
   .glass-card {
-    @apply bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl transition-all duration-300;
+    @apply glass-2;
+  }
+
+  .glass-card:hover,
+  .glass-2:hover,
+  .glass-3:hover {
+    @apply border-white/20;
+  }
+
+  /* Курсор оставляет на стекле лёгкий световой блик (задаётся через --spot-x/--spot-y) */
+  .glass-spotlight {
+    overflow: hidden;
+  }
+  .glass-spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(240px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 255, 255, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .glass-spotlight:hover::after {
+    opacity: 1;
   }
 
   /* Градиентный текст в стиле космической темы (заголовки, акценты) */
   .text-gradient-space {
     @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400;
+  }
+
+  /* Scroll-reveal: секции проявляются при входе во viewport (см. useReveal) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Deep Space background layers (см. StarBackground.jsx)               */
+/* ------------------------------------------------------------------ */
+
+.deep-space-base {
+  background:
+    radial-gradient(120% 90% at 20% -15%, #0c1224 0%, transparent 60%),
+    radial-gradient(100% 80% at 85% 110%, #120a24 0%, transparent 55%),
+    linear-gradient(180deg, #05060c 0%, #020308 55%, #000000 100%);
+}
+
+.deep-space-vignette {
+  background: radial-gradient(120% 100% at 50% 40%, transparent 45%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* Aurora Borealis — вытянутые размытые "ленты" света, screen-blend поверх почти чёрного фона */
+.aurora-ribbon {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.aurora-ribbon.aurora-1 {
+  top: 2%;
+  left: 6%;
+  width: 78%;
+  height: 34%;
+  transform: rotate(-9deg);
+  background: linear-gradient(100deg, rgba(45, 212, 191, 0.16), rgba(99, 102, 241, 0.14) 45%, rgba(139, 92, 246, 0.12) 80%);
+}
+.aurora-ribbon.aurora-2 {
+  top: 12%;
+  right: 2%;
+  width: 60%;
+  height: 30%;
+  transform: rotate(8deg);
+  background: linear-gradient(100deg, rgba(59, 130, 246, 0.14), rgba(16, 185, 129, 0.1) 50%, rgba(168, 85, 247, 0.1) 100%);
+}
+
+@media (max-width: 640px) {
+  .aurora-ribbon {
+    filter: blur(70px);
+    opacity: 0.8;
   }
 }
 
@@ -32,5 +170,10 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
