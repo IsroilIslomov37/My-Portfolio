@@ -15,7 +15,7 @@ const Contact = () => {
     },
     {
       name: 'Instagram',
-      username: 'islomov14/',
+      username: 'islomov47/',
       link: 'https://instagram.com/islomoff47/',
       icon: <FaInstagram className="text-2xl text-pink-500" />,
       desc: t('contact.social.instagram_desc', 'Мой личный профиль'),

@@ -54,7 +54,9 @@ const AISkills = () => {
 
   return (
     <section id="ai-skills" className="py-20 px-6 max-w-7xl mx-auto relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-900/20 rounded-full blur-[140px] pointer-events-none"></div>
+      {/* Радиус размытия на мобильных меньше: растеризация blur(140px) на
+          телефоне заметно дороже, а разницы на глаз почти нет */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-900/20 rounded-full blur-[70px] md:blur-[140px] pointer-events-none"></div>
 
       <SectionTitle title={t('ai_skills.title')} subtitle={t('ai_skills.subtitle')} />
 

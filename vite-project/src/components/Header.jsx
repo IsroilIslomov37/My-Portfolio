@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Drawer } from 'antd';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -37,6 +36,24 @@ const Header = () => {
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
   }, []);
+
+  // Мобильное меню: Esc закрывает, фон под ним не скроллится
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
 
   const navLinks = [
     { id: 'home', name: t('header.home'), href: '#home' },
@@ -91,18 +108,38 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Drawer */}
-        <Drawer
-          title={<span className="text-white font-bold text-xl">{t('header.menu')}</span>}
-          placement="right"
-          onClose={() => setMobileMenuOpen(false)}
-          open={mobileMenuOpen}
-          closeIcon={<HiX className="text-white text-xl" />}
-          styles={{
-            body: { backgroundColor: '#0f172a', padding: 0 },
-            header: { backgroundColor: '#020617', borderBottom: '1px solid rgba(255,255,255,0.1)' },
-          }}
+      </div>
+
+      {/* Mobile Drawer — раньше это был antd <Drawer>, ради которого в бандл
+          тянулась вся библиотека; поведение и вид те же, вес нулевой. */}
+      <div className={`md:hidden ${mobileMenuOpen ? '' : 'pointer-events-none'}`}>
+        <div
+          className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ${
+            mobileMenuOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+        <aside
+          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[80vw] bg-space-800 border-l border-white/10 shadow-2xl transition-transform duration-300 ease-out ${
+            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('header.menu')}
         >
+          <div className="flex items-center justify-between px-5 py-4 bg-space-900 border-b border-white/10">
+            <span className="text-white font-bold text-xl">{t('header.menu')}</span>
+            <button
+              type="button"
+              className="text-white text-xl p-1"
+              aria-label={t('header.close')}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <HiX />
+            </button>
+          </div>
+
           <div className="flex flex-col py-4">
             {navLinks.map((link) => (
               <a
@@ -117,7 +154,7 @@ const Header = () => {
               </a>
             ))}
           </div>
-        </Drawer>
+        </aside>
       </div>
     </header>
   );

@@ -1,8 +1,13 @@
 import { FaReact, FaJs, FaGitAlt, FaNodeJs, FaDatabase, FaCode } from 'react-icons/fa';
 import { RiOpenaiFill } from 'react-icons/ri';
 import { SiAnthropic, SiCursor, SiDeepseek, SiClaudecode } from 'react-icons/si';
+import useInView from '../hooks/useInView';
 
 const PlanetOrbit = () => {
+  // Две орбиты + 11 контр-вращающихся спутников крутятся бесконечно. Пока
+  // пользователь читает нижние секции, эта работа никому не видна — паузим.
+  const [ref, inView] = useInView();
+
   // Внутренняя орбита (ближе к центру)
   const innerSatellites = [
     { icon: <FaReact className="text-cyan-400 text-xl" />, label: 'React', angle: 0 },
@@ -23,7 +28,12 @@ const PlanetOrbit = () => {
   ];
 
   return (
-    <div className="relative w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] mx-auto flex items-center justify-center my-6">
+    <div
+      ref={ref}
+      className={`relative w-[340px] h-[340px] sm:w-[420px] sm:h-[420px] mx-auto flex items-center justify-center my-6 ${
+        inView ? '' : 'orbit-paused'
+      }`}
+    >
 
       {/* Фоновые орбитальные кольца */}
       <div className="absolute w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] rounded-full border border-blue-500/25 pointer-events-none"></div>

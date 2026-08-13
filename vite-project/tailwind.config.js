@@ -39,15 +39,19 @@ export default {
         'aurora-drift': 'auroraDrift 55s ease-in-out infinite alternate',
         'aurora-drift-slow': 'auroraDrift 80s ease-in-out infinite alternate',
         'planet-rotate': 'planetRotate 120s linear infinite',
+        // Линия "паутины знаний" мигает, пока курсор держат на узле/кластере
+        'web-blink': 'webBlink 2.55s ease-in-out infinite',
       },
       keyframes: {
         twinkle: {
           '0%': { opacity: '0.2', transform: 'scale(0.8)' },
           '100%': { opacity: '1', transform: 'scale(1.2)' },
         },
+        // Только opacity: scale заставлял браузер заново размывать
+        // blur(130px)-пятно на каждом кадре — самый дорогой эффект на странице.
         glow: {
-          '0%': { opacity: '0.3', transform: 'scale(1)' },
-          '100%': { opacity: '1', transform: 'scale(1.05)' },
+          '0%': { opacity: '0.35' },
+          '100%': { opacity: '0.9' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
@@ -61,6 +65,10 @@ export default {
         planetRotate: {
           '0%': { backgroundPosition: '0% 50%' },
           '100%': { backgroundPosition: '200% 50%' },
+        },
+        webBlink: {
+          '0%, 100%': { strokeOpacity: '1', filter: 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.85))' },
+          '50%': { strokeOpacity: '0.15', filter: 'drop-shadow(0 0 0 rgba(255, 255, 255, 0))' },
         },
       }
     },

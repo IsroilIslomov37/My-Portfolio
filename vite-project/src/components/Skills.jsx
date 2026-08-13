@@ -39,12 +39,15 @@ const Monogram = ({ letter, className = '' }) => (
 // подобраны вручную как аккуратная композиция, а не физическая симуляция.
 const HUB = { x: 50, y: 44 };
 
+// Нити паутины — чистый белый: ровный контраст на тёмном фоне и одинаковое
+// поведение у всех кластеров (при наведении линия мигает, см. animate-web-blink).
+const WEB_STROKE = '#ffffff';
+
 const CLUSTERS = [
   {
     id: 'design',
     categoryKey: 'skills.categories.design',
     anchor: { x: 16, y: 16 },
-    accent: 'rgba(232, 121, 249, 0.5)',
     tools: [
       { id: 'figma', pos: { x: 20, y: 4 }, icon: <SiFigma className="text-fuchsia-400" /> },
       { id: 'claude_design', pos: { x: 4, y: 24 }, icon: <SiAnthropic className="text-orange-300" /> },
@@ -54,7 +57,6 @@ const CLUSTERS = [
     id: 'development',
     categoryKey: 'skills.categories.development',
     anchor: { x: 84, y: 16 },
-    accent: 'rgba(52, 211, 153, 0.5)',
     tools: [
       { id: 'git', pos: { x: 62, y: 3 }, icon: <SiGit className="text-orange-500" /> },
       { id: 'github', pos: { x: 80, y: 2 }, icon: <SiGithub className="text-white" /> },
@@ -67,7 +69,6 @@ const CLUSTERS = [
     id: 'ai_coding',
     categoryKey: 'skills.categories.ai_coding',
     anchor: { x: 50, y: 84 },
-    accent: 'rgba(96, 165, 250, 0.5)',
     tools: [
       { id: 'cursor', pos: { x: 12, y: 66 }, icon: <SiCursor className="text-white" /> },
       { id: 'claude_code', pos: { x: 26, y: 89 }, icon: <SiClaudecode className="text-orange-300" /> },
@@ -111,10 +112,11 @@ const Skills = () => {
               y1={HUB.y}
               x2={cluster.anchor.x}
               y2={cluster.anchor.y}
-              stroke={cluster.accent}
-              strokeWidth={hoveredCluster === cluster.id ? 0.5 : 0.3}
+              stroke={WEB_STROKE}
+              strokeOpacity={hoveredCluster === cluster.id ? 1 : 0.75}
+              strokeWidth={hoveredCluster === cluster.id ? 0.6 : 0.35}
               vectorEffect="non-scaling-stroke"
-              className="transition-all duration-500"
+              className={`transition-all duration-500 ${hoveredCluster === cluster.id ? 'animate-web-blink' : ''}`}
             />
           ))}
           {CLUSTERS.map((cluster) =>
@@ -125,10 +127,11 @@ const Skills = () => {
                 y1={cluster.anchor.y}
                 x2={tool.pos.x}
                 y2={tool.pos.y}
-                stroke={cluster.accent}
-                strokeWidth={hovered === tool.id ? 0.55 : 0.26}
+                stroke={WEB_STROKE}
+                strokeOpacity={hovered === tool.id ? 1 : 0.7}
+                strokeWidth={hovered === tool.id ? 0.6 : 0.3}
                 vectorEffect="non-scaling-stroke"
-                className="transition-all duration-300"
+                className={`transition-all duration-300 ${hovered === tool.id ? 'animate-web-blink' : ''}`}
               />
             ))
           )}
