@@ -9,7 +9,7 @@ const Contact = () => {
     {
       name: 'Telegram',
       username: '@islomv_047',
-      link: 'https://t.me/islomv_047',
+      link: 'https://t.me/islomov_047',
       icon: <FaTelegramPlane className="text-2xl text-sky-400" />,
       desc: t('contact.social.telegram_desc', 'Прямая связь в Telegram'),
     },
