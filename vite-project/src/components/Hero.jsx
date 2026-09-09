@@ -1,61 +1,59 @@
 import { useTranslation } from 'react-i18next';
+import { FiArrowRight, FiMail } from 'react-icons/fi';
 import PlanetOrbit from './PlanetOrbit';
 
+/**
+ * Порядок блоков подчинён одному требованию: за 2–3 секунды должно стать
+ * понятно, кто перед вами. Приветствие → роль крупно → стек одной строкой →
+ * одно предложение по существу → действия. Раньше роль и стек были размазаны
+ * между заголовком-градиентом и мелким серым описанием.
+ */
 const Hero = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="relative pt-28 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-14 sm:pb-20">
+      <div className="container-page grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
 
-      {/* Главный контейнер на 2 колонки */}
-      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        {/* ЛЕВАЯ КОЛОНКА: Текст, бейдж и кнопки */}
-        <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
-          
-          {/* Бейдж */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/60 border border-blue-500/30 text-blue-300 text-xs sm:text-sm font-medium shadow-inner">
-            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        {/* Текстовая колонка */}
+        <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+
+          <p className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-1 text-ink-200 text-xs font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
             {t('hero.badge')}
-          </div>
-
-          {/* Заголовок */}
-          <div className="space-y-2">
-            <p className="text-gray-300 text-lg sm:text-xl font-medium">
-              {t('hero.greeting')} <span className="text-white font-semibold">{t('hero.name')}</span>
-            </p>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.02] text-gradient-space">
-              {t('hero.title_part1')} <br className="hidden sm:inline" /> {t('hero.title_part2')}
-            </h1>
-          </div>
-
-          {/* Описание */}
-          <p className="text-gray-400 text-sm sm:text-base max-w-lg">
-            {t('hero.description')}
           </p>
 
-          {/* Кнопки */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-            <a
-              href="#projects"
-              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm sm:text-base shadow-glow-blue transition-all duration-300 flex items-center gap-2"
-            >
-              {t('hero.btn_projects')} <span>→</span>
+          <p className="t-meta mt-7">
+            {t('hero.greeting')} <span className="text-ink-100 font-medium">{t('hero.name')}</span>
+          </p>
+
+          {/* Две строки жёстко: так заголовок одинаково собран на всех языках
+              и не рассыпается на узких экранах */}
+          <h1 className="t-display text-gradient-space mt-2">
+            <span className="block">{t('hero.title_part1')}</span>
+            <span className="block">{t('hero.title_part2')}</span>
+          </h1>
+
+          <p className="t-lead font-medium mt-5 measure">{t('hero.kicker')}</p>
+
+          <p className="t-body mt-4 measure">{t('hero.description')}</p>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-9 w-full sm:w-auto">
+            <a href="#projects" className="btn btn-primary btn-lg w-full sm:w-auto">
+              {t('hero.btn_projects')}
+              <FiArrowRight aria-hidden="true" />
             </a>
-            <a
-              href="#contact"
-              className="px-6 py-3 rounded-xl bg-space-700/80 hover:bg-space-600 text-gray-200 border border-gray-700/80 font-medium text-sm sm:text-base transition-all duration-300 flex items-center gap-2"
-            >
-              {t('hero.btn_contact')} ✉
+            <a href="#contact" className="btn btn-secondary btn-lg w-full sm:w-auto">
+              <FiMail aria-hidden="true" />
+              {t('hero.btn_contact')}
             </a>
           </div>
-
         </div>
 
-        {/* ПРАВАЯ КОЛОНКА: планета с орбитальной системой */}
-        <div className="lg:col-span-5 flex flex-col items-center gap-3">
+        {/* Декоративная колонка: орбита дублирует данные секции Skills,
+            поэтому для скринридера она скрыта целиком. */}
+        <div className="lg:col-span-5 flex justify-center">
           <PlanetOrbit />
-          <p className="text-gray-500 text-xs tracking-wide hidden sm:block">{t('hero.orbit_caption')}</p>
         </div>
 
       </div>

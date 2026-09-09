@@ -12,6 +12,13 @@ export function useReveal(options) {
     const node = ref.current;
     if (!node) return undefined;
 
+    // Без IntersectionObserver секции навсегда остались бы с opacity: 0 —
+    // то есть страница оказалась бы пустой. Показываем сразу.
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true);
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

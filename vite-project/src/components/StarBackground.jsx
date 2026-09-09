@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 
-// Два профиля плотности: полный для десктопа и облегчённый для телефонов
-// и слабых машин. Каждая звезда с собственной бесконечной анимацией — это
-// отдельный слой композитора, и на мобильном GPU 180 таких слоёв дают
-// заметные фризы при скролле.
-const FULL = { far: 110, near: 55, particles: 14 };
-const LITE = { far: 46, near: 18, particles: 0 };
+/*
+ * Раньше каждая звезда была отдельным <div> с собственной бесконечной
+ * анимацией: ~180 узлов и столько же слоёв композитора, которые браузер
+ * пересчитывал при любой прокрутке. Теперь основное звёздное поле рисуется
+ * один раз в <canvas> (один узел, ноль работы после отрисовки), а «живыми»
+ * остаются лишь два десятка ближних звёзд — ровно столько, чтобы фон дышал.
+ */
 
-// Слабое устройство: узкий экран, touch (телефон/планшет в любой ориентации),
-// мало ядер или включённый reduced-motion. Условия совпадают с медиазапросом
-// облегчённого режима в index.css.
+// Плотность: один пиксель звезды примерно на N пикселей площади экрана.
+const DENSITY_FULL = 7000;
+const DENSITY_LITE = 11000;
+const MAX_STARS = 260;
+
+// Слабое устройство: узкий экран, touch, мало ядер или включённый
+// reduced-motion. Условия совпадают с медиазапросом облегчённого режима в CSS.
 const detectLite = () => {
   if (typeof window === 'undefined') return true;
   return (
@@ -20,40 +25,103 @@ const detectLite = () => {
   );
 };
 
-const randomStars = (count, sizeRange) =>
-  Array.from({ length: count }).map(() => ({
-    id: Math.random(),
+// Детерминированный генератор: при перерисовке после ресайза звёздное поле
+// остаётся тем же самым, а не «перепрыгивает» на новые позиции.
+const seededRandom = (seed) => () => {
+  seed = (seed * 1664525 + 1013904223) % 4294967296;
+  return seed / 4294967296;
+};
+
+const randomStars = (count) =>
+  Array.from({ length: count }, (_, i) => ({
+    id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: sizeRange[0] + Math.random() * (sizeRange[1] - sizeRange[0]),
-    delay: `${(Math.random() * 4).toFixed(2)}s`,
+    size: 1.4 + Math.random() * 1.1,
+    delay: `${(Math.random() * 5).toFixed(2)}s`,
     slow: Math.random() > 0.5,
-    // Для статичного (мобильного) режима мерцание заменяется разбросом яркости
-    opacity: 0.35 + Math.random() * 0.5,
+    opacity: 0.35 + Math.random() * 0.45,
   }));
 
 const StarBackground = () => {
   const [lite] = useState(detectLite);
-  const density = lite ? LITE : FULL;
+  const [nearStars] = useState(() => randomStars(lite ? 10 : 22));
 
-  const [farStars] = useState(() => randomStars(density.far, [1, 1.6]));
-  const [nearStars] = useState(() => randomStars(density.near, [1.6, 2.6]));
-  const [particles] = useState(() =>
-    Array.from({ length: density.particles }).map(() => ({
-      id: Math.random(),
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 2 + Math.random() * 2.5,
-      duration: `${8 + Math.random() * 8}s`,
-      delay: `${(Math.random() * 6).toFixed(2)}s`,
-    }))
-  );
-
+  const canvasRef = useRef(null);
   const auroraRef = useRef(null);
   const nearLayerRef = useRef(null);
 
-  // Aurora / звёзды очень слабо реагируют на курсор — ощущение "живого" пространства.
-  // Полностью отключено на touch-устройствах и при prefers-reduced-motion.
+  // Звёздное поле: одна отрисовка на монтирование и по одной на ощутимый ресайз.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return undefined;
+
+    let lastWidth = 0;
+    let lastHeight = 0;
+    let timer = null;
+
+    const draw = () => {
+      const width = canvas.offsetWidth;
+      const height = canvas.offsetHeight;
+      if (!width || !height) return;
+
+      lastWidth = width;
+      lastHeight = height;
+
+      // Больше 2x не даёт видимой разницы на точках в 1–2 пикселя,
+      // а память под буфер растёт квадратично.
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+
+      const density = lite ? DENSITY_LITE : DENSITY_FULL;
+      const count = Math.min(MAX_STARS, Math.round((width * height) / density));
+      const random = seededRandom(20260909);
+
+      for (let i = 0; i < count; i += 1) {
+        const x = random() * width;
+        const y = random() * height;
+        const radius = 0.35 + random() * 0.75;
+        const alpha = 0.2 + random() * 0.5;
+        // Часть звёзд уводим в холодный оттенок — поле перестаёт выглядеть
+        // напечатанным одной краской.
+        const cool = random() > 0.72;
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = cool
+          ? `rgba(191, 219, 254, ${alpha.toFixed(3)})`
+          : `rgba(255, 255, 255, ${alpha.toFixed(3)})`;
+        ctx.fill();
+      }
+    };
+
+    const handleResize = () => {
+      const width = canvas.offsetWidth;
+      const height = canvas.offsetHeight;
+      // Появление/скрытие адресной строки на телефоне меняет высоту на
+      // десятки пикселей десятки раз подряд — перерисовываться на это не нужно.
+      if (Math.abs(width - lastWidth) < 60 && Math.abs(height - lastHeight) < 140) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(draw, 200);
+    };
+
+    draw();
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [lite]);
+
+  // Аврора и ближние звёзды очень слабо реагируют на курсор — ощущение
+  // объёма без «преследования» указателя. На touch и при reduced-motion выключено.
   useEffect(() => {
     const canReact =
       window.matchMedia('(pointer: fine)').matches &&
@@ -66,21 +134,15 @@ const StarBackground = () => {
 
     const applyTransform = () => {
       frame = null;
-      if (auroraRef.current) {
-        auroraRef.current.style.setProperty('--ax', `${targetX}px`);
-        auroraRef.current.style.setProperty('--ay', `${targetY}px`);
-      }
-      if (nearLayerRef.current) {
-        nearLayerRef.current.style.setProperty('--sx', `${targetX * 0.4}px`);
-        nearLayerRef.current.style.setProperty('--sy', `${targetY * 0.4}px`);
-      }
+      auroraRef.current?.style.setProperty('--ax', `${targetX}px`);
+      auroraRef.current?.style.setProperty('--ay', `${targetY}px`);
+      nearLayerRef.current?.style.setProperty('--sx', `${targetX * 0.45}px`);
+      nearLayerRef.current?.style.setProperty('--sy', `${targetY * 0.45}px`);
     };
 
     const handlePointerMove = (e) => {
-      const relX = e.clientX / window.innerWidth - 0.5;
-      const relY = e.clientY / window.innerHeight - 0.5;
-      targetX = relX * 26;
-      targetY = relY * 18;
+      targetX = (e.clientX / window.innerWidth - 0.5) * 18;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 12;
       if (!frame) frame = requestAnimationFrame(applyTransform);
     };
 
@@ -91,73 +153,46 @@ const StarBackground = () => {
     };
   }, []);
 
-  // В облегчённом режиме звёзды статичны: рисуются один раз и дальше не
-  // стоят ничего, вместо постоянной работы композитора на каждый узел.
-  const twinkleClass = (star) => {
-    if (lite) return '';
-    return star.slow ? 'animate-twinkle-slow' : 'animate-twinkle';
-  };
-
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none deep-space-base" aria-hidden="true">
-      {/* Nebula — глубокие мягкие пятна цвета, задают объём без резких границ.
-          На телефоне радиус размытия меньше, анимация выключена. */}
+      {/* Туманности — мягкие пятна цвета, задающие объём. Раньше они ещё и
+          пульсировали по opacity: постоянное движение фона мешало читать. */}
       <div
         className={`absolute top-[-12%] left-[-10%] w-[45%] h-[45%] bg-indigo-950/40 rounded-full ${
-          lite ? 'blur-[70px] opacity-70' : 'blur-[130px] animate-glow'
+          lite ? 'blur-[70px]' : 'blur-[130px]'
         }`}
       />
       <div
         className={`absolute bottom-[-15%] right-[-10%] w-[55%] h-[55%] bg-violet-950/30 rounded-full ${
-          lite ? 'blur-[80px] opacity-70' : 'blur-[150px] animate-glow'
+          lite ? 'blur-[80px]' : 'blur-[150px]'
         }`}
-        style={lite ? undefined : { animationDelay: '2s' }}
       />
-      {!lite && (
-        <div
-          className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-blue-950/20 rounded-full blur-[120px] animate-glow"
-          style={{ animationDelay: '4s' }}
-        />
-      )}
 
       {/* Aurora Borealis — курсор слегка смещает слой целиком (см. --ax/--ay) */}
       <div
         ref={auroraRef}
-        className="absolute inset-0 transition-transform duration-700 ease-out"
+        className="absolute inset-0 transition-transform duration-700 ease-soft"
         style={{ transform: 'translate3d(var(--ax, 0px), var(--ay, 0px), 0)' }}
       >
         <div className={`aurora-ribbon aurora-1 ${lite ? '' : 'animate-aurora-drift'}`} />
         {!lite && <div className="aurora-ribbon aurora-2 animate-aurora-drift-slow" />}
       </div>
 
-      {/* Далёкий слой звёзд — мельче, статичнее (без параллакса) */}
-      <div className="absolute inset-0">
-        {farStars.map((star) => (
-          <div
-            key={star.id}
-            className={`absolute rounded-full bg-white ${twinkleClass(star)}`}
-            style={{
-              top: `${star.y}%`,
-              left: `${star.x}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              animationDelay: lite ? undefined : star.delay,
-              opacity: lite ? star.opacity : 0.55,
-            }}
-          />
-        ))}
-      </div>
+      {/* Дальнее звёздное поле — один canvas вместо полутора сотен узлов */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Ближний слой звёзд — крупнее, ярче, едва заметно смещается за курсором (глубина) */}
+      {/* Ближний слой — крупнее, мерцает, едва заметно идёт за курсором */}
       <div
         ref={nearLayerRef}
-        className="absolute inset-0 transition-transform duration-700 ease-out"
+        className="absolute inset-0 transition-transform duration-700 ease-soft"
         style={{ transform: 'translate3d(var(--sx, 0px), var(--sy, 0px), 0)' }}
       >
         {nearStars.map((star) => (
           <div
             key={star.id}
-            className={`absolute rounded-full bg-white ${twinkleClass(star)}`}
+            className={`absolute rounded-full bg-white ${
+              lite ? '' : star.slow ? 'animate-twinkle-slow' : 'animate-twinkle'
+            }`}
             style={{
               top: `${star.y}%`,
               left: `${star.x}%`,
@@ -165,34 +200,13 @@ const StarBackground = () => {
               height: `${star.size}px`,
               animationDelay: lite ? undefined : star.delay,
               opacity: lite ? star.opacity : undefined,
-              // box-shadow на каждой звезде дорог при перерисовке — только десктоп
-              boxShadow: lite ? undefined : '0 0 4px rgba(255,255,255,0.5)',
+              boxShadow: lite ? undefined : '0 0 4px rgba(255, 255, 255, 0.45)',
             }}
           />
         ))}
       </div>
 
-      {/* Foreground particles — редкие, очень медленно "дышащие" точки для ощущения глубины */}
-      {particles.length > 0 && (
-        <div className="absolute inset-0">
-          {particles.map((p) => (
-            <div
-              key={p.id}
-              className="absolute rounded-full bg-blue-300/40 animate-float-slow"
-              style={{
-                top: `${p.y}%`,
-                left: `${p.x}%`,
-                width: `${p.size}px`,
-                height: `${p.size}px`,
-                animationDuration: p.duration,
-                animationDelay: p.delay,
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Виньетка — держит края темнее центра, усиливает ощущение глубины и контраст UI */}
+      {/* Виньетка — держит края темнее центра, усиливает глубину и контраст UI */}
       <div className="absolute inset-0 deep-space-vignette" />
     </div>
   );

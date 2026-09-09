@@ -21,4 +21,15 @@ i18n
     },
   });
 
+// Атрибут lang должен следовать за выбранным языком: от него зависят
+// произношение в скринридере, переносы слов и предложение перевода в браузере.
+const syncDocumentLanguage = (language) => {
+  if (typeof document !== 'undefined' && language) {
+    document.documentElement.lang = language;
+  }
+};
+
+syncDocumentLanguage(i18n.resolvedLanguage);
+i18n.on('languageChanged', syncDocumentLanguage);
+
 export default i18n;

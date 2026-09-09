@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { 
-  FiSend, 
-  FiCheckCircle, 
-  FiAlertCircle, 
-  FiLoader, 
-  FiUser, 
-  FiMail, 
-  FiBookmark, 
+import {
+  FiSend,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiLoader,
+  FiUser,
+  FiMail,
+  FiBookmark,
   FiMessageSquare,
-  FiInbox
+  FiInbox,
 } from 'react-icons/fi';
 
 const ContactForm = () => {
@@ -28,51 +28,32 @@ const ContactForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  /*
+   * Форма обращается к собственному эндпоинту, а не к api.telegram.org напрямую.
+   * Прежний вариант подставлял VITE_TELEGRAM_BOT_TOKEN в клиентский бандл, то
+   * есть публиковал токен бота на сайте: любой посетитель мог прочитать его из
+   * JS и завладеть ботом (Telegram такие утечки к тому же отзывает сам).
+   * Теперь токен остаётся на сервере.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatus(null);
 
-    const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
-    const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
-
-    if (!botToken || !chatId) {
-      console.error('Telegram bot token/chat id is not configured. Set VITE_TELEGRAM_BOT_TOKEN and VITE_TELEGRAM_CHAT_ID in .env');
-      setStatus('error');
-      setLoading(false);
-      return;
-    }
-
-    // Текстовый формат сообщения без HTML-тегов
-    const textMessage = 
-`[Новое сообщение с портфолио]
-
-Имя: ${formData.name}
-Email: ${formData.email}
-Тема: ${formData.subject}
-
-Сообщение:
-${formData.message}`;
-
     try {
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: textMessage,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => null);
 
-      if (response.ok && data.ok) {
+      if (response.ok && data?.ok) {
         setStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        console.error('Ошибка от Telegram API:', data);
+        console.error('Не удалось отправить сообщение:', data?.error ?? response.status);
         setStatus('error');
       }
     } catch (error) {
@@ -83,124 +64,122 @@ ${formData.message}`;
     }
   };
 
+  const handleSpotlight = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
+  };
+
   return (
-    <div className="glass-3 glass-spotlight p-6 sm:p-8 rounded-3xl"
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        e.currentTarget.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
-        e.currentTarget.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
-      }}
-    >
+    <div className="glass-3 glass-spotlight p-6 sm:p-8" onMouseMove={handleSpotlight}>
       <div className="flex items-center gap-3 mb-2">
-        <FiInbox className="text-2xl text-blue-500" />
-        <h3 className="text-xl sm:text-2xl font-bold text-white">
-          {t('contact.form.title', 'Отправить сообщение')}
-        </h3>
+        <FiInbox className="text-xl text-accent shrink-0" aria-hidden="true" />
+        <h3 className="t-card">{t('contact.form.title')}</h3>
       </div>
-      <p className="text-gray-400 text-sm mb-6">
-        {t('contact.form.subtitle', 'Заполните форму, и я отвечу вам в течение 24 часов.')}
-      </p>
+      <p className="t-meta mb-7">{t('contact.form.subtitle')}</p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Имя и Email */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
-              <FiUser className="text-blue-400" />
-              <span>{t('contact.form.name_label', 'ВАШЕ ИМЯ')}</span>
+            {/* Метки связаны с полями через htmlFor/id: раньше клик по подписи
+                не переводил фокус, а скринридер читал поле безымянным. */}
+            <label className="field-label" htmlFor="contact-name">
+              <FiUser className="text-accent" aria-hidden="true" />
+              <span>{t('contact.form.name_label')}</span>
             </label>
             <input
+              id="contact-name"
               type="text"
               name="name"
+              autoComplete="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder={t('contact.form.name_placeholder', 'Исроил Исломов')}
+              placeholder={t('contact.form.name_placeholder')}
               required
-              className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
+              className="field"
             />
           </div>
 
           <div>
-            <label className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
-              <FiMail className="text-blue-400" />
-              <span>{t('contact.form.email_label', 'EMAIL')}</span>
+            <label className="field-label" htmlFor="contact-email">
+              <FiMail className="text-accent" aria-hidden="true" />
+              <span>{t('contact.form.email_label')}</span>
             </label>
             <input
+              id="contact-email"
               type="email"
               name="email"
+              autoComplete="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={t('contact.form.email_placeholder', 'you@example.com')}
+              placeholder={t('contact.form.email_placeholder')}
               required
-              className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
+              className="field"
             />
           </div>
         </div>
 
-        {/* Тема */}
         <div>
-          <label className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
-            <FiBookmark className="text-blue-400" />
-            <span>{t('contact.form.subject_label', 'ТЕМА')}</span>
+          <label className="field-label" htmlFor="contact-subject">
+            <FiBookmark className="text-accent" aria-hidden="true" />
+            <span>{t('contact.form.subject_label')}</span>
           </label>
           <input
+            id="contact-subject"
             type="text"
             name="subject"
             value={formData.subject}
             onChange={handleChange}
-            placeholder={t('contact.form.subject_placeholder', 'Проект, предложение, сотрудничество...')}
+            placeholder={t('contact.form.subject_placeholder')}
             required
-            className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm"
+            className="field"
           />
         </div>
 
-        {/* Сообщение */}
         <div>
-          <label className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
-            <FiMessageSquare className="text-blue-400" />
-            <span>{t('contact.form.message_label', 'СООБЩЕНИЕ')}</span>
+          <label className="field-label" htmlFor="contact-message">
+            <FiMessageSquare className="text-accent" aria-hidden="true" />
+            <span>{t('contact.form.message_label')}</span>
           </label>
           <textarea
+            id="contact-message"
             name="message"
             rows="4"
             value={formData.message}
             onChange={handleChange}
-            placeholder={t('contact.form.message_placeholder', 'Напишите о вашем проекте — цели, сроки, бюджет...')}
+            placeholder={t('contact.form.message_placeholder')}
             required
-            className="w-full bg-space-input border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-all text-sm resize-none"
-          ></textarea>
+            className="field resize-none"
+          />
         </div>
 
-        {/* Статусы */}
-        {status === 'success' && (
-          <div className="flex items-center gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-sm">
-            <FiCheckCircle className="text-lg shrink-0" />
-            <span>{t('contact.form.success_msg', 'Сообщение успешно отправлено!')}</span>
-          </div>
-        )}
+        {/* Результат отправки объявляется скринридеру, а не только показывается */}
+        <div role="status" aria-live="polite">
+          {status === 'success' && (
+            <p className="flex items-center gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-xl text-sm">
+              <FiCheckCircle className="text-base shrink-0" aria-hidden="true" />
+              <span>{t('contact.form.success_msg')}</span>
+            </p>
+          )}
 
-        {status === 'error' && (
-          <div className="flex items-center gap-2 p-3.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-sm">
-            <FiAlertCircle className="text-lg shrink-0" />
-            <span>{t('contact.form.error_msg', 'Ошибка при отправке. Попробуйте еще раз.')}</span>
-          </div>
-        )}
+          {status === 'error' && (
+            <p className="flex items-center gap-2 p-3.5 bg-red-500/10 border border-red-500/20 text-red-300 rounded-xl text-sm">
+              <FiAlertCircle className="text-base shrink-0" aria-hidden="true" />
+              <span>{t('contact.form.error_msg')}</span>
+            </p>
+          )}
+        </div>
 
-        {/* Кнопка отправки */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3.5 px-6 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-all duration-200 shadow-lg shadow-blue-500/20 active:scale-[0.99] cursor-pointer"
-        >
+        <button type="submit" disabled={loading} className="btn btn-primary btn-lg w-full">
           {loading ? (
             <>
-              <FiLoader className="text-lg animate-spin" />
-              <span>{t('contact.form.sending', 'Отправка...')}</span>
+              <FiLoader className="animate-spin" aria-hidden="true" />
+              <span>{t('contact.form.sending')}</span>
             </>
           ) : (
             <>
-              <FiSend className="text-lg" />
-              <span>{t('contact.form.send_btn', 'Отправить сообщение')}</span>
+              <FiSend aria-hidden="true" />
+              <span>{t('contact.form.send_btn')}</span>
             </>
           )}
         </button>

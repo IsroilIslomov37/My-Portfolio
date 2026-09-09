@@ -1,0 +1,5 @@
+.vercel
+.env*
+
+# Локальные разрешения Claude Code — машинозависимы
+.claude/settings.local.json

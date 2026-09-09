@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { FiGlobe } from 'react-icons/fi';
 
 const LANGUAGES = [
-  { key: 'en', label: 'English' },
-  { key: 'ru', label: 'Русский' },
-  { key: 'uz', label: 'Oʻzbekcha' },
+  { key: 'en', label: 'English', short: 'EN' },
+  { key: 'ru', label: 'Русский', short: 'RU' },
+  { key: 'uz', label: 'Oʻzbekcha', short: 'UZ' },
 ];
 
 // Раньше здесь был antd <Dropdown>: одно меню из трёх пунктов тянуло в бандл
@@ -39,6 +39,8 @@ const LanguageSwitcher = () => {
     setOpen(false);
   };
 
+  const current = LANGUAGES.find((lang) => lang.key === i18n.resolvedLanguage) ?? LANGUAGES[0];
+
   return (
     <div className="relative" ref={containerRef}>
       <button
@@ -46,26 +48,28 @@ const LanguageSwitcher = () => {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Language"
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-gray-300 hover:text-white"
+        aria-label={`Language: ${current.label}`}
+        className="flex items-center gap-1.5 h-10 pl-2.5 pr-3 rounded-full border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/[0.16] text-ink-200 hover:text-white transition-colors duration-250"
       >
-        <FiGlobe className="text-xl" />
+        <FiGlobe className="text-base" aria-hidden="true" />
+        {/* Текущий язык виден сразу — раньше глобус ничего о нём не сообщал */}
+        <span className="text-xs font-medium tracking-wide">{current.short}</span>
       </button>
 
       {open && (
         <ul
           role="listbox"
-          className="absolute right-0 top-[calc(100%+8px)] z-50 min-w-[140px] py-1 rounded-xl bg-space-800 border border-white/10 shadow-xl overflow-hidden"
+          className="absolute right-0 top-[calc(100%+8px)] z-50 min-w-[150px] py-1 glass-2 overflow-hidden"
         >
           {LANGUAGES.map((lang) => (
             <li key={lang.key} role="option" aria-selected={i18n.resolvedLanguage === lang.key}>
               <button
                 type="button"
                 onClick={() => selectLanguage(lang.key)}
-                className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                className={`w-full text-left px-4 py-2.5 text-sm transition-colors duration-250 ${
                   i18n.resolvedLanguage === lang.key
-                    ? 'text-blue-400 bg-white/5 font-medium'
-                    : 'text-gray-300 hover:text-white hover:bg-white/5'
+                    ? 'text-ink-50 bg-white/[0.07] font-medium'
+                    : 'text-ink-300 hover:text-ink-50 hover:bg-white/[0.05]'
                 }`}
               >
                 {lang.label}

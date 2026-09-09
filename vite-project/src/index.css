@@ -2,129 +2,416 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* ================================================================== */
+/* Base                                                                */
+/* ================================================================== */
+
+@layer base {
+  :root {
+    /* Одна кривая и три длительности на весь сайт: микро-отклик, обычный
+       переход, вход элемента. Разнобой duration-200/300/500 читался как
+       несогласованность даже там, где сами анимации аккуратные. */
+    --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 150ms;
+    --dur-base: 250ms;
+    --dur-slow: 420ms;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-space-950 text-ink-200 overflow-x-hidden;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    /* Сглаживание даёт системному шрифту на тёмном фоне ту же плотность
+       штриха, что и у веб-шрифтов, — без единого сетевого запроса. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Якорный переход не должен прятать заголовок секции под фиксированной шапкой */
+  [id] {
+    scroll-margin-top: clamp(5.5rem, 5rem + 2vw, 7rem);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Единое кольцо фокуса. Только focus-visible — мышь его не вызывает. */
+  :focus-visible {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+    color: #fff;
+  }
 }
 
-body {
-  @apply bg-space-950 text-white overflow-x-hidden;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-}
+/* ================================================================== */
+/* Layout — одна сетка на все секции                                   */
+/* ================================================================== */
 
 @layer components {
+  /* Единственная ширина контента на сайте. Раньше секции расходились
+     между max-w-7xl / max-w-6xl / max-w-5xl, и края не совпадали. */
+  .container-page {
+    @apply w-full mx-auto;
+    max-width: 72rem;
+    padding-inline: clamp(1.25rem, 1rem + 1vw, 2rem);
+  }
+
+  /* Вертикальный ритм секции — одна формула вместо py-16 / py-20 вразнобой */
+  .section {
+    padding-block: clamp(4rem, 2.5rem + 4vw, 6.5rem);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Типографика                                                       */
+  /* ---------------------------------------------------------------- */
+
+  .t-display {
+    font-size: clamp(2.5rem, 1.5rem + 5vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  .t-section {
+    @apply text-ink-50;
+    font-size: clamp(1.75rem, 1.3rem + 1.9vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  .t-card {
+    @apply text-ink-50;
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  /* Заголовок крупной карточки (проекты) — на ступень выше обычной */
+  .t-card-lg {
+    @apply text-ink-50;
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+  }
+
+  /* Крупная строка под заголовком — несёт смысл, а не украшает */
+  .t-lead {
+    @apply text-ink-100;
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
+    line-height: 1.55;
+  }
+
+  .t-body {
+    @apply text-ink-200;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .t-meta {
+    @apply text-ink-300;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* Надзаголовок секции. Один стиль — раньше их было три разных. */
+  .t-eyebrow {
+    @apply uppercase text-accent-soft;
+    font-size: 0.6875rem;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+  }
+
   /*
-   * Liquid Glass — трёхуровневая система поверхностей.
-   * Уровень растёт вместе с важностью элемента: 1 — второстепенные чипы/теги,
-   * 2 — обычные карточки контента, 3 — hero-панели и ключевые интерактивные узлы.
-   * Псевдоэлемент ::before даёт верхний "блик" (inner highlight), имитирующий
-   * преломление света на стекле, вместо плоского rgba+blur.
+   * Градиент заголовка. Раньше он шёл синий → индиго → пурпур и на больших
+   * кеглях читался как радуга; теперь белый уходит в холодный синий —
+   * та же космическая палитра, но выше контраст и спокойнее вид.
+   */
+  .text-gradient-space {
+    background-image: linear-gradient(135deg, #ffffff 0%, #dbeafe 42%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Если background-clip: text не поддержан — текст должен остаться видимым */
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .text-gradient-space {
+      color: theme("colors.ink.50");
+      -webkit-text-fill-color: currentColor;
+    }
+  }
+
+  /* Комфортная длина строки (~70 знаков) — абзацы во всю ширину не читаются */
+  .measure {
+    max-width: 62ch;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Liquid Glass — три уровня поверхности                             */
+  /* ---------------------------------------------------------------- */
+  /*
+   * Уровень растёт вместе с важностью элемента: 1 — чипы и второстепенные
+   * плитки, 2 — обычные карточки контента, 3 — hero-панели и формы.
+   * Границы намеренно тише прежних: сплошные белые рамки на каждой карточке
+   * читались как каркас интерфейса, а не как стекло.
    */
   .glass-1 {
-    @apply relative border border-white/[0.07] rounded-xl transition-all duration-300;
-    background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015) 65%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 1px 2px rgba(0, 0, 0, 0.2);
+    @apply relative border border-white/[0.06] rounded-xl;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012) 65%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
   }
 
   .glass-2 {
-    @apply relative border border-white/10 rounded-2xl transition-all duration-300;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02) 60%);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    @apply relative border border-white/[0.08] rounded-card;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018) 60%);
+    backdrop-filter: blur(16px) saturate(130%);
+    -webkit-backdrop-filter: blur(16px) saturate(130%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.07),
-      inset 0 0 40px rgba(99, 102, 241, 0.03),
-      0 8px 30px rgba(0, 0, 0, 0.35);
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 8px 28px -14px rgba(0, 0, 0, 0.8);
   }
 
   .glass-3 {
-    @apply relative border border-white/[0.14] rounded-[1.5rem] transition-all duration-300;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03) 55%);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    @apply relative border border-white/[0.1] rounded-panel;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.022) 55%);
+    backdrop-filter: blur(20px) saturate(145%);
+    -webkit-backdrop-filter: blur(20px) saturate(145%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      inset 0 0 60px rgba(99, 102, 241, 0.07),
-      0 20px 60px rgba(0, 0, 0, 0.45),
-      0 0 40px rgba(59, 130, 246, 0.06);
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      0 20px 50px -24px rgba(0, 0, 0, 0.9);
   }
 
-  /* Тонкая световая полоса вдоль верхнего края — "стеклянный" блик */
-  .glass-1::before,
+  /* Тонкая световая полоса вдоль верхнего края — "стеклянный" блик.
+     На чипах (glass-1) не нужен: на площади 32px он читается как шум. */
   .glass-2::before,
   .glass-3::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 35%);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 40%);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    opacity: 0.5;
+    opacity: 0.35;
     pointer-events: none;
   }
 
-  /* Совместимость с уже написанной разметкой — обычные карточки = уровень 2 */
+  /* Совместимость с уже написанной разметкой — обычная карточка = уровень 2 */
   .glass-card {
     @apply glass-2;
   }
 
-  .glass-card:hover,
-  .glass-2:hover,
-  .glass-3:hover {
-    @apply border-white/20;
+  /*
+   * Единственная трактовка наведения на карточку во всём проекте.
+   * Раньше проекты подсвечивались синим, AI-карточки — фиолетовым,
+   * контакты — ещё одним синим: три разных языка на одной странице.
+   */
+  .card-hover {
+    transition:
+      border-color var(--dur-base) var(--ease-soft),
+      transform var(--dur-base) var(--ease-soft),
+      box-shadow var(--dur-base) var(--ease-soft);
   }
 
-  /* Курсор оставляет на стекле лёгкий световой блик (задаётся через --spot-x/--spot-y) */
+  .card-hover:hover,
+  .card-hover:focus-within {
+    @apply border-white/[0.16];
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 18px 44px -20px rgba(0, 0, 0, 0.95);
+  }
+
+  .card-hover:focus-within {
+    transform: none;
+  }
+
+  /* Курсор оставляет на стекле лёгкий блик (--spot-x / --spot-y) */
   .glass-spotlight {
     overflow: hidden;
   }
+
   .glass-spotlight::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: radial-gradient(240px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 255, 255, 0.1), transparent 70%);
+    background: radial-gradient(
+      260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(255, 255, 255, 0.07),
+      transparent 70%
+    );
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity var(--dur-slow) ease;
     pointer-events: none;
   }
+
   .glass-spotlight:hover::after {
     opacity: 1;
   }
 
-  /* Градиентный текст в стиле космической темы (заголовки, акценты) */
-  .text-gradient-space {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400;
+  /* ---------------------------------------------------------------- */
+  /* Кнопки — три роли, один каркас                                    */
+  /* ---------------------------------------------------------------- */
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-medium
+      whitespace-nowrap select-none cursor-pointer;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--dur-base) var(--ease-soft),
+      border-color var(--dur-base) var(--ease-soft),
+      color var(--dur-base) var(--ease-soft),
+      box-shadow var(--dur-base) var(--ease-soft),
+      transform var(--dur-fast) var(--ease-soft);
   }
 
-  /* Scroll-reveal: секции проявляются при входе во viewport (см. useReveal) */
+  .btn > svg {
+    @apply shrink-0;
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  .btn-lg {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Первичное действие — единственное место, где уместен glow */
+  .btn-primary {
+    @apply bg-accent-deep text-white shadow-glow-accent;
+  }
+
+  .btn-primary:hover {
+    @apply bg-blue-500 shadow-glow-accent-lg;
+  }
+
+  .btn-secondary {
+    @apply border-white/[0.12] text-ink-100;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .btn-secondary:hover {
+    @apply border-white/[0.22] text-white;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    @apply cursor-not-allowed shadow-none;
+    opacity: 0.55;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Поля ввода                                                        */
+  /* ---------------------------------------------------------------- */
+
+  .field {
+    @apply w-full bg-space-input border border-white/[0.09] rounded-xl px-4 py-3
+      text-ink-50 placeholder-ink-400;
+    font-size: 0.9375rem;
+    transition:
+      border-color var(--dur-base) var(--ease-soft),
+      box-shadow var(--dur-base) var(--ease-soft);
+  }
+
+  .field:hover {
+    @apply border-white/[0.16];
+  }
+
+  .field:focus {
+    @apply outline-none;
+    border-color: rgba(96, 165, 250, 0.7);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.14);
+  }
+
+  .field-label {
+    @apply flex items-center gap-2 t-eyebrow text-ink-300 mb-2;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Scroll-reveal                                                     */
+  /* ---------------------------------------------------------------- */
+
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
   }
+
   .reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Knowledge Web                                                     */
+  /* ---------------------------------------------------------------- */
+
+  /* Линии прочерчиваются один раз при входе секции и дальше не стоят ничего */
+  .web-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-opacity var(--dur-base) ease, stroke-width var(--dur-base) ease;
+  }
+
+  .web-in .web-line {
+    @apply animate-draw-in;
+  }
+
+  .web-node {
+    transition:
+      transform var(--dur-base) var(--ease-soft),
+      border-color var(--dur-base) var(--ease-soft),
+      box-shadow var(--dur-base) var(--ease-soft);
   }
 }
 
-/* ------------------------------------------------------------------ */
+/* ================================================================== */
 /* Мобильный "облегчённый" режим                                       */
-/* ------------------------------------------------------------------ */
+/* ================================================================== */
 /*
  * backdrop-filter — самая дорогая часть liquid glass: браузер обязан заново
  * размывать всё, что оказалось под элементом, на каждом кадре прокрутки.
  * На десктопе это незаметно, на телефоне десятки таких поверхностей
- * (шапка, карточки, чипы) съедают весь бюджет кадра. На узких экранах
- * заменяем размытие плоской заливкой того же тона — вид почти тот же,
- * стоимость нулевая.
+ * съедают весь бюджет кадра. На узких экранах заменяем размытие плоской
+ * заливкой того же тона — вид почти тот же, стоимость нулевая.
  */
 @media (max-width: 768px), (hover: none) and (pointer: coarse) {
   .glass-1,
@@ -135,84 +422,110 @@ body {
   }
 
   .glass-1 {
-    background: linear-gradient(165deg, rgba(30, 36, 58, 0.72), rgba(14, 18, 32, 0.68) 65%);
+    background: linear-gradient(165deg, rgba(28, 34, 54, 0.7), rgba(13, 17, 30, 0.66) 65%);
   }
 
   .glass-2,
   .glass-3 {
-    background: linear-gradient(160deg, rgba(22, 27, 45, 0.9), rgba(9, 12, 24, 0.86) 60%);
+    background: linear-gradient(160deg, rgba(20, 25, 42, 0.88), rgba(9, 12, 23, 0.84) 60%);
   }
 
   /* Многослойные тени тоже перерисовываются при скролле — оставляем одну */
   .glass-2 {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
+
   .glass-3 {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 10px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 10px 30px -18px rgba(0, 0, 0, 0.9);
   }
 }
 
-/* Блик под курсором не нужен там, где курсора нет (touch) */
+/* Блик под курсором и подъём карточки не нужны там, где курсора нет */
 @media (hover: none) {
   .glass-spotlight::after {
     display: none;
   }
+
+  .card-hover:hover {
+    transform: none;
+  }
 }
 
-/* ------------------------------------------------------------------ */
-/* Deep Space background layers (см. StarBackground.jsx)               */
-/* ------------------------------------------------------------------ */
+/* ================================================================== */
+/* Deep Space background (см. StarBackground.jsx)                      */
+/* ================================================================== */
 
 .deep-space-base {
   background:
-    radial-gradient(120% 90% at 20% -15%, #0c1224 0%, transparent 60%),
-    radial-gradient(100% 80% at 85% 110%, #120a24 0%, transparent 55%),
-    linear-gradient(180deg, #05060c 0%, #020308 55%, #000000 100%);
-  /* Отдельный слой композитора: фон не перерисовывается при прокрутке страницы */
+    radial-gradient(120% 90% at 20% -15%, #0b1120 0%, transparent 60%),
+    radial-gradient(100% 80% at 85% 110%, #100a1f 0%, transparent 55%),
+    linear-gradient(180deg, #04050b 0%, #020308 55%, #000000 100%);
+  /* Отдельный слой композитора: фон не перерисовывается при прокрутке */
   transform: translateZ(0);
 }
 
-/* Анимация орбит останавливается, как только Hero уходит из viewport */
+.deep-space-vignette {
+  background: radial-gradient(120% 100% at 50% 38%, transparent 42%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+/*
+ * Aurora Borealis — вытянутые размытые "ленты" света поверх почти чёрного фона.
+ * Насыщенность снижена относительно прежней версии: аврора задаёт глубину,
+ * а не конкурирует с текстом за внимание.
+ */
+.aurora-ribbon {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.aurora-ribbon.aurora-1 {
+  top: 0%;
+  left: 4%;
+  width: 76%;
+  height: 32%;
+  transform: rotate(-9deg);
+  background: linear-gradient(
+    100deg,
+    rgba(45, 212, 191, 0.11),
+    rgba(99, 102, 241, 0.1) 45%,
+    rgba(139, 92, 246, 0.08) 80%
+  );
+}
+
+.aurora-ribbon.aurora-2 {
+  top: 14%;
+  right: 0%;
+  width: 58%;
+  height: 28%;
+  transform: rotate(8deg);
+  background: linear-gradient(
+    100deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(16, 185, 129, 0.07) 50%,
+    rgba(168, 85, 247, 0.07) 100%
+  );
+}
+
+@media (max-width: 640px) {
+  .aurora-ribbon {
+    filter: blur(64px);
+    opacity: 0.55;
+  }
+}
+
+/* Орбита останавливается, как только Hero уходит из viewport */
 .orbit-paused,
 .orbit-paused * {
   animation-play-state: paused !important;
 }
 
-.deep-space-vignette {
-  background: radial-gradient(120% 100% at 50% 40%, transparent 45%, rgba(0, 0, 0, 0.55) 100%);
-}
-
-/* Aurora Borealis — вытянутые размытые "ленты" света, screen-blend поверх почти чёрного фона */
-.aurora-ribbon {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(110px);
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-.aurora-ribbon.aurora-1 {
-  top: 2%;
-  left: 6%;
-  width: 78%;
-  height: 34%;
-  transform: rotate(-9deg);
-  background: linear-gradient(100deg, rgba(45, 212, 191, 0.16), rgba(99, 102, 241, 0.14) 45%, rgba(139, 92, 246, 0.12) 80%);
-}
-.aurora-ribbon.aurora-2 {
-  top: 12%;
-  right: 2%;
-  width: 60%;
-  height: 30%;
-  transform: rotate(8deg);
-  background: linear-gradient(100deg, rgba(59, 130, 246, 0.14), rgba(16, 185, 129, 0.1) 50%, rgba(168, 85, 247, 0.1) 100%);
-}
-
-@media (max-width: 640px) {
-  .aurora-ribbon {
-    filter: blur(70px);
-    opacity: 0.8;
-  }
-}
+/* ================================================================== */
+/* prefers-reduced-motion                                              */
+/* ================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -227,5 +540,14 @@ body {
   .reveal {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Линии паутины должны остаться прочерченными, а не замереть пустыми */
+  .web-line {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .card-hover:hover {
+    transform: none;
   }
 }

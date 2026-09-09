@@ -1,206 +1,309 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
+import useReveal from '../hooks/useReveal';
 import {
   SiReact,
   SiJavascript,
-  SiTypescript,
-  SiTailwindcss,
   SiHtml5,
+  SiCss,
+  SiGit,
   SiCursor,
   SiClaudecode,
   SiDeepseek,
-  SiGit,
-  SiGithub,
   SiVercel,
   SiFigma,
-  SiAnthropic,
 } from 'react-icons/si';
 import { RiOpenaiFill } from 'react-icons/ri';
 import { TbBrandVscode } from 'react-icons/tb';
+import { FiLayout } from 'react-icons/fi';
 
-// Технологии, которыми пользуюсь ежедневно, но которые не входят в
-// Knowledge Web ниже — показаны отдельной компактной строкой.
-const CORE_STACK = [
-  { id: 'react', name: 'React', icon: <SiReact className="text-cyan-400" /> },
-  { id: 'javascript', name: 'JavaScript', icon: <SiJavascript className="text-yellow-400" /> },
-  { id: 'typescript', name: 'TypeScript', icon: <SiTypescript className="text-blue-400" /> },
-  { id: 'tailwind', name: 'Tailwind CSS', icon: <SiTailwindcss className="text-sky-400" /> },
-  { id: 'html5', name: 'HTML5 / CSS3', icon: <SiHtml5 className="text-orange-500" /> },
+/*
+ * Паутина знаний устроена в два круга, и это её главное сообщение:
+ *
+ *   внутренний круг — то, что я пишу сам (язык, фреймворк, вёрстка);
+ *   внешний круг    — инструменты вокруг этого, включая AI-ассистентов.
+ *
+ * Раньше в паутине были только инструменты, а языки лежали отдельной строкой
+ * чипов — из-за этого Claude Code и JavaScript читались как явления одного
+ * порядка. Радиусы эллипса подобраны так, чтобы узлы вместе с подписями
+ * гарантированно оставались внутри контейнера на любой ширине.
+ */
+const HUB = { x: 50, y: 50 };
+const CORE_RADIUS = { x: 24, y: 25 };
+const TOOL_RADIUS = { x: 40, y: 39 };
+
+const CORE = [
+  { id: 'react', angle: -90, icon: <SiReact className="text-cyan-400" /> },
+  { id: 'javascript', angle: -30, icon: <SiJavascript className="text-yellow-400" /> },
+  { id: 'git', angle: 30, icon: <SiGit className="text-orange-400" /> },
+  { id: 'ui', angle: 90, icon: <FiLayout className="text-teal-300" /> },
+  { id: 'css', angle: 150, icon: <SiCss className="text-sky-400" /> },
+  { id: 'html', angle: 210, icon: <SiHtml5 className="text-orange-500" /> },
 ];
 
 // Заглушка для брендов без официальной иконки в библиотеке.
 const Monogram = ({ letter, className = '' }) => (
-  <span className={`font-black text-sm tracking-tight ${className}`}>{letter}</span>
+  <span className={`font-bold text-[0.8em] tracking-tight ${className}`}>{letter}</span>
 );
 
-// Небольшая "паутина знаний": ядро AI/Dev/Design в центре, три коротких
-// кластера вокруг него. Координаты — проценты внутри компактного контейнера,
-// подобраны вручную как аккуратная композиция, а не физическая симуляция.
-const HUB = { x: 50, y: 44 };
-
-// Нити паутины — чистый белый: ровный контраст на тёмном фоне и одинаковое
-// поведение у всех кластеров (при наведении линия мигает, см. animate-web-blink).
-const WEB_STROKE = '#ffffff';
-
-const CLUSTERS = [
-  {
-    id: 'design',
-    categoryKey: 'skills.categories.design',
-    anchor: { x: 16, y: 16 },
-    tools: [
-      { id: 'figma', pos: { x: 20, y: 4 }, icon: <SiFigma className="text-fuchsia-400" /> },
-      { id: 'claude_design', pos: { x: 4, y: 24 }, icon: <SiAnthropic className="text-orange-300" /> },
-    ],
-  },
-  {
-    id: 'development',
-    categoryKey: 'skills.categories.development',
-    anchor: { x: 84, y: 16 },
-    tools: [
-      { id: 'git', pos: { x: 62, y: 3 }, icon: <SiGit className="text-orange-500" /> },
-      { id: 'github', pos: { x: 80, y: 2 }, icon: <SiGithub className="text-white" /> },
-      { id: 'vscode', pos: { x: 97, y: 14 }, icon: <TbBrandVscode className="text-blue-400" /> },
-      { id: 'vercel', pos: { x: 94, y: 33 }, icon: <SiVercel className="text-white" /> },
-      { id: 'freebuff', pos: { x: 74, y: 31 }, icon: <Monogram letter="F" className="text-lime-300" /> },
-    ],
-  },
-  {
-    id: 'ai_coding',
-    categoryKey: 'skills.categories.ai_coding',
-    anchor: { x: 50, y: 84 },
-    tools: [
-      { id: 'cursor', pos: { x: 12, y: 66 }, icon: <SiCursor className="text-white" /> },
-      { id: 'claude_code', pos: { x: 26, y: 89 }, icon: <SiClaudecode className="text-orange-300" /> },
-      { id: 'codex', pos: { x: 41, y: 97 }, icon: <RiOpenaiFill className="text-emerald-300" /> },
-      { id: 'deepseek', pos: { x: 59, y: 97 }, icon: <SiDeepseek className="text-blue-300" /> },
-      { id: 'antigravity', pos: { x: 74, y: 89 }, icon: <Monogram letter="A" className="text-indigo-300" /> },
-      { id: 'manus', pos: { x: 88, y: 66 }, icon: <Monogram letter="M" className="text-teal-300" /> },
-    ],
-  },
+// Угол каждого инструмента выбран рядом с «родительским» навыком, поэтому
+// связующая линия получается короткой и не пересекает половину схемы.
+const TOOLS = [
+  { id: 'claude_code', angle: -108, parent: 'react', icon: <SiClaudecode className="text-orange-300" /> },
+  { id: 'cursor', angle: -72, parent: 'react', icon: <SiCursor className="text-ink-100" /> },
+  { id: 'codex', angle: -36, parent: 'javascript', icon: <RiOpenaiFill className="text-emerald-300" /> },
+  { id: 'deepseek', angle: 0, parent: 'javascript', icon: <SiDeepseek className="text-blue-300" /> },
+  { id: 'vercel', angle: 36, parent: 'git', icon: <SiVercel className="text-ink-100" /> },
+  { id: 'vscode', angle: 72, parent: 'ui', icon: <TbBrandVscode className="text-blue-400" /> },
+  { id: 'manus', angle: 108, parent: 'ui', icon: <Monogram letter="M" className="text-teal-300" /> },
+  { id: 'figma', angle: 144, parent: 'css', icon: <SiFigma className="text-fuchsia-400" /> },
+  { id: 'antigravity', angle: 180, parent: 'html', icon: <Monogram letter="A" className="text-indigo-300" /> },
+  { id: 'freebuff', angle: 216, parent: 'html', icon: <Monogram letter="F" className="text-lime-300" /> },
 ];
 
-const ALL_TOOLS = CLUSTERS.flatMap((cluster) => cluster.tools.map((tool) => ({ ...tool, clusterId: cluster.id })));
+const place = (angle, radius) => {
+  const radian = (angle * Math.PI) / 180;
+  return {
+    x: HUB.x + Math.cos(radian) * radius.x,
+    y: HUB.y + Math.sin(radian) * radius.y,
+  };
+};
+
+const CORE_NODES = CORE.map((item) => ({ ...item, group: 'core', ...place(item.angle, CORE_RADIUS) }));
+const TOOL_NODES = TOOLS.map((item) => ({ ...item, group: 'tools', ...place(item.angle, TOOL_RADIUS) }));
+const ALL_NODES = [...CORE_NODES, ...TOOL_NODES];
+
+// Рёбра между соседними навыками замыкают внутренний круг — без них схема
+// читалась бы как звезда, а не как связанная система.
+const CORE_EDGES = CORE_NODES.map((node, i) => [node, CORE_NODES[(i + 1) % CORE_NODES.length]]);
+const TOOL_EDGES = TOOL_NODES.map((tool) => [CORE_NODES.find((core) => core.id === tool.parent), tool]);
 
 const Skills = () => {
   const { t } = useTranslation();
-  const [hovered, setHovered] = useState(null);
+  const [active, setActive] = useState(null);
+  const [webRef, webVisible] = useReveal({ threshold: 0.2 });
 
-  const hoveredCluster = hovered ? ALL_TOOLS.find((tool) => tool.id === hovered)?.clusterId : null;
+  const activeNode = active ? ALL_NODES.find((node) => node.id === active) : null;
+
+  // Линия подсвечивается, только если оба её конца связаны с активным узлом.
+  const edgeLit = (a, b) => Boolean(active) && (a.id === active || b.id === active);
+
+  // На мобильном уровни подписаны заголовками групп — легенда там была бы
+  // повтором того же текста двумя строками выше.
+  const legend = (
+    <ul className="hidden md:flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10">
+      <li className="flex items-center gap-2 t-meta">
+        <span className="w-2.5 h-2.5 rounded-full bg-accent-soft" aria-hidden="true" />
+        {t('skills.legend_core')}
+      </li>
+      <li className="flex items-center gap-2 t-meta">
+        <span className="w-2.5 h-2.5 rounded-full border border-ink-300" aria-hidden="true" />
+        {t('skills.legend_tools')}
+      </li>
+    </ul>
+  );
 
   return (
-    <section id="skills" className="py-20 px-6 max-w-7xl mx-auto">
-      <SectionTitle title={t('skills.title')} subtitle={t('skills.subtitle')} />
+    <section id="skills" className="section">
+      <div className="container-page">
+        <SectionTitle title={t('skills.title')} subtitle={t('skills.subtitle')} intro={t('skills.intro')} />
 
-      {/* Core Stack */}
-      <div className="flex flex-wrap justify-center gap-3 mb-14">
-        {CORE_STACK.map((item) => (
-          <div key={item.id} className="glass-1 px-4 py-2 flex items-center gap-2 text-sm text-gray-200">
-            <span className="text-lg">{item.icon}</span>
-            <span className="font-medium">{item.name}</span>
-          </div>
-        ))}
-      </div>
+        {legend}
 
-      {/* Desktop/tablet — компактная knowledge web */}
-      <div className="hidden md:block relative w-full max-w-2xl mx-auto aspect-[5/4]">
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {CLUSTERS.map((cluster) => (
-            <line
-              key={`hub-${cluster.id}`}
-              x1={HUB.x}
-              y1={HUB.y}
-              x2={cluster.anchor.x}
-              y2={cluster.anchor.y}
-              stroke={WEB_STROKE}
-              strokeOpacity={hoveredCluster === cluster.id ? 1 : 0.75}
-              strokeWidth={hoveredCluster === cluster.id ? 0.6 : 0.35}
-              vectorEffect="non-scaling-stroke"
-              className={`transition-all duration-500 ${hoveredCluster === cluster.id ? 'animate-web-blink' : ''}`}
-            />
-          ))}
-          {CLUSTERS.map((cluster) =>
-            cluster.tools.map((tool) => (
-              <line
-                key={`line-${tool.id}`}
-                x1={cluster.anchor.x}
-                y1={cluster.anchor.y}
-                x2={tool.pos.x}
-                y2={tool.pos.y}
-                stroke={WEB_STROKE}
-                strokeOpacity={hovered === tool.id ? 1 : 0.7}
-                strokeWidth={hovered === tool.id ? 0.6 : 0.3}
-                vectorEffect="non-scaling-stroke"
-                className={`transition-all duration-300 ${hovered === tool.id ? 'animate-web-blink' : ''}`}
-              />
-            ))
-          )}
-        </svg>
-
-        {/* Ядро */}
+        {/* ---------------------------------------------------------- */}
+        {/* Desktop / tablet — паутина знаний                          */}
+        {/* ---------------------------------------------------------- */}
         <div
-          className="absolute z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full glass-3 text-center px-1"
-          style={{ left: `${HUB.x}%`, top: `${HUB.y}%` }}
+          ref={webRef}
+          className={`hidden md:block relative w-full max-w-3xl mx-auto aspect-[7/5] ${
+            webVisible ? 'web-in' : ''
+          }`}
         >
-          <div className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400" />
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          </div>
-        </div>
-        <div
-          className="absolute text-[9px] uppercase tracking-widest text-gray-300 whitespace-nowrap"
-          style={{ left: `${HUB.x}%`, top: `${HUB.y}%`, transform: 'translate(-50%, 22px)' }}
-        >
-          {t('skills.hub_label')}
-        </div>
-
-        {/* Узлы-инструменты */}
-        {ALL_TOOLS.map((tool, i) => (
-          <div
-            key={tool.id}
-            className="absolute -translate-x-1/2 -translate-y-1/2 animate-float"
-            style={{ left: `${tool.pos.x}%`, top: `${tool.pos.y}%`, animationDelay: `${(i % 5) * 0.6}s` }}
-            onMouseEnter={() => setHovered(tool.id)}
-            onMouseLeave={() => setHovered((h) => (h === tool.id ? null : h))}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
           >
-            <div
-              className={`relative w-9 h-9 rounded-xl glass-2 flex items-center justify-center text-sm cursor-default transition-all duration-300 ${
-                hovered === tool.id
-                  ? 'scale-125 shadow-node-glow border-white/40 z-20'
-                  : hoveredCluster === tool.clusterId
-                  ? 'border-white/25 z-10'
-                  : 'border-white/15 z-0'
-              }`}
-            >
-              {tool.icon}
-            </div>
+            {/* Замкнутый контур внутреннего круга */}
+            {CORE_EDGES.map(([a, b]) => (
+              <line
+                key={`ring-${a.id}`}
+                x1={a.x}
+                y1={a.y}
+                x2={b.x}
+                y2={b.y}
+                stroke="#ffffff"
+                strokeOpacity={edgeLit(a, b) ? 0.3 : 0.12}
+                strokeWidth="1"
+                pathLength="1"
+                vectorEffect="non-scaling-stroke"
+                className="web-line"
+                style={{ animationDelay: '120ms' }}
+              />
+            ))}
 
-            {hovered === tool.id && (
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-[calc(100%+8px)] w-40 glass-2 px-2.5 py-2 z-30 pointer-events-none text-center">
-                <p className="text-white font-semibold text-xs leading-tight">{t(`skills.tools.${tool.id}.name`)}</p>
-                <p className="text-[10px] uppercase tracking-wider text-blue-300 mt-0.5">{t(`skills.categories.${tool.clusterId}`)}</p>
+            {/* Спицы от ядра к навыкам — самые заметные связи схемы */}
+            {CORE_NODES.map((node) => (
+              <line
+                key={`spoke-${node.id}`}
+                x1={HUB.x}
+                y1={HUB.y}
+                x2={node.x}
+                y2={node.y}
+                stroke="#ffffff"
+                strokeOpacity={active === node.id ? 0.55 : 0.26}
+                strokeWidth="1"
+                pathLength="1"
+                vectorEffect="non-scaling-stroke"
+                className="web-line"
+              />
+            ))}
+
+            {/* Инструмент → навык: тоньше и тише, иерархия читается сразу */}
+            {TOOL_EDGES.map(([core, tool]) => (
+              <line
+                key={`tool-${tool.id}`}
+                x1={core.x}
+                y1={core.y}
+                x2={tool.x}
+                y2={tool.y}
+                stroke="#ffffff"
+                strokeOpacity={edgeLit(core, tool) ? 0.34 : 0.14}
+                strokeWidth="1"
+                pathLength="1"
+                vectorEffect="non-scaling-stroke"
+                className="web-line"
+                style={{ animationDelay: '260ms' }}
+              />
+            ))}
+          </svg>
+
+          {/* Ядро */}
+          <div
+            className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+            style={{ left: `${HUB.x}%`, top: `${HUB.y}%` }}
+          >
+            <div className="w-16 h-16 rounded-full glass-3 flex items-center justify-center">
+              <span className="font-mono text-accent-soft text-lg font-semibold">&lt;/&gt;</span>
+            </div>
+            <span className="t-eyebrow text-ink-300 mt-2.5 whitespace-nowrap">{t('skills.hub_label')}</span>
+          </div>
+
+          {/* Узлы */}
+          {ALL_NODES.map((node, i) => {
+            const isCore = node.group === 'core';
+            const isActive = active === node.id;
+            // Подсказка у верхних узлов раскрывается вниз, иначе она вылезет
+            // за пределы контейнера.
+            const tooltipBelow = node.y < 38;
+
+            return (
+              <div
+                key={node.id}
+                className={`absolute -translate-x-1/2 -translate-y-1/2 ${
+                  webVisible ? 'animate-node-in' : 'opacity-0'
+                } ${isActive ? 'z-30' : 'z-10'}`}
+                style={{
+                  left: `${node.x}%`,
+                  top: `${node.y}%`,
+                  animationDelay: `${200 + i * 45}ms`,
+                }}
+              >
+                <button
+                  type="button"
+                  onMouseEnter={() => setActive(node.id)}
+                  onMouseLeave={() => setActive((current) => (current === node.id ? null : current))}
+                  onFocus={() => setActive(node.id)}
+                  onBlur={() => setActive((current) => (current === node.id ? null : current))}
+                  onClick={() => setActive((current) => (current === node.id ? null : node.id))}
+                  className="flex flex-col items-center gap-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 rounded-lg"
+                >
+                  <span
+                    className={`web-node flex items-center justify-center ${
+                      isCore
+                        ? 'w-12 h-12 rounded-full glass-2 text-xl'
+                        : 'w-9 h-9 rounded-chip glass-1 text-base opacity-80'
+                    } ${isActive ? 'scale-110 border-white/25' : ''}`}
+                  >
+                    {node.icon}
+                  </span>
+                  <span
+                    className={`whitespace-nowrap leading-none ${
+                      isCore
+                        ? 'text-[0.75rem] font-medium text-ink-100'
+                        : 'text-[0.6875rem] text-ink-300'
+                    }`}
+                  >
+                    {t(`skills.items.${node.id}.name`)}
+                  </span>
+                </button>
+
+                {isActive && (
+                  <div
+                    className={`absolute left-1/2 -translate-x-1/2 w-48 glass-2 px-3 py-2.5 text-center pointer-events-none ${
+                      tooltipBelow ? 'top-[calc(100%+10px)]' : 'bottom-[calc(100%+10px)]'
+                    }`}
+                    role="tooltip"
+                  >
+                    <p className="t-eyebrow text-ink-400 mb-1.5">
+                      {t(`skills.groups.${node.group}`)}
+                    </p>
+                    <p className="text-[0.75rem] leading-snug text-ink-200">
+                      {t(`skills.items.${node.id}.desc`)}
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ))}
-      </div>
+            );
+          })}
+        </div>
 
-      {/* Mobile — обычная сгруппированная сетка, без hover-зависимостей */}
-      <div className="md:hidden space-y-6">
-        {CLUSTERS.map((cluster) => (
-          <div key={cluster.id} className="glass-2 p-5">
-            <h3 className="text-xs uppercase tracking-widest font-semibold text-gray-400 mb-4">{t(cluster.categoryKey)}</h3>
-            <div className="grid grid-cols-3 gap-3">
-              {cluster.tools.map((tool) => (
-                <div key={tool.id} className="glass-2 p-3 flex flex-col items-center text-center gap-1.5">
-                  <span className="text-xl">{tool.icon}</span>
-                  <span className="text-[11px] font-medium text-gray-200 leading-tight">{t(`skills.tools.${tool.id}.name`)}</span>
-                </div>
+        {/* ---------------------------------------------------------- */}
+        {/* Mobile — то же деление на два уровня, без hover-зависимостей */}
+        {/* ---------------------------------------------------------- */}
+        <div className="md:hidden space-y-8">
+          <div>
+            <h3 className="t-eyebrow text-ink-300 mb-4">{t('skills.legend_core')}</h3>
+            <ul className="grid grid-cols-2 gap-3">
+              {CORE_NODES.map((node) => (
+                <li key={node.id} className="glass-2 p-4 flex flex-col gap-2">
+                  <span className="text-xl" aria-hidden="true">{node.icon}</span>
+                  <span className="text-sm font-medium text-ink-100 leading-tight">
+                    {t(`skills.items.${node.id}.name`)}
+                  </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-        ))}
+
+          <div>
+            <h3 className="t-eyebrow text-ink-300 mb-4">{t('skills.legend_tools')}</h3>
+            {/* flex-wrap, а не grid: инструментов десять, и в сетке из трёх
+                колонок последний оставался бы один в углу строки. Здесь
+                неполный ряд центрируется и выглядит намеренным. */}
+            <ul className="flex flex-wrap justify-center gap-2.5">
+              {TOOL_NODES.map((node) => (
+                <li
+                  key={node.id}
+                  className="glass-1 px-2 py-3 basis-[calc(33.333%-0.667rem)] grow-0 shrink-0 flex flex-col items-center text-center gap-2"
+                >
+                  <span className="text-base" aria-hidden="true">{node.icon}</span>
+                  <span className="text-[0.6875rem] text-ink-300 leading-tight">
+                    {t(`skills.items.${node.id}.name`)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Описание активного узла для скринридера: сама схема декоративна,
+            но её содержимое должно быть доступно текстом. */}
+        <p className="sr-only" aria-live="polite">
+          {activeNode ? t(`skills.items.${activeNode.id}.desc`) : ''}
+        </p>
       </div>
     </section>
   );

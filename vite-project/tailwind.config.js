@@ -20,55 +20,71 @@ export default {
           600: '#1f2937', // hover-состояние приподнятых поверхностей
           input: '#06090e', // фон полей ввода — нарочито темнее карточки
         },
+        // Семантическая шкала текста. Роль важнее оттенка: заголовок всегда
+        // ink-50, основной текст — ink-200, подписи — ink-300. Это убирает
+        // разнобой text-gray-300/400/500, разбросанный по компонентам.
+        ink: {
+          50: '#f8fafc',  // заголовки, ключевые значения
+          100: '#e2e8f0', // усиленный текст, подписи узлов
+          200: '#cbd5e1', // основной текст абзацев
+          300: '#94a3b8', // вторичный текст, метаданные
+          400: '#64748b', // самый тихий текст, плейсхолдеры
+        },
+        // Акцент — только для действий и активных состояний, не для площадей.
+        accent: {
+          soft: '#bfdbfe',
+          DEFAULT: '#60a5fa',
+          deep: '#2563eb',
+        },
+      },
+      // Один масштаб радиусов: чип → карточка → панель.
+      borderRadius: {
+        chip: '0.625rem',
+        card: '1rem',
+        panel: '1.5rem',
       },
       boxShadow: {
-        'glow-blue': '0 0 20px rgba(37, 99, 235, 0.4)',
-        'glow-blue-lg': '0 0 45px rgba(59, 130, 246, 0.6)',
-        'glow-purple': '0 0 30px rgba(168, 85, 247, 0.25)',
-        // Мягкий rim-light по краю планеты/узлов — имитация света от Aurora
-        'rim-light': '0 0 0 1px rgba(147, 197, 253, 0.25), 0 0 40px rgba(96, 165, 250, 0.35)',
-        'node-glow': '0 0 18px rgba(99, 102, 241, 0.45)',
+        // Одна "высота" для поднятых поверхностей + акцентный glow,
+        // который разрешён только первичному действию.
+        'elev-2': '0 12px 32px -12px rgba(0, 0, 0, 0.7)',
+        'glow-accent': '0 8px 24px -10px rgba(37, 99, 235, 0.9)',
+        'glow-accent-lg': '0 14px 40px -12px rgba(37, 99, 235, 0.85)',
+      },
+      transitionTimingFunction: {
+        // Единственная кривая для входов и наведений: быстрый старт, мягкий стоп.
+        soft: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      },
+      transitionDuration: {
+        250: '250ms',
       },
       animation: {
-        'twinkle': 'twinkle 3s ease-in-out infinite alternate',
-        'twinkle-slow': 'twinkle 5s ease-in-out infinite alternate',
-        'glow': 'glow 8s ease-in-out infinite alternate',
-        // Структурный motion-уровень: медленное органическое покачивание/дыхание
-        'float': 'float 7s ease-in-out infinite',
-        'float-slow': 'float 11s ease-in-out infinite',
-        'aurora-drift': 'auroraDrift 55s ease-in-out infinite alternate',
-        'aurora-drift-slow': 'auroraDrift 80s ease-in-out infinite alternate',
-        'planet-rotate': 'planetRotate 120s linear infinite',
-        // Линия "паутины знаний" мигает, пока курсор держат на узле/кластере
-        'web-blink': 'webBlink 2.55s ease-in-out infinite',
+        'twinkle': 'twinkle 4s ease-in-out infinite alternate',
+        'twinkle-slow': 'twinkle 7s ease-in-out infinite alternate',
+        'aurora-drift': 'auroraDrift 70s ease-in-out infinite alternate',
+        'aurora-drift-slow': 'auroraDrift 95s ease-in-out infinite alternate',
+        // Одноразовые входы: линии "паутины" прочерчиваются, узлы проявляются.
+        'draw-in': 'drawIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+        'node-in': 'nodeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards',
       },
       keyframes: {
-        twinkle: {
-          '0%': { opacity: '0.2', transform: 'scale(0.8)' },
-          '100%': { opacity: '1', transform: 'scale(1.2)' },
-        },
         // Только opacity: scale заставлял браузер заново размывать
-        // blur(130px)-пятно на каждом кадре — самый дорогой эффект на странице.
-        glow: {
-          '0%': { opacity: '0.35' },
+        // соседние слои на каждом кадре — самый дорогой эффект на странице.
+        twinkle: {
+          '0%': { opacity: '0.25' },
           '100%': { opacity: '0.9' },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
         auroraDrift: {
-          '0%': { transform: 'translate(-4%, -2%) rotate(0deg) scale(1)', opacity: '0.22' },
-          '50%': { transform: 'translate(3%, 2%) rotate(6deg) scale(1.08)', opacity: '0.38' },
-          '100%': { transform: 'translate(-2%, 3%) rotate(-4deg) scale(1.02)', opacity: '0.28' },
+          '0%': { transform: 'translate(-3%, -2%) rotate(0deg) scale(1)', opacity: '0.5' },
+          '50%': { transform: 'translate(2%, 1.5%) rotate(4deg) scale(1.05)', opacity: '0.85' },
+          '100%': { transform: 'translate(-1%, 2%) rotate(-3deg) scale(1.02)', opacity: '0.6' },
         },
-        planetRotate: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '100%': { backgroundPosition: '200% 50%' },
+        drawIn: {
+          '0%': { strokeDashoffset: '1' },
+          '100%': { strokeDashoffset: '0' },
         },
-        webBlink: {
-          '0%, 100%': { strokeOpacity: '1', filter: 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.85))' },
-          '50%': { strokeOpacity: '0.15', filter: 'drop-shadow(0 0 0 rgba(255, 255, 255, 0))' },
+        nodeIn: {
+          '0%': { opacity: '0', transform: 'translate(-50%, -50%) scale(0.85)' },
+          '100%': { opacity: '1', transform: 'translate(-50%, -50%) scale(1)' },
         },
       }
     },

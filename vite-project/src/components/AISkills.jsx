@@ -1,84 +1,46 @@
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
-import { 
-  FiCpu, FiTerminal, FiDatabase, 
-  FiLayers, FiZap, FiGrid, FiSliders 
-} from 'react-icons/fi';
-import { TbRobot } from 'react-icons/tb';
+import { FiTerminal, FiEdit3, FiSearch, FiShield } from 'react-icons/fi';
 
+/**
+ * Секция отвечает на один вопрос: как AI участвует в моей работе.
+ * Прежняя версия заявляла восемь «специализаций» — RAG, векторные базы,
+ * дообучение Llama и Mistral, — которых за этим кодом не стоит. Четыре
+ * честные карточки убеждают сильнее восьми громких.
+ */
 const AISkills = () => {
   const { t } = useTranslation();
 
-  const aiSkills = [
-    {
-      title: t('ai_skills.llm_title'),
-      description: t('ai_skills.llm_desc'),
-      icon: <FiCpu className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.prompt_title'),
-      description: t('ai_skills.prompt_desc'),
-      icon: <FiTerminal className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.rag_title'),
-      description: t('ai_skills.rag_desc'),
-      icon: <FiDatabase className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.agents_title'),
-      description: t('ai_skills.agents_desc'),
-      icon: <TbRobot className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.langchain_title'),
-      description: t('ai_skills.langchain_desc'),
-      icon: <FiLayers className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.openai_title'),
-      description: t('ai_skills.openai_desc'),
-      icon: <FiZap className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.vectordb_title'),
-      description: t('ai_skills.vectordb_desc'),
-      icon: <FiGrid className="text-purple-400 text-3xl" />
-    },
-    {
-      title: t('ai_skills.finetuning_title'),
-      description: t('ai_skills.finetuning_desc'),
-      icon: <FiSliders className="text-purple-400 text-3xl" />
-    }
+  const cards = [
+    { key: 'pair', icon: <FiTerminal /> },
+    { key: 'context', icon: <FiEdit3 /> },
+    { key: 'review', icon: <FiSearch /> },
+    { key: 'ownership', icon: <FiShield /> },
   ];
 
   return (
-    <section id="ai-skills" className="py-20 px-6 max-w-7xl mx-auto relative">
-      {/* Радиус размытия на мобильных меньше: растеризация blur(140px) на
-          телефоне заметно дороже, а разницы на глаз почти нет */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-900/20 rounded-full blur-[70px] md:blur-[140px] pointer-events-none"></div>
+    <section id="ai-skills" className="section">
+      <div className="container-page">
+        <SectionTitle
+          title={t('ai_skills.title')}
+          subtitle={t('ai_skills.subtitle')}
+          intro={t('ai_skills.intro')}
+        />
 
-      <SectionTitle title={t('ai_skills.title')} subtitle={t('ai_skills.subtitle')} />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-        {aiSkills.map((skill, index) => (
-          <div
-            key={index}
-            className="group relative glass-card border-purple-500/20 p-6 hover:border-purple-500/50 hover:bg-white/10 hover:-translate-y-2 hover:shadow-glow-purple flex flex-col justify-between"
-          >
-            <div>
-              <div className="w-14 h-14 rounded-xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:border-purple-400 transition-all duration-300 shadow-md shadow-purple-950">
-                {skill.icon}
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
-                {skill.title}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {skill.description}
-              </p>
-            </div>
-          </div>
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {cards.map((card) => (
+            <article key={card.key} className="glass-card card-hover p-6 flex flex-col">
+              <span
+                className="w-11 h-11 rounded-chip glass-1 flex items-center justify-center text-lg text-indigo-300 mb-5"
+                aria-hidden="true"
+              >
+                {card.icon}
+              </span>
+              <h3 className="t-card mb-2.5">{t(`ai_skills.${card.key}_title`)}</h3>
+              <p className="t-body">{t(`ai_skills.${card.key}_desc`)}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

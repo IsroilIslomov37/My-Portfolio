@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { useTranslation } from 'react-i18next';
@@ -12,8 +12,12 @@ const Header = () => {
   const [activeId, setActiveId] = useState('home');
   const { t } = useTranslation();
 
+  const menuButtonRef = useRef(null);
+  const closeButtonRef = useRef(null);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -37,7 +41,8 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Мобильное меню: Esc закрывает, фон под ним не скроллится
+  // Мобильное меню: Esc закрывает, фон под ним не скроллится, фокус уходит
+  // внутрь панели и возвращается на кнопку меню после закрытия.
   useEffect(() => {
     if (!mobileMenuOpen) return undefined;
 
@@ -49,9 +54,19 @@ const Header = () => {
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
 
+    // Фокус уводим внутрь панели, иначе он остался бы на кнопке меню под
+    // затемнением. Чтение геометрии форсирует пересчёт стилей: с элементом,
+    // который браузер ещё считает недоступным, focus() молча не сработал бы.
+    const closeButton = closeButtonRef.current;
+    if (closeButton) {
+      void closeButton.offsetWidth;
+      closeButton.focus();
+    }
+
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      menuButtonRef.current?.focus();
     };
   }, [mobileMenuOpen]);
 
@@ -66,94 +81,109 @@ const Header = () => {
   return (
     <header className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4">
       <div
-        className={`w-full max-w-5xl flex justify-between items-center gap-4 rounded-full px-4 sm:px-5 py-2.5 transition-all duration-300 glass-2 ${
-          scrolled ? 'shadow-lg' : 'shadow-none border-white/[0.08]'
+        className={`w-full max-w-6xl flex justify-between items-center gap-4 rounded-full px-4 sm:px-5 py-2.5 glass-2 transition-[box-shadow,border-color] duration-250 ease-soft ${
+          scrolled ? 'border-white/[0.12] shadow-elev-2' : 'border-white/[0.06] shadow-none'
         }`}
       >
-        <Link to="/" className="shrink-0 text-lg font-bold tracking-tighter text-white hover:text-blue-400 transition-colors">
-          Portfolio<span className="text-blue-500">.</span>
+        <Link
+          to="/"
+          className="shrink-0 text-[0.9375rem] font-semibold tracking-tight text-ink-50 hover:text-white transition-colors duration-250"
+        >
+          Isroil<span className="text-accent">.</span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={link.href}
-              className={`relative px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-300 ${
-                activeId === link.id ? 'text-white' : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              {activeId === link.id && (
-                <span className="absolute inset-0 rounded-full bg-blue-500/15 border border-blue-400/30 shadow-node-glow -z-10" />
-              )}
-              {link.name}
-            </a>
-          ))}
+        <nav className="hidden md:flex items-center gap-0.5" aria-label={t('header.menu')}>
+          {navLinks.map((link) => {
+            const isActive = activeId === link.id;
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                aria-current={isActive ? 'true' : undefined}
+                className={`relative px-3.5 py-1.5 rounded-full text-sm transition-colors duration-250 ${
+                  isActive ? 'text-ink-50 font-medium' : 'text-ink-300 hover:text-ink-100'
+                }`}
+              >
+                {/* Активный пункт помечен спокойной подложкой: свечение здесь
+                    соревновалось за внимание с первичной кнопкой в hero */}
+                {isActive && (
+                  <span className="absolute inset-0 rounded-full bg-white/[0.08] border border-white/[0.08] -z-10" />
+                )}
+                {link.name}
+              </a>
+            );
+          })}
         </nav>
 
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden md:block">
-            <LanguageSwitcher />
-          </div>
-          <div className="flex items-center gap-3 md:hidden">
-            <LanguageSwitcher />
-            <button
-              className="text-xl text-white"
-              aria-label={t('header.menu')}
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <HiMenu />
-            </button>
-          </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <LanguageSwitcher />
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full text-ink-100 hover:text-white hover:bg-white/[0.08] transition-colors duration-250"
+            aria-label={t('header.menu')}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <HiMenu className="text-xl" />
+          </button>
         </div>
-
       </div>
 
-      {/* Mobile Drawer — раньше это был antd <Drawer>, ради которого в бандл
-          тянулась вся библиотека; поведение и вид те же, вес нулевой. */}
+      {/* Mobile Drawer.
+          Закрытая панель убирается из порядка обхода табом атрибутом inert —
+          он же прячет её от скринридера. Попытка добиться того же через
+          transition на visibility не работает: браузер отрабатывает это
+          свойство дискретно и застревает то на открытии, то на закрытии,
+          а анимация выезда при этом всё равно нужна. */}
       <div className={`md:hidden ${mobileMenuOpen ? '' : 'pointer-events-none'}`}>
         <div
-          className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ${
+          className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ease-soft ${
             mobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setMobileMenuOpen(false)}
           aria-hidden="true"
         />
         <aside
-          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[80vw] bg-space-800 border-l border-white/10 shadow-2xl transition-transform duration-300 ease-out ${
+          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[82vw] bg-space-900/95 border-l border-white/[0.08] transition-transform duration-300 ease-soft ${
             mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           role="dialog"
           aria-modal="true"
           aria-label={t('header.menu')}
+          inert={mobileMenuOpen ? undefined : ''}
         >
-          <div className="flex items-center justify-between px-5 py-4 bg-space-900 border-b border-white/10">
-            <span className="text-white font-bold text-xl">{t('header.menu')}</span>
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08]">
+            <span className="t-eyebrow text-ink-300">{t('header.menu')}</span>
             <button
+              ref={closeButtonRef}
               type="button"
-              className="text-white text-xl p-1"
+              className="flex items-center justify-center w-9 h-9 rounded-full text-ink-100 hover:text-white hover:bg-white/[0.08] transition-colors duration-250"
               aria-label={t('header.close')}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <HiX />
+              <HiX className="text-xl" />
             </button>
           </div>
 
-          <div className="flex flex-col py-4">
+          <nav className="flex flex-col py-2" aria-label={t('header.menu')}>
             {navLinks.map((link) => (
               <a
                 key={link.id}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-6 py-4 border-b border-white/5 transition-colors text-lg ${
-                  activeId === link.id ? 'text-blue-400 bg-white/5' : 'text-gray-300 hover:text-white hover:bg-white/5'
+                aria-current={activeId === link.id ? 'true' : undefined}
+                className={`px-5 py-3.5 text-base transition-colors duration-250 ${
+                  activeId === link.id
+                    ? 'text-ink-50 font-medium bg-white/[0.06]'
+                    : 'text-ink-300 hover:text-ink-50 hover:bg-white/[0.04]'
                 }`}
               >
                 {link.name}
               </a>
             ))}
-          </div>
+          </nav>
         </aside>
       </div>
     </header>
