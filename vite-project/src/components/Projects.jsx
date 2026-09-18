@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
-import { FiHelpCircle, FiArrowUpRight, FiShoppingBag } from 'react-icons/fi';
+import { FiBookOpen, FiArrowUpRight, FiShoppingBag } from 'react-icons/fi';
 import { FaRocket } from 'react-icons/fa6';
 
 /*
@@ -14,11 +14,11 @@ const Projects = () => {
 
   const projectsData = [
     {
-      title: t('projects.quiz_title'),
-      description: t('projects.quiz_desc'),
-      tags: ['React', 'Tailwind CSS', 'JavaScript', 'Vercel'],
-      liveUrl: 'https://quiz-app-eight-nu-19.vercel.app/',
-      icon: <FiHelpCircle className="text-2xl text-accent" />,
+      title: t('projects.edu_center_title'),
+      description: t('projects.edu_center_desc'),
+      tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'GSAP', 'PostgreSQL'],
+      liveUrl: 'https://vibrant-landing-woad.vercel.app/',
+      icon: <FiBookOpen className="text-2xl text-accent" />,
     },
     {
       title: t('projects.core_store_title'),
