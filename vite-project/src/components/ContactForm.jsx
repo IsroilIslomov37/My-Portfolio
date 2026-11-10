@@ -156,14 +156,14 @@ const ContactForm = () => {
         {/* Результат отправки объявляется скринридеру, а не только показывается */}
         <div role="status" aria-live="polite">
           {status === 'success' && (
-            <p className="flex items-center gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-xl text-sm">
+            <p className="flex items-center gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 rounded-chip text-xs">
               <FiCheckCircle className="text-base shrink-0" aria-hidden="true" />
               <span>{t('contact.form.success_msg')}</span>
             </p>
           )}
 
           {status === 'error' && (
-            <p className="flex items-center gap-2 p-3.5 bg-red-500/10 border border-red-500/20 text-red-300 rounded-xl text-sm">
+            <p className="flex items-center gap-2 p-3.5 bg-red-500/10 border border-red-500/20 text-red-300 rounded-chip text-xs">
               <FiAlertCircle className="text-base shrink-0" aria-hidden="true" />
               <span>{t('contact.form.error_msg')}</span>
             </p>

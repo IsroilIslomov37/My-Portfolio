@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SectionTitle from './SectionTitle';
 import {
@@ -12,7 +13,13 @@ import {
 
 const FORMO_URL = 'https://formo.uz';
 const FORMO_TAGS = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'NestJS', 'PostgreSQL'];
-const SWATCHES = ['bg-accent-deep', 'bg-emerald-400', 'bg-amber-400', 'bg-ink-50'];
+// Цвета формы в мини-конфигураторе: заливка и контрастный к ней цвет номера
+const KITS = [
+  { color: '#c6f432', number: '#0a0a0a' },
+  { color: '#fafafa', number: '#0a0a0a' },
+  { color: '#ef4444', number: '#ffffff' },
+  { color: '#3b82f6', number: '#ffffff' },
+];
 
 const handleSpotlight = (e) => {
   const rect = e.currentTarget.getBoundingClientRect();
@@ -29,7 +36,7 @@ const LiveLink = ({ href, label, children, primary = false }) => (
     className={
       primary
         ? 'btn btn-primary group/link'
-        : 'inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] text-ink-200 hover:text-white hover:bg-accent-deep hover:border-accent-deep transition-colors duration-250 group/link'
+        : 'inline-flex items-center gap-1.5 px-3 py-2 rounded-full uppercase tracking-wider bg-space-800 border border-white/[0.12] text-ink-200 hover:text-space-950 hover:bg-accent hover:border-accent transition-colors duration-250 group/link'
     }
   >
     {children}
@@ -45,7 +52,7 @@ const Tags = ({ tags }) => (
     {tags.map((tag) => (
       <li
         key={tag}
-        className="px-2.5 py-1 text-xs font-medium rounded-full bg-accent/[0.09] text-accent-soft border border-accent/20"
+        className="px-2 py-1 text-[0.6875rem] rounded-full bg-space-800 text-ink-100 border border-white/[0.1]"
       >
         {tag}
       </li>
@@ -53,8 +60,8 @@ const Tags = ({ tags }) => (
   </ul>
 );
 
-const Jersey = ({ number, className }) => (
-  <svg viewBox="0 0 200 180" className={className}>
+const Jersey = ({ number, className, style, numberFill = '#fff' }) => (
+  <svg viewBox="0 0 200 180" className={className} style={style}>
     <path
       d="M70 14 45 26 16 58l22 22 17-12v98h90V68l17 12 22-22-29-32-25-12q-30 20-60 0Z"
       fill="currentColor"
@@ -69,7 +76,7 @@ const Jersey = ({ number, className }) => (
       textAnchor="middle"
       fontSize="58"
       fontWeight="800"
-      fill="#fff"
+      fill={numberFill}
       fontFamily="inherit"
     >
       {number}
@@ -78,55 +85,81 @@ const Jersey = ({ number, className }) => (
 );
 
 /*
- * Превью конфигуратора — чистая декорация, поэтому aria-hidden. Окно само не
- * размывает фон: оно лежит на уже размытой карточке, второй backdrop-filter
- * поверх стоил бы кадров и ничего не добавил. На hover меняются только
- * transform и opacity.
+ * Мини-конфигуратор: цвет и номер формы меняются прямо в карточке — та же
+ * идея, что в самом Formo, в миниатюре. Декоративные части скрыты от
+ * скринридера, управляемые — подписаны.
  */
-const FormoMockup = ({ domain, orderLabel }) => (
-  <div
-    className="relative rounded-card border border-white/[0.08] bg-space-900/70 overflow-hidden"
-    aria-hidden="true"
-  >
-    <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/[0.08]">
-      <span className="w-2 h-2 rounded-full bg-white/20" />
-      <span className="w-2 h-2 rounded-full bg-white/20" />
-      <span className="w-2 h-2 rounded-full bg-white/20" />
-      <span className="mx-auto px-4 py-0.5 rounded-full bg-white/[0.05] font-mono text-[0.6875rem] text-ink-300">
-        {domain}
-      </span>
-    </div>
+const FormoMockup = ({ domain, orderLabel, colorLabel, numberLabel }) => {
+  const [kit, setKit] = useState(KITS[0]);
+  const [number, setNumber] = useState('07');
 
-    <div className="flex items-center gap-4 p-5 pb-14">
-      <div className="relative flex-1 h-40 sm:h-48">
-        <Jersey
-          number="47"
-          className="absolute inset-y-0 left-[38%] h-full text-emerald-500 opacity-70 rotate-6 transition-transform duration-500 ease-soft group-hover:translate-x-4 group-hover:rotate-12"
-        />
-        <Jersey
-          number="07"
-          className="absolute inset-y-0 left-[6%] h-full text-accent-deep -rotate-3 transition-transform duration-500 ease-soft group-hover:-translate-y-1.5 group-hover:-rotate-6"
-        />
+  return (
+    <div className="relative rounded-card border border-white/[0.12] bg-space-900 overflow-hidden">
+      <div
+        className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/[0.08]"
+        aria-hidden="true"
+      >
+        <span className="w-2 h-2 rounded-full bg-white/20" />
+        <span className="w-2 h-2 rounded-full bg-white/20" />
+        <span className="w-2 h-2 rounded-full bg-white/20" />
+        <span className="mx-auto px-4 py-0.5 rounded-full bg-white/[0.06] text-[0.6875rem] text-ink-300">
+          {domain}
+        </span>
       </div>
 
-      <div className="flex flex-col gap-2.5">
-        {SWATCHES.map((color, i) => (
-          <span
-            key={color}
-            className={`w-5 h-5 rounded-full ${color} ${
-              i === 0 ? 'ring-2 ring-white/70 ring-offset-2 ring-offset-space-900' : 'opacity-80'
-            }`}
+      <div className="flex items-center gap-4 p-5 pb-16 blueprint-grid [--grid:16px]">
+        <div className="relative flex-1 h-40 sm:h-48" aria-hidden="true">
+          <Jersey
+            number="47"
+            className="absolute inset-y-0 left-[38%] h-full text-space-600 rotate-6 transition-transform duration-500 ease-soft group-hover:translate-x-4 group-hover:rotate-12"
           />
-        ))}
-      </div>
-    </div>
+          <Jersey
+            number={number || '07'}
+            numberFill={kit.number}
+            className="absolute inset-y-0 left-[6%] h-full -rotate-3 transition-[transform,color] duration-500 ease-soft group-hover:-translate-y-1.5 group-hover:-rotate-6"
+            style={{ color: kit.color }}
+          />
+        </div>
 
-    <span className="absolute left-4 bottom-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/25 text-xs font-medium text-emerald-300 transition-transform duration-500 ease-soft group-hover:-translate-y-1">
-      <FiCheck />
-      {orderLabel}
-    </span>
-  </div>
-);
+        <div className="flex flex-col gap-2.5">
+          {KITS.map((item, i) => (
+            <button
+              key={item.color}
+              type="button"
+              onClick={() => setKit(item)}
+              aria-label={`${colorLabel} ${i + 1}`}
+              aria-pressed={kit === item}
+              className={`w-6 h-6 rounded-full transition-transform duration-250 hover:scale-110 ${
+                kit === item ? 'ring-1 ring-ink-50 ring-offset-2 ring-offset-space-900' : ''
+              }`}
+              style={{ backgroundColor: item.color }}
+            />
+          ))}
+        </div>
+      </div>
+
+      <span
+        className="absolute left-4 bottom-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full uppercase tracking-wider bg-space-850 border border-emerald-400/30 text-[0.6875rem] text-emerald-300"
+        aria-hidden="true"
+      >
+        <FiCheck />
+        {orderLabel}
+      </span>
+
+      <label className="absolute right-4 bottom-3 flex items-center gap-2 text-[0.6875rem] uppercase tracking-wider text-ink-300">
+        {numberLabel}
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={2}
+          value={number}
+          onChange={(e) => setNumber(e.target.value.replace(/\D/g, '').slice(0, 2))}
+          className="field !w-12 !px-0 !py-1.5 text-center font-semibold"
+        />
+      </label>
+    </div>
+  );
+};
 
 const Projects = () => {
   const { t } = useTranslation();
@@ -159,7 +192,7 @@ const Projects = () => {
   return (
     <section id="projects" className="section">
       <div className="container-page">
-        <SectionTitle title={t('projects.title')} subtitle={t('projects.subtitle')} />
+        <SectionTitle title={t('projects.title')} subtitle={t('projects.subtitle')} index="04" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Formo — флагман на всю ширину */}
@@ -170,9 +203,9 @@ const Projects = () => {
             <div className="relative">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-5">
                 <span className="t-eyebrow text-accent-soft">{t('projects.formo_badge')}</span>
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-1 text-xs font-medium text-ink-200">
+                <span className="inline-flex items-center gap-2 px-3 py-1 glass-1 !rounded-full uppercase tracking-wider text-[0.6875rem] text-ink-200">
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    className="w-1.5 h-1.5 bg-emerald-400 animate-pulse"
                     aria-hidden="true"
                   />
                   {t('projects.formo_status')}
@@ -186,7 +219,7 @@ const Projects = () => {
                 {formoFeatures.map((feature) => (
                   <li key={feature.text} className="flex items-start gap-3 text-sm text-ink-100">
                     <span
-                      className="w-8 h-8 rounded-chip glass-1 flex items-center justify-center shrink-0 text-accent"
+                      className="w-8 h-8 rounded-full glass-1 flex items-center justify-center shrink-0 text-accent"
                       aria-hidden="true"
                     >
                       {feature.icon}
@@ -212,6 +245,8 @@ const Projects = () => {
             <FormoMockup
               domain={t('projects.formo_domain')}
               orderLabel={t('projects.formo_mock_order')}
+              colorLabel={t('projects.formo_mock_color')}
+              numberLabel={t('projects.formo_mock_number')}
             />
           </article>
 
@@ -224,7 +259,7 @@ const Projects = () => {
               <div className="relative">
                 <div className="flex items-center justify-between gap-4 mb-6">
                   <span
-                    className="w-12 h-12 rounded-chip glass-1 flex items-center justify-center shrink-0"
+                    className="w-12 h-12 rounded-full glass-1 flex items-center justify-center shrink-0"
                     aria-hidden="true"
                   >
                     {project.icon}
@@ -234,7 +269,7 @@ const Projects = () => {
                     href={project.liveUrl}
                     label={t('projects.open_project', { name: project.title })}
                   >
-                    <span className="text-xs font-medium hidden sm:inline">
+                    <span className="text-[0.6875rem] font-medium hidden sm:inline">
                       {t('projects.live_demo')}
                     </span>
                   </LiveLink>

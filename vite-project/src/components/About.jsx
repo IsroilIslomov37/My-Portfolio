@@ -11,19 +11,16 @@ const About = () => {
       icon: <FiCode />,
       label: t('about.live_label'),
       value: t('about.live_val'),
-      colorClass: 'bg-blue-500/10 border-blue-500/20 text-blue-300',
     },
     {
       icon: <FiBookOpen />,
       label: t('about.exp_label'),
       value: t('about.exp_val'),
-      colorClass: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300',
     },
     {
       icon: <FiMonitor />,
       label: t('about.focus_label'),
       value: t('about.focus_val'),
-      colorClass: 'bg-teal-500/10 border-teal-500/20 text-teal-300',
     },
   ];
 
@@ -32,7 +29,7 @@ const About = () => {
   return (
     <section id="about" className="section">
       <div className="container-page">
-        <SectionTitle title={t('about.title')} subtitle={t('about.subtitle')} />
+        <SectionTitle title={t('about.title')} subtitle={t('about.subtitle')} index="01" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* Факты слева */}

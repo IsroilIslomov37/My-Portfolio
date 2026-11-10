@@ -1,21 +1,27 @@
 /**
- * Единственный заголовок секции на сайте. Раньше Contact рисовал свой,
- * с другими размерами и другой подчёркивающей чертой, — из-за этого две
- * соседние секции выглядели сделанными разными людьми.
+ * Единственный заголовок секции на сайте: лаймовая метка с номером и
+ * подзаголовком, под ней заголовок слева и необязательное вступление справа.
  */
-const SectionTitle = ({ title, subtitle, intro }) => (
-  <header className="flex flex-col items-center text-center mb-12 sm:mb-14">
-    {subtitle && <p className="t-eyebrow mb-3">{subtitle}</p>}
+const SectionTitle = ({ title, subtitle, intro, index }) => (
+  <header className="mb-10 sm:mb-12">
+    {subtitle && (
+      <p className="t-eyebrow flex items-center gap-2.5 mb-4">
+        {index && (
+          <span
+            className="px-2 py-0.5 rounded-full bg-accent text-space-950 tracking-normal"
+            aria-hidden="true"
+          >
+            {index}
+          </span>
+        )}
+        {subtitle}
+      </p>
+    )}
 
-    <h2 className="t-section">{title}</h2>
-
-    {/* Волосяная линия вместо жирного синего бруска: акцент, а не украшение */}
-    <span
-      aria-hidden="true"
-      className="mt-5 h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent"
-    />
-
-    {intro && <p className="t-body measure mt-5">{intro}</p>}
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-4 lg:items-end">
+      <h2 className="t-section lg:col-span-7">{title}</h2>
+      {intro && <p className="t-body lg:col-span-5">{intro}</p>}
+    </div>
   </header>
 );
 

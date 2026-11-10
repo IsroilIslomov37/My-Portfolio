@@ -30,16 +30,18 @@ import { FiLayout } from 'react-icons/fi';
  * гарантированно оставались внутри контейнера на любой ширине.
  */
 const HUB = { x: 50, y: 50 };
+const LINE = '#fafafa';
+const LIT = '#c6f432';
 const CORE_RADIUS = { x: 24, y: 25 };
 const TOOL_RADIUS = { x: 40, y: 39 };
 
 const CORE = [
-  { id: 'react', angle: -90, icon: <SiReact className="text-cyan-400" /> },
-  { id: 'javascript', angle: -30, icon: <SiJavascript className="text-yellow-400" /> },
-  { id: 'git', angle: 30, icon: <SiGit className="text-orange-400" /> },
-  { id: 'ui', angle: 90, icon: <FiLayout className="text-teal-300" /> },
-  { id: 'css', angle: 150, icon: <SiCss className="text-sky-400" /> },
-  { id: 'html', angle: 210, icon: <SiHtml5 className="text-orange-500" /> },
+  { id: 'react', angle: -90, icon: <SiReact /> },
+  { id: 'javascript', angle: -30, icon: <SiJavascript /> },
+  { id: 'git', angle: 30, icon: <SiGit /> },
+  { id: 'ui', angle: 90, icon: <FiLayout /> },
+  { id: 'css', angle: 150, icon: <SiCss /> },
+  { id: 'html', angle: 210, icon: <SiHtml5 /> },
 ];
 
 // Заглушка для брендов без официальной иконки в библиотеке.
@@ -50,16 +52,16 @@ const Monogram = ({ letter, className = '' }) => (
 // Угол каждого инструмента выбран рядом с «родительским» навыком, поэтому
 // связующая линия получается короткой и не пересекает половину схемы.
 const TOOLS = [
-  { id: 'claude_code', angle: -108, parent: 'react', icon: <SiClaudecode className="text-orange-300" /> },
-  { id: 'cursor', angle: -72, parent: 'react', icon: <SiCursor className="text-ink-100" /> },
-  { id: 'codex', angle: -36, parent: 'javascript', icon: <RiOpenaiFill className="text-emerald-300" /> },
-  { id: 'deepseek', angle: 0, parent: 'javascript', icon: <SiDeepseek className="text-blue-300" /> },
-  { id: 'vercel', angle: 36, parent: 'git', icon: <SiVercel className="text-ink-100" /> },
-  { id: 'vscode', angle: 72, parent: 'ui', icon: <TbBrandVscode className="text-blue-400" /> },
-  { id: 'manus', angle: 108, parent: 'ui', icon: <Monogram letter="M" className="text-teal-300" /> },
-  { id: 'figma', angle: 144, parent: 'css', icon: <SiFigma className="text-fuchsia-400" /> },
-  { id: 'antigravity', angle: 180, parent: 'html', icon: <Monogram letter="A" className="text-indigo-300" /> },
-  { id: 'freebuff', angle: 216, parent: 'html', icon: <Monogram letter="F" className="text-lime-300" /> },
+  { id: 'claude_code', angle: -108, parent: 'react', icon: <SiClaudecode /> },
+  { id: 'cursor', angle: -72, parent: 'react', icon: <SiCursor /> },
+  { id: 'codex', angle: -36, parent: 'javascript', icon: <RiOpenaiFill /> },
+  { id: 'deepseek', angle: 0, parent: 'javascript', icon: <SiDeepseek /> },
+  { id: 'vercel', angle: 36, parent: 'git', icon: <SiVercel /> },
+  { id: 'vscode', angle: 72, parent: 'ui', icon: <TbBrandVscode /> },
+  { id: 'manus', angle: 108, parent: 'ui', icon: <Monogram letter="M" /> },
+  { id: 'figma', angle: 144, parent: 'css', icon: <SiFigma /> },
+  { id: 'antigravity', angle: 180, parent: 'html', icon: <Monogram letter="A" /> },
+  { id: 'freebuff', angle: 216, parent: 'html', icon: <Monogram letter="F" /> },
 ];
 
 const place = (angle, radius) => {
@@ -92,9 +94,9 @@ const Skills = () => {
   // На мобильном уровни подписаны заголовками групп — легенда там была бы
   // повтором того же текста двумя строками выше.
   const legend = (
-    <ul className="hidden md:flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10">
+    <ul className="hidden md:flex flex-wrap items-center gap-x-6 gap-y-2 mb-10">
       <li className="flex items-center gap-2 t-meta">
-        <span className="w-2.5 h-2.5 rounded-full bg-accent-soft" aria-hidden="true" />
+        <span className="w-2.5 h-2.5 rounded-full bg-accent" aria-hidden="true" />
         {t('skills.legend_core')}
       </li>
       <li className="flex items-center gap-2 t-meta">
@@ -130,7 +132,7 @@ const Skills = () => {
   return (
     <section id="skills" className="section">
       <div className="container-page">
-        <SectionTitle title={t('skills.title')} subtitle={t('skills.subtitle')} intro={t('skills.intro')} />
+        <SectionTitle title={t('skills.title')} subtitle={t('skills.subtitle')} index="02" intro={t('skills.intro')} />
 
         {legend}
 
@@ -157,8 +159,8 @@ const Skills = () => {
                 y1={a.y}
                 x2={b.x}
                 y2={b.y}
-                stroke="#ffffff"
-                strokeOpacity={edgeLit(a, b) ? 0.3 : 0.12}
+                stroke={edgeLit(a, b) ? LIT : LINE}
+                strokeOpacity={edgeLit(a, b) ? 0.9 : 0.14}
                 strokeWidth="1"
                 pathLength="1"
                 vectorEffect="non-scaling-stroke"
@@ -175,8 +177,8 @@ const Skills = () => {
                 y1={HUB.y}
                 x2={node.x}
                 y2={node.y}
-                stroke="#ffffff"
-                strokeOpacity={active === node.id ? 0.55 : 0.26}
+                stroke={active === node.id ? LIT : LINE}
+                strokeOpacity={active === node.id ? 0.9 : 0.26}
                 strokeWidth="1"
                 pathLength="1"
                 vectorEffect="non-scaling-stroke"
@@ -192,8 +194,8 @@ const Skills = () => {
                 y1={core.y}
                 x2={tool.x}
                 y2={tool.y}
-                stroke="#ffffff"
-                strokeOpacity={edgeLit(core, tool) ? 0.34 : 0.14}
+                stroke={edgeLit(core, tool) ? LIT : LINE}
+                strokeOpacity={edgeLit(core, tool) ? 0.9 : 0.16}
                 strokeWidth="1"
                 pathLength="1"
                 vectorEffect="non-scaling-stroke"
@@ -208,8 +210,8 @@ const Skills = () => {
             className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
             style={{ left: `${HUB.x}%`, top: `${HUB.y}%` }}
           >
-            <div className="w-16 h-16 rounded-full glass-3 flex items-center justify-center">
-              <span className="font-mono text-accent-soft text-lg font-semibold">&lt;/&gt;</span>
+            <div className="w-16 h-16 glass-3 !rounded-full !border-accent flex items-center justify-center">
+              <span className="text-accent text-lg font-semibold">&lt;/&gt;</span>
             </div>
             <span className="t-eyebrow text-ink-300 mt-2.5 whitespace-nowrap">{t('skills.hub_label')}</span>
           </div>
@@ -241,22 +243,22 @@ const Skills = () => {
                   onFocus={() => setActive(node.id)}
                   onBlur={() => setActive((current) => (current === node.id ? null : current))}
                   onClick={() => setActive((current) => (current === node.id ? null : node.id))}
-                  className="flex flex-col items-center gap-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 rounded-lg"
+                  className="flex flex-col items-center gap-2 focus:outline-none focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 rounded-chip"
                 >
                   <span
                     className={`web-node flex items-center justify-center ${
                       isCore
-                        ? 'w-12 h-12 rounded-full glass-2 text-xl'
-                        : 'w-9 h-9 rounded-chip glass-1 text-base opacity-80'
-                    } ${isActive ? 'scale-110 border-white/25' : ''}`}
+                        ? 'w-12 h-12 glass-2 !rounded-full text-xl text-ink-100'
+                        : 'w-9 h-9 glass-1 text-base text-ink-300'
+                    } ${isActive ? 'scale-110 !border-accent !text-accent' : ''}`}
                   >
                     {node.icon}
                   </span>
                   <span
                     className={`whitespace-nowrap leading-none ${
                       isCore
-                        ? 'text-[0.75rem] font-medium text-ink-100'
-                        : 'text-[0.6875rem] text-ink-300'
+                        ? 'text-[0.6875rem] font-medium text-ink-100'
+                        : 'text-[0.625rem] text-ink-300'
                     }`}
                   >
                     {t(`skills.items.${node.id}.name`)}
@@ -296,10 +298,10 @@ const Skills = () => {
                     type="button"
                     {...tileProps(node)}
                     className={`glass-2 w-full h-full p-4 flex flex-col gap-2 text-left transition-colors duration-250 ${
-                      active === node.id ? 'border-accent/60' : ''
+                      active === node.id ? '!border-accent' : ''
                     }`}
                   >
-                    <span className="text-xl" aria-hidden="true">{node.icon}</span>
+                    <span className={`text-xl ${active === node.id ? 'text-accent' : 'text-ink-100'}`} aria-hidden="true">{node.icon}</span>
                     <span className="text-sm font-medium text-ink-100 leading-tight">
                       {t(`skills.items.${node.id}.name`)}
                     </span>
@@ -322,11 +324,11 @@ const Skills = () => {
                     type="button"
                     {...tileProps(node)}
                     className={`glass-1 w-full h-full px-2 py-3 flex flex-col items-center text-center gap-2 transition-colors duration-250 ${
-                      active === node.id ? 'border-accent/60' : ''
+                      active === node.id ? '!border-accent' : ''
                     }`}
                   >
-                    <span className="text-base" aria-hidden="true">{node.icon}</span>
-                    <span className="text-[0.6875rem] text-ink-300 leading-tight">
+                    <span className={`text-base ${active === node.id ? 'text-accent' : 'text-ink-200'}`} aria-hidden="true">{node.icon}</span>
+                    <span className="text-[0.625rem] text-ink-300 leading-tight">
                       {t(`skills.items.${node.id}.name`)}
                     </span>
                   </button>

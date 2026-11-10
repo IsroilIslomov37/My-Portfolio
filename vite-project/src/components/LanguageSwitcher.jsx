@@ -49,7 +49,7 @@ const LanguageSwitcher = () => {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`Language: ${current.label}`}
-        className="flex items-center gap-1.5 h-10 pl-2.5 pr-3 rounded-full border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/[0.16] text-ink-200 hover:text-white transition-colors duration-250"
+        className="flex items-center gap-1.5 h-10 pl-2.5 pr-3 rounded-full border border-white/[0.12] bg-space-850 hover:border-accent/60 text-ink-200 hover:text-ink-50 transition-colors duration-250"
       >
         <FiGlobe className="text-base" aria-hidden="true" />
         {/* Текущий язык виден сразу — раньше глобус ничего о нём не сообщал */}
@@ -66,10 +66,10 @@ const LanguageSwitcher = () => {
               <button
                 type="button"
                 onClick={() => selectLanguage(lang.key)}
-                className={`w-full text-left px-4 py-2.5 text-sm transition-colors duration-250 ${
+                className={`w-full text-left px-4 py-2.5 text-xs transition-colors duration-250 ${
                   i18n.resolvedLanguage === lang.key
-                    ? 'text-ink-50 bg-white/[0.07] font-medium'
-                    : 'text-ink-300 hover:text-ink-50 hover:bg-white/[0.05]'
+                    ? 'text-accent bg-space-800'
+                    : 'text-ink-200 hover:text-ink-50 hover:bg-space-800'
                 }`}
               >
                 {lang.label}

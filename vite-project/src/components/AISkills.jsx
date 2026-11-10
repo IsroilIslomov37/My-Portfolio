@@ -24,6 +24,7 @@ const AISkills = () => {
         <SectionTitle
           title={t('ai_skills.title')}
           subtitle={t('ai_skills.subtitle')}
+          index="03"
           intro={t('ai_skills.intro')}
         />
 
@@ -31,7 +32,7 @@ const AISkills = () => {
           {cards.map((card) => (
             <article key={card.key} className="glass-card card-hover p-6 flex flex-col">
               <span
-                className="w-11 h-11 rounded-chip glass-1 flex items-center justify-center text-lg text-indigo-300 mb-5"
+                className="w-11 h-11 rounded-chip glass-1 flex items-center justify-center text-lg text-accent mb-5"
                 aria-hidden="true"
               >
                 {card.icon}

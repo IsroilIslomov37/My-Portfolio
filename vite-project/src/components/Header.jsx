@@ -6,21 +6,16 @@ import LanguageSwitcher from './LanguageSwitcher';
 
 const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'contact'];
 
+const iconButton =
+  'flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.12] text-ink-100 hover:text-accent hover:border-accent transition-colors duration-250';
+
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState('home');
   const { t } = useTranslation();
 
   const menuButtonRef = useRef(null);
   const closeButtonRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Scrollspy: подсвечиваем ссылку той секции, что сейчас проходит через
   // центральную полосу viewport-а.
@@ -73,30 +68,18 @@ const Header = () => {
     };
   }, [mobileMenuOpen]);
 
-  const navLinks = [
-    { id: 'home', name: t('header.home'), href: '#home' },
-    { id: 'about', name: t('header.about'), href: '#about' },
-    { id: 'skills', name: t('header.skills'), href: '#skills' },
-    { id: 'projects', name: t('header.projects'), href: '#projects' },
-    { id: 'contact', name: t('header.contact'), href: '#contact' },
-  ];
+  const navLinks = SECTION_IDS.map((id) => ({ id, name: t(`header.${id}`), href: `#${id}` }));
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4">
-      <div
-        className={`w-full max-w-6xl flex justify-between items-center gap-4 rounded-full px-4 sm:px-5 py-2.5 glass-2 transition-[box-shadow,border-color] duration-250 ease-soft ${
-          scrolled ? 'border-white/[0.12] shadow-elev-2' : 'border-white/[0.06] shadow-none'
-        }`}
-      >
-        <Link
-          to="/"
-          className="shrink-0 text-[0.9375rem] font-semibold tracking-tight text-ink-50 hover:text-white transition-colors duration-250"
-        >
-          Isroil<span className="text-accent">.</span>
+    // Размытие подложки только с md: на телефоне оно не окупается
+    <header className="fixed top-0 inset-x-0 z-50 bg-space-900/95 md:bg-space-900/80 md:backdrop-blur-md border-b border-white/[0.08]">
+      <div className="container-page flex items-center justify-between gap-4 h-16">
+        <Link to="/" className="shrink-0 text-lg font-bold tracking-tight text-ink-50">
+          isroil<span className="text-accent">.</span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-0.5" aria-label={t('header.menu')}>
+        <nav className="hidden md:flex items-center gap-1" aria-label={t('header.menu')}>
           {navLinks.map((link) => {
             const isActive = activeId === link.id;
             return (
@@ -104,15 +87,12 @@ const Header = () => {
                 key={link.id}
                 href={link.href}
                 aria-current={isActive ? 'true' : undefined}
-                className={`relative px-3.5 py-1.5 rounded-full text-sm transition-colors duration-250 ${
-                  isActive ? 'text-ink-50 font-medium' : 'text-ink-300 hover:text-ink-100'
+                className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-250 ${
+                  isActive
+                    ? 'bg-accent text-space-950'
+                    : 'text-ink-200 hover:text-ink-50 hover:bg-white/[0.06]'
                 }`}
               >
-                {/* Активный пункт помечен спокойной подложкой: свечение здесь
-                    соревновалось за внимание с первичной кнопкой в hero */}
-                {isActive && (
-                  <span className="absolute inset-0 rounded-full bg-white/[0.08] border border-white/[0.08] -z-10" />
-                )}
                 {link.name}
               </a>
             );
@@ -124,7 +104,7 @@ const Header = () => {
           <button
             ref={menuButtonRef}
             type="button"
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full text-ink-100 hover:text-white hover:bg-white/[0.08] transition-colors duration-250"
+            className={`md:hidden ${iconButton}`}
             aria-label={t('header.menu')}
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(true)}
@@ -142,14 +122,14 @@ const Header = () => {
           а анимация выезда при этом всё равно нужна. */}
       <div className={`md:hidden ${mobileMenuOpen ? '' : 'pointer-events-none'}`}>
         <div
-          className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ease-soft ${
+          className={`fixed inset-0 z-40 bg-black/70 transition-opacity duration-300 ease-soft ${
             mobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setMobileMenuOpen(false)}
           aria-hidden="true"
         />
         <aside
-          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[82vw] bg-space-900/95 border-l border-white/[0.08] transition-transform duration-300 ease-soft ${
+          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[82vw] bg-space-900 border-l border-white/[0.1] transition-transform duration-300 ease-soft ${
             mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           role="dialog"
@@ -157,12 +137,12 @@ const Header = () => {
           aria-label={t('header.menu')}
           inert={mobileMenuOpen ? undefined : ''}
         >
-          <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08]">
+          <div className="flex items-center justify-between px-5 h-16 border-b border-white/[0.08]">
             <span className="t-eyebrow text-ink-300">{t('header.menu')}</span>
             <button
               ref={closeButtonRef}
               type="button"
-              className="flex items-center justify-center w-9 h-9 rounded-full text-ink-100 hover:text-white hover:bg-white/[0.08] transition-colors duration-250"
+              className={iconButton}
               aria-label={t('header.close')}
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -170,22 +150,25 @@ const Header = () => {
             </button>
           </div>
 
-          <nav className="flex flex-col py-2" aria-label={t('header.menu')}>
-            {navLinks.map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                aria-current={activeId === link.id ? 'true' : undefined}
-                className={`px-5 py-3.5 text-base transition-colors duration-250 ${
-                  activeId === link.id
-                    ? 'text-ink-50 font-medium bg-white/[0.06]'
-                    : 'text-ink-300 hover:text-ink-50 hover:bg-white/[0.04]'
-                }`}
-              >
-                {link.name}
-              </a>
-            ))}
+          <nav className="flex flex-col gap-1.5 p-4" aria-label={t('header.menu')}>
+            {navLinks.map((link) => {
+              const isActive = activeId === link.id;
+              return (
+                <a
+                  key={link.id}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`px-4 py-3 rounded-full font-medium transition-colors duration-250 ${
+                    isActive
+                      ? 'bg-accent text-space-950'
+                      : 'text-ink-200 hover:text-ink-50 hover:bg-white/[0.06]'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              );
+            })}
           </nav>
         </aside>
       </div>
