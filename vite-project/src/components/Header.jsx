@@ -25,13 +25,16 @@ const Header = () => {
   // Scrollspy: подсвечиваем ссылку той секции, что сейчас проходит через
   // центральную полосу viewport-а.
   useEffect(() => {
-    const nodes = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+    // #ai-skills — продолжение навыков без своего пункта меню.
+    const nodes = [...SECTION_IDS, 'ai-skills'].map((id) => document.getElementById(id)).filter(Boolean);
     if (nodes.length === 0) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveId(entry.target.id);
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id === 'ai-skills' ? 'skills' : entry.target.id);
+          }
         });
       },
       { rootMargin: '-40% 0px -50% 0px', threshold: 0 }

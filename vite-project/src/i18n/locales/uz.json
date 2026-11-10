@@ -6,7 +6,8 @@
     "projects": "Loyihalar",
     "contact": "Aloqa",
     "menu": "Menyu",
-    "close": "Yopish"
+    "close": "Yopish",
+    "skip_to_content": "Asosiy kontentga o'tish"
   },
   "hero": {
     "badge": "Yangi imkoniyatlar uchun ochiq",
@@ -17,19 +18,20 @@
     "kicker": "React · Zamonaviy veb-interfeyslar · AI bilan ishlash",
     "description": "React va JavaScript yordamida moslashuvchan interfeyslar yarataman, AI vositalari esa kundalik ish jarayonimning bir qismi.",
     "btn_projects": "Loyihalarni ko'rish",
-    "btn_contact": "Bog'lanish"
+    "btn_contact": "Bog'lanish",
+    "focus": "Hozirgi yo'nalish: React · Next.js · TypeScript"
   },
   "about": {
     "title": "Men haqimda",
     "subtitle": "MEN KIMMAN",
-    "age_label": "YOSH",
-    "age_val": "15",
+    "live_label": "ISHLAYOTGAN LOYIHALAR",
+    "live_val": "3 Live",
     "exp_label": "KOD YOZAMAN",
     "exp_val": "~2 yil",
     "focus_label": "YO'NALISH",
     "focus_val": "React interfeyslari",
     "bio_p1": "Mening ismim Isroil Islomov, men frontend dasturchiman. Taxminan ikki yildan beri kod yozaman — asosan JavaScript va React — va men uchun sahifa haqiqiy qurilmada qanday ishlashi maketda qanday ko'rinishidan muhimroq.",
-    "bio_p2": "Hozir men ta'lim markazi uchun katta loyiha ustida ishlayapman. Bu men uchun birinchi ish bo'ldiki, unda tuzilma va kodni qo'llab-quvvatlash bitta ekranni chiroyli qilishdan muhimroq, va u menga har qanday darsdan ko'ra ko'proq narsani o'rgatdi.",
+    "bio_p2": "Hozir men haqiqiy mahsulotlar ustida ishlayapman: sport formasini shaxsiylashtirish platformasi Formo (formo.uz) va Vibrant School ta'lim markazi platformasi. Ularda arxitektura, holat va kodni qo'llab-quvvatlash bitta ekranni chiroyli qilishdan muhimroq, va bu menga har qanday darsdan ko'ra ko'proq narsani o'rgatdi.",
     "bio_p3": "AI vositalari kundalik ish jarayonimning qismi. Ular kundalik takrorlanuvchi ishni oladi; qarorlar, tekshiruv va yakuniy kod men zimmamda qoladi.",
     "feat_1": "Moslashuvchan veb-sahifalar",
     "feat_2": "React komponentlari va holati",
@@ -48,22 +50,70 @@
       "tools": "Vosita / jarayon"
     },
     "items": {
-      "html": { "name": "HTML", "desc": "Semantik razmetka va qulay hujjat tuzilmasi." },
-      "css": { "name": "CSS", "desc": "Joylashuv, moslashuvchanlik va Tailwind CSS." },
-      "javascript": { "name": "JavaScript", "desc": "Eng ko'p yozadigan tilim: ES6+, DOM va asinxron ish." },
-      "react": { "name": "React", "desc": "Komponentlar, holat va hooklar — asosiy freymvorkim." },
-      "git": { "name": "Git va GitHub", "desc": "Har bir loyiha uchun versiyalar nazorati va nashr." },
-      "ui": { "name": "Interfeys", "desc": "Maketni ishlaydigan moslashuvchan interfeysga aylantirish." },
-      "claude_code": { "name": "Claude Code", "desc": "Rejalashtirish, refaktoring va ko'rib chiqish uchun agentli CLI." },
-      "cursor": { "name": "Cursor", "desc": "Loyiha kontekstida juftlikda ishlash uchun AI-muharrir." },
-      "codex": { "name": "Codex", "desc": "Kundalik vazifalar uchun OpenAI kodlash agenti." },
-      "deepseek": { "name": "DeepSeek", "desc": "Tajriba qilib ko'radigan ochiq reasoning modellari." },
-      "antigravity": { "name": "Antigravity", "desc": "Ko'p bosqichli stsenariylar uchun agentli IDE." },
-      "manus": { "name": "Manus", "desc": "Tadqiqot va avtomatlashtirish uchun universal AI-agent." },
-      "vscode": { "name": "VS Code", "desc": "Kundalik dasturlash uchun asosiy muharrir." },
-      "vercel": { "name": "Vercel", "desc": "Nashr qiladigan hamma narsa uchun deploy va hosting." },
-      "figma": { "name": "Figma", "desc": "Maketlar, o'lchamlar va dizayn tizimlarini o'qish." },
-      "freebuff": { "name": "Freebuff", "desc": "Kundalik vositalar to'plamimning bir qismi." }
+      "html": {
+        "name": "HTML",
+        "desc": "Semantik razmetka va qulay hujjat tuzilmasi."
+      },
+      "css": {
+        "name": "CSS",
+        "desc": "Joylashuv, moslashuvchanlik va Tailwind CSS."
+      },
+      "javascript": {
+        "name": "JavaScript",
+        "desc": "Eng ko'p yozadigan tilim: ES6+, DOM va asinxron ish."
+      },
+      "react": {
+        "name": "React",
+        "desc": "Komponentlar, holat va hooklar — asosiy freymvorkim."
+      },
+      "git": {
+        "name": "Git va GitHub",
+        "desc": "Har bir loyiha uchun versiyalar nazorati va nashr."
+      },
+      "ui": {
+        "name": "Interfeys",
+        "desc": "Maketni ishlaydigan moslashuvchan interfeysga aylantirish."
+      },
+      "claude_code": {
+        "name": "Claude Code",
+        "desc": "Rejalashtirish, refaktoring va ko'rib chiqish uchun agentli CLI."
+      },
+      "cursor": {
+        "name": "Cursor",
+        "desc": "Loyiha kontekstida juftlikda ishlash uchun AI-muharrir."
+      },
+      "codex": {
+        "name": "Codex",
+        "desc": "Kundalik vazifalar uchun OpenAI kodlash agenti."
+      },
+      "deepseek": {
+        "name": "DeepSeek",
+        "desc": "Tajriba qilib ko'radigan ochiq reasoning modellari."
+      },
+      "antigravity": {
+        "name": "Antigravity",
+        "desc": "Ko'p bosqichli stsenariylar uchun agentli IDE."
+      },
+      "manus": {
+        "name": "Manus",
+        "desc": "Tadqiqot va avtomatlashtirish uchun universal AI-agent."
+      },
+      "vscode": {
+        "name": "VS Code",
+        "desc": "Kundalik dasturlash uchun asosiy muharrir."
+      },
+      "vercel": {
+        "name": "Vercel",
+        "desc": "Nashr qiladigan hamma narsa uchun deploy va hosting."
+      },
+      "figma": {
+        "name": "Figma",
+        "desc": "Maketlar, o'lchamlar va dizayn tizimlarini o'qish."
+      },
+      "freebuff": {
+        "name": "Freebuff",
+        "desc": "Kundalik vositalar to'plamimning bir qismi."
+      }
     }
   },
   "ai_skills": {
@@ -81,15 +131,29 @@
   },
   "projects": {
     "title": "Loyihalar",
-    "subtitle": "Mening oxirgi ishlarim",
+    "subtitle": "Ishlab turgan loyihalar",
     "live_demo": "Demo",
     "open_project": "{{name}} loyihasini yangi oynada ochish",
+    "formo_badge": "Asosiy loyiha",
+    "formo_status": "Faol loyiha · Live",
+    "formo_title": "Formo",
+    "formo_domain": "formo.uz",
+    "formo_desc": "O'zbekistonda shaxsiylashtirilgan sport formalarini yaratish va buyurtma berish platformasi. Foydalanuvchilar forma dizayni, rangi, ism, raqam hamda logotipni tanlab, tezkor buyurtma berishlari mumkin.",
+    "formo_feat_1": "Formani interaktiv sozlash: ism, raqam, rang, logotip",
+    "formo_feat_2": "Yakka va jamoaviy buyurtmalarni tez rasmiylashtirish",
+    "formo_feat_3": "Smartfondan buyurtma berishga moslangan mobile-first interfeys",
+    "formo_mock_order": "Buyurtma qabul qilindi · 1–2 kun",
     "edu_center_title": "Vibrant School",
-    "edu_center_desc": "Interaktiv 3D scroll-sahna, ikki tilli kontent, kurslar katalogi va no-code admin paneliga ega moslashuvchan ta'lim markazi landing sahifasi.",
+    "edu_center_desc": "Ta'lim markazining moslashuvchan landing sahifasi — kontentni jamoaning o'zi boshqaradi.",
+    "edu_feat_1": "GSAP asosidagi 3D scroll-sahna",
+    "edu_feat_2": "Ikki tilli interfeys",
+    "edu_feat_3": "Kurslar katalogi",
+    "edu_feat_4": "No-code admin panel",
     "core_store_title": "Core Store",
-    "core_store_desc": "Mahsulotlar katalogi, interaktiv filtrlash va moslashuvchan interfeysga ega zamonaviy internet-do'kon.",
-    "coming_soon_title": "Ko'proq loyihalar tez kunda",
-    "coming_soon_desc": "Hozirda React, Node.js va AI API-larida bir nechta yangi loyihalar ishlab chiqilmoqda."
+    "core_store_desc": "React asosidagi, mahsulotlar katalogiga ega zamonaviy internet-do'kon.",
+    "core_feat_1": "Mahsulotlar katalogi",
+    "core_feat_2": "Reaktiv filtrlash",
+    "core_feat_3": "Moslashuvchan interfeys"
   },
   "contact": {
     "badge": "BOG'LANISH",

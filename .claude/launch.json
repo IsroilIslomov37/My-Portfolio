@@ -4,8 +4,37 @@
     {
       "name": "portfolio",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "vite-project", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "vite-project",
+        "run",
+        "dev"
+      ],
       "port": 5173
+    },
+    {
+      "name": "blackhole-demo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/Victus/AppData/Local/Temp/claude/C--Users-Victus-Desktop-my-portfolio/e123878a-7716-4021-a40f-bc31bee67e7e/scratchpad/serve.js"
+      ],
+      "port": 5791
+    },
+    {
+      "name": "formo-landing",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/Victus/AppData/Local/Temp/claude/C--Users-Victus-Desktop-my-portfolio/494d17ba-dc7d-4512-8a07-5cc7dbfc91ec/scratchpad/serve-formo.js"
+      ],
+      "port": 5792
+    },
+    {
+      "name": "formo-codex",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/Victus/AppData/Local/Temp/claude/C--Users-Victus-Desktop-my-portfolio/494d17ba-dc7d-4512-8a07-5cc7dbfc91ec/scratchpad/serve-codex.js"
+      ],
+      "port": 5793
     }
   ]
 }

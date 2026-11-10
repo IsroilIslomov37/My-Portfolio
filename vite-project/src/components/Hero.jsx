@@ -1,6 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { FiArrowRight, FiMail } from 'react-icons/fi';
+import { FaGithub, FaTelegramPlane } from 'react-icons/fa';
 import PlanetOrbit from './PlanetOrbit';
+
+const quickLink =
+  'flex items-center justify-center w-10 h-10 rounded-full glass-1 text-lg text-ink-200 hover:text-white hover:border-white/[0.16] transition-colors duration-250';
 
 /**
  * Порядок блоков подчинён одному требованию: за 2–3 секунды должно стать
@@ -47,6 +51,29 @@ const Hero = () => {
               <FiMail aria-hidden="true" />
               {t('hero.btn_contact')}
             </a>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-2 mt-6">
+            {/* Названия брендов не переводятся, поэтому не вынесены в локали */}
+            <a
+              href="https://github.com/IsroilIslomov37"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className={quickLink}
+            >
+              <FaGithub aria-hidden="true" />
+            </a>
+            <a
+              href="https://t.me/islomov_047"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Telegram"
+              className={quickLink}
+            >
+              <FaTelegramPlane aria-hidden="true" />
+            </a>
+            <span className="t-meta">{t('hero.focus')}</span>
           </div>
         </div>
 

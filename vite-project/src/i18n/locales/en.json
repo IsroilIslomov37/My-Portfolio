@@ -6,7 +6,8 @@
     "projects": "Projects",
     "contact": "Contact",
     "menu": "Menu",
-    "close": "Close"
+    "close": "Close",
+    "skip_to_content": "Skip to content"
   },
   "hero": {
     "badge": "Open to new opportunities",
@@ -17,19 +18,20 @@
     "kicker": "React · Modern web interfaces · AI-assisted workflow",
     "description": "I build responsive interfaces with React and JavaScript, and use AI tools as part of my everyday workflow.",
     "btn_projects": "View projects",
-    "btn_contact": "Get in touch"
+    "btn_contact": "Get in touch",
+    "focus": "Current focus: React · Next.js · TypeScript"
   },
   "about": {
     "title": "About",
     "subtitle": "WHO I AM",
-    "age_label": "AGE",
-    "age_val": "15",
+    "live_label": "PROJECTS IN PRODUCTION",
+    "live_val": "3 Live",
     "exp_label": "CODING FOR",
     "exp_val": "~2 years",
     "focus_label": "FOCUS",
     "focus_val": "React interfaces",
     "bio_p1": "I am Isroil Islomov, a frontend developer. I have been writing code for about two years — mostly JavaScript and React — and I care about how a page behaves on a real device, not only how it looks in a design file.",
-    "bio_p2": "Right now I am building a larger project for an educational centre. It is the first thing I have worked on where structure and maintainability matter more than getting a single screen to look right, and it has taught me more than any tutorial.",
+    "bio_p2": "Right now I work on real products: Formo (formo.uz), a sportswear customization platform, and the Vibrant School platform for an educational centre. There, architecture, state and maintainable code matter more than getting a single screen to look right, and that has taught me more than any tutorial.",
     "bio_p3": "AI tools are part of my daily workflow. They take the routine work; the decisions, the review and the code that ships are mine.",
     "feat_1": "Responsive layouts",
     "feat_2": "React components & state",
@@ -48,22 +50,70 @@
       "tools": "Tool / workflow"
     },
     "items": {
-      "html": { "name": "HTML", "desc": "Semantic markup and accessible document structure." },
-      "css": { "name": "CSS", "desc": "Layout, responsive design and Tailwind CSS." },
-      "javascript": { "name": "JavaScript", "desc": "The language I write most — ES6+, the DOM and async work." },
-      "react": { "name": "React", "desc": "Components, state and hooks — my main framework." },
-      "git": { "name": "Git & GitHub", "desc": "Version control and publishing for every project." },
-      "ui": { "name": "UI layout", "desc": "Turning a design into a working, responsive interface." },
-      "claude_code": { "name": "Claude Code", "desc": "Agentic CLI I use to plan, refactor and review changes." },
-      "cursor": { "name": "Cursor", "desc": "AI-first editor for in-context pair programming." },
-      "codex": { "name": "Codex", "desc": "OpenAI's coding agent for routine development tasks." },
-      "deepseek": { "name": "DeepSeek", "desc": "Open-weight reasoning models I experiment with." },
-      "antigravity": { "name": "Antigravity", "desc": "Agentic IDE for multi-step coding workflows." },
-      "manus": { "name": "Manus", "desc": "General-purpose AI agent for research and automation." },
-      "vscode": { "name": "VS Code", "desc": "My primary editor for day-to-day development." },
-      "vercel": { "name": "Vercel", "desc": "Deployment and hosting for everything I ship." },
-      "figma": { "name": "Figma", "desc": "Reading designs, measurements and design systems." },
-      "freebuff": { "name": "Freebuff", "desc": "Part of my day-to-day toolkit." }
+      "html": {
+        "name": "HTML",
+        "desc": "Semantic markup and accessible document structure."
+      },
+      "css": {
+        "name": "CSS",
+        "desc": "Layout, responsive design and Tailwind CSS."
+      },
+      "javascript": {
+        "name": "JavaScript",
+        "desc": "The language I write most — ES6+, the DOM and async work."
+      },
+      "react": {
+        "name": "React",
+        "desc": "Components, state and hooks — my main framework."
+      },
+      "git": {
+        "name": "Git & GitHub",
+        "desc": "Version control and publishing for every project."
+      },
+      "ui": {
+        "name": "UI layout",
+        "desc": "Turning a design into a working, responsive interface."
+      },
+      "claude_code": {
+        "name": "Claude Code",
+        "desc": "Agentic CLI I use to plan, refactor and review changes."
+      },
+      "cursor": {
+        "name": "Cursor",
+        "desc": "AI-first editor for in-context pair programming."
+      },
+      "codex": {
+        "name": "Codex",
+        "desc": "OpenAI's coding agent for routine development tasks."
+      },
+      "deepseek": {
+        "name": "DeepSeek",
+        "desc": "Open-weight reasoning models I experiment with."
+      },
+      "antigravity": {
+        "name": "Antigravity",
+        "desc": "Agentic IDE for multi-step coding workflows."
+      },
+      "manus": {
+        "name": "Manus",
+        "desc": "General-purpose AI agent for research and automation."
+      },
+      "vscode": {
+        "name": "VS Code",
+        "desc": "My primary editor for day-to-day development."
+      },
+      "vercel": {
+        "name": "Vercel",
+        "desc": "Deployment and hosting for everything I ship."
+      },
+      "figma": {
+        "name": "Figma",
+        "desc": "Reading designs, measurements and design systems."
+      },
+      "freebuff": {
+        "name": "Freebuff",
+        "desc": "Part of my day-to-day toolkit."
+      }
     }
   },
   "ai_skills": {
@@ -81,15 +131,29 @@
   },
   "projects": {
     "title": "Projects",
-    "subtitle": "My Recent Works",
+    "subtitle": "Live in production",
     "live_demo": "Live Demo",
     "open_project": "Open {{name}} in a new tab",
+    "formo_badge": "Featured Project",
+    "formo_status": "Active project · Live",
+    "formo_title": "Formo",
+    "formo_domain": "formo.uz",
+    "formo_desc": "Custom sportswear ordering and personalization platform in Uzbekistan. Users can customize kit designs (colors, player name, number, team logo) and place fast-turnaround orders.",
+    "formo_feat_1": "Interactive kit customization: name, number, color, logo",
+    "formo_feat_2": "Fast checkout flow for individual and team orders",
+    "formo_feat_3": "Mobile-first interface built for ordering from a phone",
+    "formo_mock_order": "Order placed · 1–2 days",
     "edu_center_title": "Vibrant School",
-    "edu_center_desc": "A responsive educational center landing page with an interactive 3D scrollytelling hero, bilingual content, course catalog, and no-code admin panel.",
+    "edu_center_desc": "A responsive landing page for an educational centre whose team manages the content themselves.",
+    "edu_feat_1": "Scroll-driven 3D scene with GSAP",
+    "edu_feat_2": "Two interface languages",
+    "edu_feat_3": "Course catalog",
+    "edu_feat_4": "No-code admin panel",
     "core_store_title": "Core Store",
-    "core_store_desc": "Modern e-commerce web application with product cataloging, interactive filtering, and responsive user interface.",
-    "coming_soon_title": "More Projects Coming Soon",
-    "coming_soon_desc": "Currently developing several new projects using React, Node.js, and AI APIs."
+    "core_store_desc": "A modern e-commerce web app built with React around a product catalog.",
+    "core_feat_1": "Product catalog",
+    "core_feat_2": "Reactive filtering",
+    "core_feat_3": "Responsive interface"
   },
   "contact": {
     "badge": "GET IN TOUCH",

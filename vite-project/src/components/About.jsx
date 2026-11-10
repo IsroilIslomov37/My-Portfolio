@@ -9,8 +9,8 @@ const About = () => {
   const stats = [
     {
       icon: <FiCode />,
-      label: t('about.age_label'),
-      value: t('about.age_val'),
+      label: t('about.live_label'),
+      value: t('about.live_val'),
       colorClass: 'bg-blue-500/10 border-blue-500/20 text-blue-300',
     },
     {

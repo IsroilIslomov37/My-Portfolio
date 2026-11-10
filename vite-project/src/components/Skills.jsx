@@ -104,6 +104,29 @@ const Skills = () => {
     </ul>
   );
 
+  // Мобильные плитки: тап раскрывает описание под своей группой. Плитка
+  // инструмента шириной в треть экрана описание внутри себя не вместит.
+  const tileProps = (node) => ({
+    onClick: () => setActive((current) => (current === node.id ? null : node.id)),
+    'aria-expanded': active === node.id,
+    'aria-controls': `skill-desc-${node.group}`,
+  });
+
+  const mobileDesc = (group) => (
+    <div id={`skill-desc-${group}`}>
+      {activeNode?.group === group && (
+        <div className="glass-1 mt-3 px-4 py-3">
+          <p className="text-sm font-medium text-ink-100 mb-1">
+            {t(`skills.items.${activeNode.id}.name`)}
+          </p>
+          <p className="text-sm leading-snug text-ink-200">
+            {t(`skills.items.${activeNode.id}.desc`)}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <section id="skills" className="section">
       <div className="container-page">
@@ -268,14 +291,23 @@ const Skills = () => {
             <h3 className="t-eyebrow text-ink-300 mb-4">{t('skills.legend_core')}</h3>
             <ul className="grid grid-cols-2 gap-3">
               {CORE_NODES.map((node) => (
-                <li key={node.id} className="glass-2 p-4 flex flex-col gap-2">
-                  <span className="text-xl" aria-hidden="true">{node.icon}</span>
-                  <span className="text-sm font-medium text-ink-100 leading-tight">
-                    {t(`skills.items.${node.id}.name`)}
-                  </span>
+                <li key={node.id}>
+                  <button
+                    type="button"
+                    {...tileProps(node)}
+                    className={`glass-2 w-full h-full p-4 flex flex-col gap-2 text-left transition-colors duration-250 ${
+                      active === node.id ? 'border-accent/60' : ''
+                    }`}
+                  >
+                    <span className="text-xl" aria-hidden="true">{node.icon}</span>
+                    <span className="text-sm font-medium text-ink-100 leading-tight">
+                      {t(`skills.items.${node.id}.name`)}
+                    </span>
+                  </button>
                 </li>
               ))}
             </ul>
+            {mobileDesc('core')}
           </div>
 
           <div>
@@ -285,17 +317,23 @@ const Skills = () => {
                 неполный ряд центрируется и выглядит намеренным. */}
             <ul className="flex flex-wrap justify-center gap-2.5">
               {TOOL_NODES.map((node) => (
-                <li
-                  key={node.id}
-                  className="glass-1 px-2 py-3 basis-[calc(33.333%-0.667rem)] grow-0 shrink-0 flex flex-col items-center text-center gap-2"
-                >
-                  <span className="text-base" aria-hidden="true">{node.icon}</span>
-                  <span className="text-[0.6875rem] text-ink-300 leading-tight">
-                    {t(`skills.items.${node.id}.name`)}
-                  </span>
+                <li key={node.id} className="basis-[calc(33.333%-0.667rem)] grow-0 shrink-0">
+                  <button
+                    type="button"
+                    {...tileProps(node)}
+                    className={`glass-1 w-full h-full px-2 py-3 flex flex-col items-center text-center gap-2 transition-colors duration-250 ${
+                      active === node.id ? 'border-accent/60' : ''
+                    }`}
+                  >
+                    <span className="text-base" aria-hidden="true">{node.icon}</span>
+                    <span className="text-[0.6875rem] text-ink-300 leading-tight">
+                      {t(`skills.items.${node.id}.name`)}
+                    </span>
+                  </button>
                 </li>
               ))}
             </ul>
+            {mobileDesc('tools')}
           </div>
         </div>
 
