@@ -1,7 +1,7 @@
 const StatCard = ({ icon, label, value }) => (
   <div className="glass-card p-5 flex items-center gap-4">
     <div
-      className="w-11 h-11 shrink-0 rounded-chip flex items-center justify-center text-xl border border-white/[0.1] bg-space-800 text-accent"
+      className="w-11 h-11 shrink-0 rounded-chip flex items-center justify-center text-xl border border-ink-50/[0.1] bg-space-800 text-accent"
       aria-hidden="true"
     >
       {icon}

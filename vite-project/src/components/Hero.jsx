@@ -4,7 +4,7 @@ import { FaGithub, FaTelegramPlane } from 'react-icons/fa';
 import PlanetOrbit from './PlanetOrbit';
 
 const quickLink =
-  'flex items-center justify-center w-11 h-11 rounded-full border border-white/[0.12] text-lg text-ink-100 hover:text-accent hover:border-accent transition-colors duration-250';
+  'flex items-center justify-center w-11 h-11 rounded-full border border-ink-50/[0.12] text-lg text-ink-100 hover:text-accent hover:border-accent transition-colors duration-250';
 
 /**
  * Порядок блоков подчинён одному требованию: за 2–3 секунды должно стать

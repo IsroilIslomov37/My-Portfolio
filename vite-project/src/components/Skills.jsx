@@ -30,8 +30,8 @@ import { FiLayout } from 'react-icons/fi';
  * гарантированно оставались внутри контейнера на любой ширине.
  */
 const HUB = { x: 50, y: 50 };
-const LINE = '#fafafa';
-const LIT = '#c6f432';
+const LINE = '#1c1917';
+const LIT = '#166534';
 const CORE_RADIUS = { x: 24, y: 25 };
 const TOOL_RADIUS = { x: 40, y: 39 };
 

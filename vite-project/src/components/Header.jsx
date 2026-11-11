@@ -7,7 +7,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'contact'];
 
 const iconButton =
-  'flex items-center justify-center w-10 h-10 rounded-full border border-white/[0.12] text-ink-100 hover:text-accent hover:border-accent transition-colors duration-250';
+  'flex items-center justify-center w-10 h-10 rounded-full border border-ink-50/[0.12] text-ink-100 hover:text-accent hover:border-accent transition-colors duration-250';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,7 +72,7 @@ const Header = () => {
 
   return (
     // Размытие подложки только с md: на телефоне оно не окупается
-    <header className="fixed top-0 inset-x-0 z-50 bg-space-900/95 md:bg-space-900/80 md:backdrop-blur-md border-b border-white/[0.08]">
+    <header className="fixed top-0 inset-x-0 z-50 bg-space-900/95 md:bg-space-900/80 md:backdrop-blur-md border-b border-ink-50/[0.08]">
       <div className="container-page flex items-center justify-between gap-4 h-16">
         <Link to="/" className="shrink-0 text-lg font-bold tracking-tight text-ink-50">
           isroil<span className="text-accent">.</span>
@@ -90,7 +90,7 @@ const Header = () => {
                 className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-250 ${
                   isActive
                     ? 'bg-accent text-space-950'
-                    : 'text-ink-200 hover:text-ink-50 hover:bg-white/[0.06]'
+                    : 'text-ink-200 hover:text-ink-50 hover:bg-ink-50/[0.06]'
                 }`}
               >
                 {link.name}
@@ -122,14 +122,14 @@ const Header = () => {
           а анимация выезда при этом всё равно нужна. */}
       <div className={`md:hidden ${mobileMenuOpen ? '' : 'pointer-events-none'}`}>
         <div
-          className={`fixed inset-0 z-40 bg-black/70 transition-opacity duration-300 ease-soft ${
+          className={`fixed inset-0 z-40 bg-ink-50/40 transition-opacity duration-300 ease-soft ${
             mobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setMobileMenuOpen(false)}
           aria-hidden="true"
         />
         <aside
-          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[82vw] bg-space-900 border-l border-white/[0.1] transition-transform duration-300 ease-soft ${
+          className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[82vw] bg-space-900 border-l border-ink-50/[0.1] transition-transform duration-300 ease-soft ${
             mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           role="dialog"
@@ -137,7 +137,7 @@ const Header = () => {
           aria-label={t('header.menu')}
           inert={mobileMenuOpen ? undefined : ''}
         >
-          <div className="flex items-center justify-between px-5 h-16 border-b border-white/[0.08]">
+          <div className="flex items-center justify-between px-5 h-16 border-b border-ink-50/[0.08]">
             <span className="t-eyebrow text-ink-300">{t('header.menu')}</span>
             <button
               ref={closeButtonRef}
@@ -162,7 +162,7 @@ const Header = () => {
                   className={`px-4 py-3 rounded-full font-medium transition-colors duration-250 ${
                     isActive
                       ? 'bg-accent text-space-950'
-                      : 'text-ink-200 hover:text-ink-50 hover:bg-white/[0.06]'
+                      : 'text-ink-200 hover:text-ink-50 hover:bg-ink-50/[0.06]'
                   }`}
                 >
                   {link.name}

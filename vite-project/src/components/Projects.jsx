@@ -15,8 +15,8 @@ const FORMO_URL = 'https://formo.uz';
 const FORMO_TAGS = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'NestJS', 'PostgreSQL'];
 // Цвета формы в мини-конфигураторе: заливка и контрастный к ней цвет номера
 const KITS = [
-  { color: '#c6f432', number: '#0a0a0a' },
-  { color: '#fafafa', number: '#0a0a0a' },
+  { color: '#166534', number: '#ffffff' },
+  { color: '#1c1917', number: '#ffffff' },
   { color: '#ef4444', number: '#ffffff' },
   { color: '#3b82f6', number: '#ffffff' },
 ];
@@ -36,7 +36,7 @@ const LiveLink = ({ href, label, children, primary = false }) => (
     className={
       primary
         ? 'btn btn-primary group/link'
-        : 'inline-flex items-center gap-1.5 px-3 py-2 rounded-full uppercase tracking-wider bg-space-800 border border-white/[0.12] text-ink-200 hover:text-space-950 hover:bg-accent hover:border-accent transition-colors duration-250 group/link'
+        : 'inline-flex items-center gap-1.5 px-3 py-2 rounded-full uppercase tracking-wider bg-space-800 border border-ink-50/[0.12] text-ink-200 hover:text-space-950 hover:bg-accent hover:border-accent transition-colors duration-250 group/link'
     }
   >
     {children}
@@ -48,11 +48,11 @@ const LiveLink = ({ href, label, children, primary = false }) => (
 );
 
 const Tags = ({ tags }) => (
-  <ul className="relative flex flex-wrap gap-2 pt-5 border-t border-white/[0.08]">
+  <ul className="relative flex flex-wrap gap-2 pt-5 border-t border-ink-50/[0.08]">
     {tags.map((tag) => (
       <li
         key={tag}
-        className="px-2 py-1 text-[0.6875rem] rounded-full bg-space-800 text-ink-100 border border-white/[0.1]"
+        className="px-2 py-1 text-[0.6875rem] rounded-full bg-space-800 text-ink-100 border border-ink-50/[0.1]"
       >
         {tag}
       </li>
@@ -94,15 +94,15 @@ const FormoMockup = ({ domain, orderLabel, colorLabel, numberLabel }) => {
   const [number, setNumber] = useState('07');
 
   return (
-    <div className="relative rounded-card border border-white/[0.12] bg-space-900 overflow-hidden">
+    <div className="relative rounded-card border border-ink-50/[0.12] bg-space-900 overflow-hidden">
       <div
-        className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/[0.08]"
+        className="flex items-center gap-1.5 px-4 py-2.5 border-b border-ink-50/[0.08]"
         aria-hidden="true"
       >
-        <span className="w-2 h-2 rounded-full bg-white/20" />
-        <span className="w-2 h-2 rounded-full bg-white/20" />
-        <span className="w-2 h-2 rounded-full bg-white/20" />
-        <span className="mx-auto px-4 py-0.5 rounded-full bg-white/[0.06] text-[0.6875rem] text-ink-300">
+        <span className="w-2 h-2 rounded-full bg-ink-50/20" />
+        <span className="w-2 h-2 rounded-full bg-ink-50/20" />
+        <span className="w-2 h-2 rounded-full bg-ink-50/20" />
+        <span className="mx-auto px-4 py-0.5 rounded-full bg-ink-50/[0.06] text-[0.6875rem] text-ink-300">
           {domain}
         </span>
       </div>
@@ -111,7 +111,7 @@ const FormoMockup = ({ domain, orderLabel, colorLabel, numberLabel }) => {
         <div className="relative flex-1 h-40 sm:h-48" aria-hidden="true">
           <Jersey
             number="47"
-            className="absolute inset-y-0 left-[38%] h-full text-space-600 rotate-6 transition-transform duration-500 ease-soft group-hover:translate-x-4 group-hover:rotate-12"
+            className="absolute inset-y-0 left-[38%] h-full text-ink-300 rotate-6 transition-transform duration-500 ease-soft group-hover:translate-x-4 group-hover:rotate-12"
           />
           <Jersey
             number={number || '07'}
@@ -139,7 +139,7 @@ const FormoMockup = ({ domain, orderLabel, colorLabel, numberLabel }) => {
       </div>
 
       <span
-        className="absolute left-4 bottom-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full uppercase tracking-wider bg-space-850 border border-emerald-400/30 text-[0.6875rem] text-emerald-300"
+        className="absolute left-4 bottom-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full uppercase tracking-wider bg-space-850 border border-accent/30 text-[0.6875rem] text-accent"
         aria-hidden="true"
       >
         <FiCheck />

@@ -49,7 +49,7 @@ const LanguageSwitcher = () => {
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`Language: ${current.label}`}
-        className="flex items-center gap-1.5 h-10 pl-2.5 pr-3 rounded-full border border-white/[0.12] bg-space-850 hover:border-accent/60 text-ink-200 hover:text-ink-50 transition-colors duration-250"
+        className="flex items-center gap-1.5 h-10 pl-2.5 pr-3 rounded-full border border-ink-50/[0.12] bg-space-850 hover:border-accent/60 text-ink-200 hover:text-ink-50 transition-colors duration-250"
       >
         <FiGlobe className="text-base" aria-hidden="true" />
         {/* Текущий язык виден сразу — раньше глобус ничего о нём не сообщал */}

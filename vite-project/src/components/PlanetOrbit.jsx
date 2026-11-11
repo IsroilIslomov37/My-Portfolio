@@ -57,7 +57,7 @@ const PlanetOrbit = () => (
           {block.nodes.map((node) => (
             <li
               key={node.name}
-              className="group/node flex items-center gap-2.5 px-3.5 py-2.5 rounded-full bg-space-800 border border-white/[0.08] text-sm font-medium text-ink-100 hover:border-accent hover:text-ink-50 transition-colors duration-250"
+              className="group/node flex items-center gap-2.5 px-3.5 py-2.5 rounded-full bg-space-800 border border-ink-50/[0.08] text-sm font-medium text-ink-100 hover:border-accent hover:text-ink-50 transition-colors duration-250"
             >
               <span
                 className="text-base text-ink-300 group-hover/node:text-accent transition-colors duration-250"

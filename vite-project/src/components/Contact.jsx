@@ -62,7 +62,7 @@ const Contact = () => {
                     className="group glass-1 card-hover p-4 flex items-center gap-4"
                   >
                     <span
-                      className="w-11 h-11 rounded-chip bg-space-800 border border-white/[0.1] flex items-center justify-center shrink-0 text-ink-100 group-hover:text-accent transition-colors duration-250"
+                      className="w-11 h-11 rounded-chip bg-space-800 border border-ink-50/[0.1] flex items-center justify-center shrink-0 text-ink-100 group-hover:text-accent transition-colors duration-250"
                       aria-hidden="true"
                     >
                       {item.icon}

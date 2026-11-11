@@ -47,7 +47,7 @@ const About = () => {
               <p className="t-body">{t('about.bio_p3')}</p>
             </div>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mt-8 pt-8 border-t border-white/[0.08]">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mt-8 pt-8 border-t border-ink-50/[0.08]">
               {features.map((feature) => (
                 <li key={feature} className="flex items-center gap-2.5 text-sm text-ink-100">
                   <FiCheckCircle className="text-accent text-base shrink-0" aria-hidden="true" />
