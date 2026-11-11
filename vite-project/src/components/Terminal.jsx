@@ -154,7 +154,7 @@ const Terminal = () => {
   };
 
   return (
-    <div className="taped relative w-full max-w-md lg:rotate-1 rounded-card bg-ink-50 text-[#e7e5e4] font-mono text-[0.8125rem] leading-relaxed shadow-elev-2">
+    <div className="taped relative w-full max-w-md lg:rotate-1 rounded-card bg-[#050806] border border-ink-50/[0.12] text-[#e7e5e4] font-mono text-[0.8125rem] leading-relaxed shadow-elev-2">
       <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/10" aria-hidden="true">
         <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />

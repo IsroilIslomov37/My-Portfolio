@@ -13,6 +13,20 @@
       "port": 5173
     },
     {
+      "name": "portfolio-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "vite-project",
+        "run",
+        "preview",
+        "--",
+        "--port",
+        "4173"
+      ],
+      "port": 4173
+    },
+    {
       "name": "blackhole-demo",
       "runtimeExecutable": "node",
       "runtimeArgs": [

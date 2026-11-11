@@ -30,8 +30,8 @@ import { FiLayout } from 'react-icons/fi';
  * гарантированно оставались внутри контейнера на любой ширине.
  */
 const HUB = { x: 50, y: 50 };
-const LINE = '#1c1917';
-const LIT = '#16803c';
+const LINE = '#f2f5f0';
+const LIT = '#4ade80';
 const CORE_RADIUS = { x: 24, y: 25 };
 const TOOL_RADIUS = { x: 40, y: 39 };
 
@@ -228,7 +228,7 @@ const Skills = () => {
               <div
                 key={node.id}
                 className={`absolute -translate-x-1/2 -translate-y-1/2 ${
-                  webVisible ? 'animate-node-in' : 'opacity-0'
+                  webVisible ? 'animate-node-in' : ''
                 } ${isActive ? 'z-30' : 'z-10'}`}
                 style={{
                   left: `${node.x}%`,

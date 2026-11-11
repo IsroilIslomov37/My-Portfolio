@@ -15,8 +15,8 @@ const FORMO_URL = 'https://formo.uz';
 const FORMO_TAGS = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'NestJS', 'PostgreSQL'];
 // Цвета формы в мини-конфигураторе: заливка и контрастный к ней цвет номера
 const KITS = [
-  { color: '#16803c', number: '#ffffff' },
-  { color: '#1c1917', number: '#ffffff' },
+  { color: '#4ade80', number: '#06140b' },
+  { color: '#f2f5f0', number: '#0c120e' },
   { color: '#ef4444', number: '#ffffff' },
   { color: '#3b82f6', number: '#ffffff' },
 ];
@@ -79,11 +79,11 @@ const Jersey = ({ number, className, style, numberFill = '#fff' }) => (
     <path
       d="M70 14 45 26 16 58l22 22 17-12v98h90V68l17 12 22-22-29-32-25-12q-30 20-60 0Z"
       fill="currentColor"
-      stroke="rgba(28,25,23,0.45)"
+      stroke="rgba(255,255,255,0.3)"
       strokeWidth="2"
       strokeLinejoin="round"
     />
-    <path d="M70 14q30 20 60 0" fill="none" stroke="rgba(28,25,23,0.35)" strokeWidth="5" />
+    <path d="M70 14q30 20 60 0" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="5" />
     <text
       x="100"
       y="126"

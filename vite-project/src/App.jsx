@@ -3,15 +3,12 @@ import { useTranslation } from 'react-i18next';
 import AppRouter from './router/AppRouter';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import StarBackground from './components/StarBackground';
 
 function App() {
   const { t } = useTranslation();
 
   return (
     <BrowserRouter>
-      <StarBackground />
-
       {/* Ссылка видна только при переходе табом: позволяет пропустить
           навигацию и сразу попасть в контент */}
       <a
@@ -21,7 +18,7 @@ function App() {
         {t('header.skip_to_content')}
       </a>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen">
         <Header />
         <main id="main" className="flex-grow">
           <AppRouter />

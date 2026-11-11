@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Триггерит один раз, когда элемент входит во viewport — используется вместе
- * с классом .reveal (см. index.css) для мягкого scroll-появления секций.
+ * Триггерит один раз, когда элемент входит во viewport. Используется
+ * для анимаций, которые проигрываются при входе элемента в экран.
  */
 export function useReveal(options) {
   const ref = useRef(null);

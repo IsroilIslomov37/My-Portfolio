@@ -22,6 +22,12 @@
 
   body {
     @apply bg-space-900 text-ink-200 font-sans overflow-x-hidden;
+    background-image:
+      radial-gradient(70% 50% at 50% 0%, rgba(74, 222, 128, 0.12), transparent 70%),
+      linear-gradient(to right, rgba(242, 245, 240, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(242, 245, 240, 0.05) 1px, transparent 1px);
+    background-size: 100% 900px, 24px 24px, 24px 24px;
+    background-repeat: no-repeat, repeat, repeat;
     margin: 0;
     font-size: 1rem;
     line-height: 1.6;
@@ -52,7 +58,7 @@
   }
 
   ::selection {
-    background: rgba(22, 128, 60, 0.22);
+    background: rgba(74, 222, 128, 0.25);
     color: theme("colors.ink.50");
   }
 }
@@ -81,8 +87,8 @@
   /* Лист в клетку: шаг задаётся переменной --grid */
   .blueprint-grid {
     background-image:
-      linear-gradient(to right, rgba(28, 25, 23, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(28, 25, 23, 0.06) 1px, transparent 1px);
+      linear-gradient(to right, rgba(242, 245, 240, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(242, 245, 240, 0.05) 1px, transparent 1px);
     background-size: var(--grid, 24px) var(--grid, 24px);
   }
 
@@ -164,16 +170,21 @@
     transform: rotate(-2deg);
   }
 
-  /* Маркер: полоса проводится слева направо, когда родитель получает .web-in */
+  /* Маркер виден всегда; когда родитель получает .web-in, полоса заново
+     проводится слева направо */
   .marker {
-    background-image: linear-gradient(transparent 58%, rgba(22, 128, 60, 0.22) 58%);
+    background-image: linear-gradient(transparent 58%, rgba(74, 222, 128, 0.25) 58%);
     background-repeat: no-repeat;
-    background-size: 0% 100%;
-    transition: background-size 0.9s var(--ease-soft) 0.35s;
+    background-size: 100% 100%;
   }
 
   .web-in .marker {
-    background-size: 100% 100%;
+    animation: markerIn 0.9s var(--ease-soft) 0.35s both;
+  }
+
+  @keyframes markerIn {
+    from { background-size: 0% 100%; }
+    to { background-size: 100% 100%; }
   }
 
   /* Кусочки скотча по верхним углам: картинка как будто вклеена в тетрадь */
@@ -184,8 +195,8 @@
     top: -10px;
     width: 64px;
     height: 20px;
-    background: rgba(22, 128, 60, 0.18);
-    border: 1px solid rgba(22, 128, 60, 0.12);
+    background: rgba(74, 222, 128, 0.22);
+    border: 1px solid rgba(74, 222, 128, 0.18);
     z-index: 2;
     pointer-events: none;
   }
@@ -258,12 +269,12 @@
 
   .glass-2 {
     @apply relative bg-space-850 border border-ink-50/[0.12] rounded-card;
-    box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04), 0 10px 24px -16px rgba(28, 25, 23, 0.35);
+    box-shadow: inset 0 1px 0 rgba(242, 245, 240, 0.05), 0 12px 28px -16px rgba(0, 0, 0, 0.8);
   }
 
   .glass-3 {
     @apply relative bg-space-850 border border-ink-50/[0.14] rounded-panel;
-    box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04), 0 14px 32px -18px rgba(28, 25, 23, 0.4);
+    box-shadow: inset 0 1px 0 rgba(242, 245, 240, 0.06), 0 16px 36px -18px rgba(0, 0, 0, 0.85);
   }
 
   .glass-card {
@@ -299,7 +310,7 @@
     border-radius: inherit;
     background: radial-gradient(
       280px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(22, 128, 60, 0.06),
+      rgba(74, 222, 128, 0.07),
       transparent 70%
     );
     opacity: 0;
@@ -387,36 +398,23 @@
 
   .field:focus {
     @apply outline-none border-accent;
-    box-shadow: 0 0 0 3px rgba(22, 128, 60, 0.16);
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.18);
   }
 
   .field-label {
     @apply flex items-center gap-2 t-eyebrow text-ink-300 mb-2;
   }
 
-  /* ---------------------------------------------------------------- */
-  /* Scroll-reveal                                                     */
-  /* ---------------------------------------------------------------- */
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
-  }
-
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
-  }
 
   /* ---------------------------------------------------------------- */
   /* Линии, которые прорисовываются (схема навыков и рисунки ручкой)   */
   /* ---------------------------------------------------------------- */
 
-  /* Линия прочерчивается один раз, когда родитель получает .web-in */
+  /* Линия видна всегда; когда родитель получает .web-in, она один раз
+     прочерчивается заново */
   .web-line {
     stroke-dasharray: 1;
-    stroke-dashoffset: 1;
+    stroke-dashoffset: 0;
     transition: stroke var(--dur-base) ease, stroke-opacity var(--dur-base) ease;
   }
 
@@ -455,16 +453,6 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  /* Линии должны остаться прочерченными, а не замереть пустыми */
-  .web-line {
-    stroke-dashoffset: 0 !important;
   }
 
   /* Самолётик не летит — просто не показываем его */
