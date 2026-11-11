@@ -184,6 +184,15 @@ const ContactForm = () => {
           )}
         </button>
       </form>
+
+      {/* Бумажный самолётик улетает, когда сообщение ушло. Монтируется заново
+          при каждой успешной отправке, поэтому анимация повторяется. */}
+      {status === 'success' && (
+        <svg className="plane-fly" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M4 22 44 4 34 44 22 28Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+          <path d="M22 28 44 4M22 28l-2 12 8-7" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+        </svg>
+      )}
     </div>
   );
 };

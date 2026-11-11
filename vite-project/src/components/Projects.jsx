@@ -15,11 +15,25 @@ const FORMO_URL = 'https://formo.uz';
 const FORMO_TAGS = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'NestJS', 'PostgreSQL'];
 // Цвета формы в мини-конфигураторе: заливка и контрастный к ней цвет номера
 const KITS = [
-  { color: '#166534', number: '#ffffff' },
+  { color: '#16803c', number: '#ffffff' },
   { color: '#1c1917', number: '#ffffff' },
   { color: '#ef4444', number: '#ffffff' },
   { color: '#3b82f6', number: '#ffffff' },
 ];
+
+const Shot = ({ src, alt, width, height, className = '' }) => (
+  <div className={`taped relative rounded-chip border border-ink-50/[0.12] bg-space-800 ${className}`}>
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      className="shot w-full h-full object-cover object-top rounded-chip"
+    />
+  </div>
+);
 
 const handleSpotlight = (e) => {
   const rect = e.currentTarget.getBoundingClientRect();
@@ -65,11 +79,11 @@ const Jersey = ({ number, className, style, numberFill = '#fff' }) => (
     <path
       d="M70 14 45 26 16 58l22 22 17-12v98h90V68l17 12 22-22-29-32-25-12q-30 20-60 0Z"
       fill="currentColor"
-      stroke="rgba(255,255,255,0.28)"
+      stroke="rgba(28,25,23,0.45)"
       strokeWidth="2"
       strokeLinejoin="round"
     />
-    <path d="M70 14q30 20 60 0" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="5" />
+    <path d="M70 14q30 20 60 0" fill="none" stroke="rgba(28,25,23,0.35)" strokeWidth="5" />
     <text
       x="100"
       y="126"
@@ -139,7 +153,7 @@ const FormoMockup = ({ domain, orderLabel, colorLabel, numberLabel }) => {
       </div>
 
       <span
-        className="absolute left-4 bottom-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full uppercase tracking-wider bg-space-850 border border-accent/30 text-[0.6875rem] text-accent"
+        className="absolute left-4 bottom-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full uppercase tracking-wider bg-space-850 border border-accent/40 text-[0.6875rem] text-accent"
         aria-hidden="true"
       >
         <FiCheck />
@@ -177,6 +191,7 @@ const Projects = () => {
       features: [1, 2, 3, 4].map((n) => t(`projects.edu_feat_${n}`)),
       tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'GSAP', 'PostgreSQL'],
       liveUrl: 'https://vibrant-landing-woad.vercel.app/',
+      image: '/projects/perfect-school.png',
       icon: <FiBookOpen className="text-2xl text-accent" />,
     },
     {
@@ -185,6 +200,7 @@ const Projects = () => {
       features: [1, 2, 3].map((n) => t(`projects.core_feat_${n}`)),
       tags: ['React', 'JavaScript', 'Tailwind CSS', 'React Router', 'Swiper', 'Vercel'],
       liveUrl: 'https://core-store-peach.vercel.app/',
+      image: '/projects/core-store.png',
       icon: <FiShoppingBag className="text-2xl text-accent" />,
     },
   ];
@@ -200,6 +216,14 @@ const Projects = () => {
             className="group relative md:col-span-2 glass-card glass-spotlight card-hover p-6 sm:p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
             onMouseMove={handleSpotlight}
           >
+            <Shot
+              src="/projects/formo.png"
+              alt={t('projects.screenshot_alt', { name: t('projects.formo_title') })}
+              width={1200}
+              height={630}
+              className="lg:col-span-2 aspect-[1200/630]"
+            />
+
             <div className="relative">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-5">
                 <span className="t-eyebrow text-accent-soft">{t('projects.formo_badge')}</span>
@@ -257,6 +281,14 @@ const Projects = () => {
               onMouseMove={handleSpotlight}
             >
               <div className="relative">
+                <Shot
+                  src={project.image}
+                  alt={t('projects.screenshot_alt', { name: project.title })}
+                  width={728}
+                  height={455}
+                  className="aspect-[16/10] mb-6"
+                />
+
                 <div className="flex items-center justify-between gap-4 mb-6">
                   <span
                     className="w-12 h-12 rounded-full glass-1 flex items-center justify-center shrink-0"

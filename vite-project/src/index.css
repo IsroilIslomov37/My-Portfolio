@@ -52,8 +52,8 @@
   }
 
   ::selection {
-    background: theme("colors.accent.DEFAULT");
-    color: theme("colors.space.950");
+    background: rgba(22, 128, 60, 0.22);
+    color: theme("colors.ink.50");
   }
 }
 
@@ -69,35 +69,43 @@
     padding-inline: clamp(1.25rem, 1rem + 1vw, 2rem);
   }
 
+  .section {
+    position: relative;
+    overflow-x: clip;
+  }
+
   .section > .container-page {
     padding-block: clamp(3.5rem, 2.25rem + 3.5vw, 5.5rem);
   }
 
-  /* Тонкая сетка для макета внутри карточки проекта: шаг в --grid */
+  /* Лист в клетку: шаг задаётся переменной --grid */
   .blueprint-grid {
     background-image:
       linear-gradient(to right, rgba(28, 25, 23, 0.06) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(28, 25, 23, 0.06) 1px, transparent 1px);
-    background-size: var(--grid, 64px) var(--grid, 64px);
+    background-size: var(--grid, 24px) var(--grid, 24px);
   }
 
   /* ---------------------------------------------------------------- */
   /* Типографика                                                       */
   /* ---------------------------------------------------------------- */
 
+  /* Заголовок первого экрана: первая строка — узкий Oswald в рамке,
+     вторая — Montserrat Black. Кегль подобран так, чтобы самое длинное
+     слово («разработчик») влезало в 320px. */
   .t-display {
-    @apply text-ink-50;
-    font-size: clamp(2.5rem, 1.5rem + 5vw, 4.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    font-weight: 700;
+    @apply font-display text-ink-50;
+    font-size: clamp(2rem, 0.5rem + 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 900;
   }
 
   .t-section {
-    @apply text-ink-50;
-    font-size: clamp(1.75rem, 1.3rem + 1.9vw, 2.5rem);
-    line-height: 1.12;
-    letter-spacing: -0.025em;
+    @apply font-condensed uppercase text-ink-50;
+    font-size: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: 0.005em;
     font-weight: 700;
   }
 
@@ -105,16 +113,14 @@
     @apply text-ink-50;
     font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
     line-height: 1.3;
-    letter-spacing: -0.01em;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   .t-card-lg {
-    @apply text-ink-50;
-    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-    font-weight: 600;
+    @apply font-condensed uppercase text-ink-50;
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+    line-height: 1;
+    font-weight: 700;
   }
 
   .t-lead {
@@ -136,10 +142,10 @@
   }
 
   .t-eyebrow {
-    @apply uppercase text-accent;
-    font-size: 0.6875rem;
-    line-height: 1.4;
-    letter-spacing: 0.12em;
+    @apply font-condensed uppercase text-accent;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    letter-spacing: 0.06em;
     font-weight: 600;
   }
 
@@ -148,28 +154,123 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /* Поверхности — три уровня                                          */
+  /* Тетрадные приёмы                                                  */
+  /* ---------------------------------------------------------------- */
+
+  /* Рамка от руки: зелёный контур, чуть повёрнутый */
+  .ink-box {
+    @apply inline-block border-[3px] border-accent rounded-chip;
+    padding: 0.05em 0.25em 0.1em;
+    transform: rotate(-2deg);
+  }
+
+  /* Маркер: полоса проводится слева направо, когда родитель получает .web-in */
+  .marker {
+    background-image: linear-gradient(transparent 58%, rgba(22, 128, 60, 0.22) 58%);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    transition: background-size 0.9s var(--ease-soft) 0.35s;
+  }
+
+  .web-in .marker {
+    background-size: 100% 100%;
+  }
+
+  /* Кусочки скотча по верхним углам: картинка как будто вклеена в тетрадь */
+  .taped::before,
+  .taped::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    width: 64px;
+    height: 20px;
+    background: rgba(22, 128, 60, 0.18);
+    border: 1px solid rgba(22, 128, 60, 0.12);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .taped::before {
+    left: 14px;
+    transform: rotate(-6deg);
+  }
+
+  .taped::after {
+    right: 14px;
+    transform: rotate(5deg);
+  }
+
+  /* Наклейка, которую можно таскать мышкой (см. Hero.jsx) */
+  .sticker {
+    @apply absolute inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-space-850
+      border-2 border-ink-50 font-condensed font-semibold uppercase text-ink-50 select-none;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    box-shadow: 3px 3px 0 0 theme("colors.accent.DEFAULT");
+    cursor: grab;
+    touch-action: none;
+    transition: box-shadow var(--dur-fast) var(--ease-soft), scale var(--dur-fast) var(--ease-soft);
+  }
+
+  .sticker[data-dragging="true"] {
+    cursor: grabbing;
+    scale: 1.08;
+    box-shadow: 6px 6px 0 0 theme("colors.accent.DEFAULT");
+    z-index: 20;
+  }
+
+  /* Бумажный самолётик улетает после успешной отправки формы */
+  .plane-fly {
+    position: absolute;
+    left: 8%;
+    bottom: 12%;
+    width: 44px;
+    height: 44px;
+    color: theme("colors.accent.DEFAULT");
+    pointer-events: none;
+    animation: planeFly 1.6s var(--ease-soft) forwards;
+  }
+
+  @keyframes planeFly {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translate(min(70vw, 520px), -260px) rotate(-18deg); opacity: 0; }
+  }
+
+  /* Скриншот проекта: при наведении на карточку чуть приближается */
+  .shot {
+    transition: transform var(--dur-slow) var(--ease-soft);
+  }
+
+  .group:hover .shot {
+    transform: scale(1.02);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Поверхности — вклеенные листы                                     */
   /* ---------------------------------------------------------------- */
   /* Имена glass-* остались от первой версии сайта: на них завязана
-     разметка. 1 — чипы и плитки, 2 — карточки, 3 — крупные панели.
-     Размытия нет: плоская заливка и тонкая граница. */
+     разметка. 1 — чипы и плитки, 2 — карточки, 3 — крупные панели. */
 
   .glass-1 {
-    @apply relative bg-space-800 border border-ink-50/[0.08] rounded-chip;
+    @apply relative bg-space-850 border border-ink-50/[0.12] rounded-chip;
   }
 
   .glass-2 {
-    @apply relative bg-space-850 border border-ink-50/[0.08] rounded-card;
+    @apply relative bg-space-850 border border-ink-50/[0.12] rounded-card;
+    box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04), 0 10px 24px -16px rgba(28, 25, 23, 0.35);
   }
 
   .glass-3 {
-    @apply relative bg-space-850 border border-ink-50/[0.12] rounded-panel;
+    @apply relative bg-space-850 border border-ink-50/[0.14] rounded-panel;
+    box-shadow: 0 1px 0 rgba(28, 25, 23, 0.04), 0 14px 32px -18px rgba(28, 25, 23, 0.4);
   }
 
   .glass-card {
     @apply glass-2;
   }
 
+  /* Наведение: лист чуть приподнимается и поворачивается, как бумага */
   .card-hover {
     transition:
       border-color var(--dur-base) var(--ease-soft),
@@ -179,7 +280,7 @@
   .card-hover:hover,
   .card-hover:focus-within {
     @apply border-accent/60;
-    transform: translateY(-3px);
+    transform: translateY(-3px) rotate(-0.4deg);
   }
 
   .card-hover:focus-within {
@@ -198,7 +299,7 @@
     border-radius: inherit;
     background: radial-gradient(
       280px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(22, 101, 52, 0.06),
+      rgba(22, 128, 60, 0.06),
       transparent 70%
     );
     opacity: 0;
@@ -215,12 +316,13 @@
   /* ---------------------------------------------------------------- */
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
-      whitespace-nowrap select-none cursor-pointer;
-    font-size: 0.9375rem;
+    @apply inline-flex items-center justify-center gap-2 rounded-chip font-condensed font-semibold
+      uppercase whitespace-nowrap select-none cursor-pointer;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
     line-height: 1.2;
     padding: 0.75rem 1.375rem;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     transition:
       background-color var(--dur-base) var(--ease-soft),
       border-color var(--dur-base) var(--ease-soft),
@@ -236,11 +338,10 @@
   }
 
   .btn-lg {
-    padding: 0.9375rem 1.625rem;
-    font-size: 1rem;
+    padding: 0.875rem 1.625rem;
+    font-size: 1.0625rem;
   }
 
-  /* Первичное действие — единственное место, где уместен glow */
   .btn-primary {
     @apply bg-accent text-space-950 shadow-glow-accent;
   }
@@ -250,7 +351,7 @@
   }
 
   .btn-secondary {
-    @apply border-ink-50/[0.16] text-ink-50;
+    @apply border-ink-50 bg-space-850 text-ink-50;
   }
 
   .btn-secondary:hover {
@@ -272,7 +373,7 @@
   /* ---------------------------------------------------------------- */
 
   .field {
-    @apply w-full bg-space-input border border-ink-50/[0.12] rounded-chip px-4 py-3
+    @apply w-full bg-space-input border border-ink-50/[0.18] rounded-chip px-4 py-3
       text-ink-50 placeholder-ink-400;
     font-size: 0.9375rem;
     transition:
@@ -281,12 +382,12 @@
   }
 
   .field:hover {
-    @apply border-ink-50/[0.22];
+    @apply border-ink-50/[0.3];
   }
 
   .field:focus {
     @apply outline-none border-accent;
-    box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.16);
+    box-shadow: 0 0 0 3px rgba(22, 128, 60, 0.16);
   }
 
   .field-label {
@@ -309,10 +410,10 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /* Схема навыков                                                     */
+  /* Линии, которые прорисовываются (схема навыков и рисунки ручкой)   */
   /* ---------------------------------------------------------------- */
 
-  /* Линии прочерчиваются один раз при входе секции и дальше не стоят ничего */
+  /* Линия прочерчивается один раз, когда родитель получает .web-in */
   .web-line {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
@@ -361,9 +462,14 @@
     transform: none !important;
   }
 
-  /* Линии схемы должны остаться прочерченными, а не замереть пустыми */
+  /* Линии должны остаться прочерченными, а не замереть пустыми */
   .web-line {
     stroke-dashoffset: 0 !important;
+  }
+
+  /* Самолётик не летит — просто не показываем его */
+  .plane-fly {
+    display: none;
   }
 
   .card-hover:hover {

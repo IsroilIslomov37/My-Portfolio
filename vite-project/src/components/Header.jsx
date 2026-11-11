@@ -74,7 +74,7 @@ const Header = () => {
     // Размытие подложки только с md: на телефоне оно не окупается
     <header className="fixed top-0 inset-x-0 z-50 bg-space-900/95 md:bg-space-900/80 md:backdrop-blur-md border-b border-ink-50/[0.08]">
       <div className="container-page flex items-center justify-between gap-4 h-16">
-        <Link to="/" className="shrink-0 text-lg font-bold tracking-tight text-ink-50">
+        <Link to="/" className="shrink-0 font-display text-lg font-black uppercase text-ink-50">
           isroil<span className="text-accent">.</span>
         </Link>
 
@@ -122,7 +122,7 @@ const Header = () => {
           а анимация выезда при этом всё равно нужна. */}
       <div className={`md:hidden ${mobileMenuOpen ? '' : 'pointer-events-none'}`}>
         <div
-          className={`fixed inset-0 z-40 bg-ink-50/40 transition-opacity duration-300 ease-soft ${
+          className={`fixed inset-0 z-40 bg-black/70 transition-opacity duration-300 ease-soft ${
             mobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setMobileMenuOpen(false)}

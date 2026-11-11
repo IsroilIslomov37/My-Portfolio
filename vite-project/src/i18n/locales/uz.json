@@ -21,6 +21,21 @@
     "btn_contact": "Bog'lanish",
     "focus": "Hozirgi yo'nalish: React · Next.js · TypeScript"
   },
+  "terminal": {
+    "title": "terminal — sinab ko‘ring",
+    "hint": "help deb yozing yoki pastdagi buyruqni bosing. Tab to'ldiradi, ↑ ↓ — tarix.",
+    "input_label": "Terminal buyrug‘i",
+    "whoami": "Isroil Islomov — frontend dasturchi. React va Next.js bilan ishlayman, Formo va Perfect School ustida ishlayapman.",
+    "hire": "Ajoyib fikr! Aloqa bo'limiga o'tyapman…",
+    "not_found": "buyruq topilmadi: {{cmd}}. help deb yozing",
+    "cmd_help": "buyruqlar ro'yxati",
+    "cmd_whoami": "men kimman",
+    "cmd_stack": "nima bilan ishlayman",
+    "cmd_projects": "ishlab turgan loyihalar",
+    "cmd_contact": "men bilan bog'lanish",
+    "cmd_hire": "aloqa formasiga o'tish",
+    "cmd_clear": "ekranni tozalash"
+  },
   "about": {
     "title": "Men haqimda",
     "subtitle": "MEN KIMMAN",
@@ -155,7 +170,8 @@
     "core_store_desc": "React asosidagi, mahsulotlar katalogiga ega zamonaviy internet-do'kon.",
     "core_feat_1": "Mahsulotlar katalogi",
     "core_feat_2": "Reaktiv filtrlash",
-    "core_feat_3": "Moslashuvchan interfeys"
+    "core_feat_3": "Moslashuvchan interfeys",
+    "screenshot_alt": "{{name}} bosh sahifasi"
   },
   "contact": {
     "badge": "BOG'LANISH",

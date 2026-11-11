@@ -21,6 +21,21 @@
     "btn_contact": "Get in touch",
     "focus": "Current focus: React · Next.js · TypeScript"
   },
+  "terminal": {
+    "title": "terminal — try it",
+    "hint": "Type help or tap a command below. Tab completes, ↑ ↓ for history.",
+    "input_label": "Terminal command",
+    "whoami": "Isroil Islomov — frontend developer. I build with React and Next.js and work on Formo and Perfect School.",
+    "hire": "Great idea! Scrolling to contacts…",
+    "not_found": "command not found: {{cmd}}. Type help",
+    "cmd_help": "list commands",
+    "cmd_whoami": "who I am",
+    "cmd_stack": "what I work with",
+    "cmd_projects": "projects in production",
+    "cmd_contact": "how to reach me",
+    "cmd_hire": "jump to the contact form",
+    "cmd_clear": "clear the screen"
+  },
   "about": {
     "title": "About",
     "subtitle": "WHO I AM",
@@ -155,7 +170,8 @@
     "core_store_desc": "A modern e-commerce web app built with React around a product catalog.",
     "core_feat_1": "Product catalog",
     "core_feat_2": "Reactive filtering",
-    "core_feat_3": "Responsive interface"
+    "core_feat_3": "Responsive interface",
+    "screenshot_alt": "{{name}} home screen"
   },
   "contact": {
     "badge": "GET IN TOUCH",
